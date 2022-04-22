@@ -7,16 +7,16 @@ public enum AuthModel
 {
     /**
      *
-     * 用户名/密码认证
-     *
+     * 无认证方式
      */
-    USER_PASSWORD,
+    NONE,
 
     /**
      *
-     * 无认证方式
+     * 用户名/密码认证
+     *
      */
-    NONE;
+    USER_PASSWORD
 }
 
 /**

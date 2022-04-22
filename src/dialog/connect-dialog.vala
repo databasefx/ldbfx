@@ -91,7 +91,7 @@ public class ConnectDialog : Gtk.Dialog {
     dataSource.host = this.host.text;
     dataSource.port = int.parse(this.port.text);
 
-    if(authRequire())
+    if(authRequire()== AuthModel.USER_PASSWORD)
     {
         dataSource.user = this.user.text;
         dataSource.password = this.password.text;
@@ -146,7 +146,8 @@ public class ConnectDialog : Gtk.Dialog {
     var user = this.user.text.strip();
     var name = this.name.text.strip();
 
-    var require  = authRequire();
+    var require  = authRequire()==AuthModel.USER_PASSWORD;
+
     var password = this.password.text.strip();
 
 
@@ -159,9 +160,9 @@ public class ConnectDialog : Gtk.Dialog {
     return a && b && c && d && e;
   }
 
-  private bool authRequire()
+  private AuthModel authRequire()
   {
-      return this.authBox.get_active()!=1;
+      return (AuthModel)this.authBox.get_active();
   }
 
   /**
@@ -220,21 +221,54 @@ public class ConnectDialog : Gtk.Dialog {
   {
 
     var valid = this.formValid();
+
     if(!valid){
         return;
     }
 
-    var node = new Json.Node(Json.NodeType.OBJECT);
+    var update = false;
+    var uuid = this.uuid;
 
-    node.set_object(new Json.Object());
+    if(!(update = !(uuid == null)))
+    {
+        uuid = Uuid.string_random();
+    }
 
     var builder = new Json.Builder();
+
     builder.begin_object();
-    builder.set_member_name("url");
-    builder.add_string_value("https://baidu.com");
-    builder.set_member_name("obj");
-    builder.add_value(node);
+
+    builder.set_member_name(Constant.UUID);
+    builder.add_string_value(uuid);
+
+    builder.set_member_name(Constant.NAME);
+    builder.add_string_value(this.name.text);
+
+    builder.set_member_name(Constant.COMMENT);
+    builder.add_string_value(this.comment.text);
+
+    builder.set_member_name(Constant.DATABASE);
+    builder.add_string_value(this.database.text);
+
+    builder.set_member_name(Constant.AUTH_MODEL);
+    builder.add_int_value(this.authRequire());
+
+    if(this.authRequire() == AuthModel.USER_PASSWORD)
+    {
+        builder.set_member_name(Constant.USER);
+        builder.add_string_value(this.user.text);
+
+        builder.set_member_name(Constant.PASSWORD);
+        builder.add_string_value(this.password.text);
+    }
+
     builder.end_object();
+
+    //持久化到文件
+    if(this.saveBox.get_active_id()=="1")
+    {
+        AppConfig.addDataSource(builder.get_root(),update);
+    }
 
     stdout.printf("%s\n",JsonUtil.jsonStr(builder));
   }

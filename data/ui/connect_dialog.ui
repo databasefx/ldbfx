@@ -309,10 +309,10 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="halign">start</property>
-                                            <property name="active">0</property>
+                                            <property name="active">1</property>
                                             <items>
-                                              <item id="1" translatable="yes">User &amp; Password</item>
                                               <item translatable="yes">None</item>
+                                              <item id="1" translatable="yes">User &amp; Password</item>
                                             </items>
                                             <signal name="changed" handler="authChange" swapped="no"/>
                                           </object>
@@ -405,8 +405,8 @@
                                             <property name="can-focus">False</property>
                                             <property name="active">1</property>
                                             <items>
+                                              <item id="0" translatable="yes">Never</item>
                                               <item id="1" translatable="yes">Forever</item>
-                                              <item translatable="yes">Never</item>
                                             </items>
                                           </object>
                                           <packing>
