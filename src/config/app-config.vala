@@ -31,7 +31,7 @@ public class AppConfig
         debug("Current app data dir:"+appDataFolder);
     }
 
-    public static void addDataSource(Json.Node node,bool update) throws Error
+    public static void addDataSource(string uuid,Json.Node node,bool update) throws Error
     {
         lock(appDataFolder)
         {
@@ -43,22 +43,45 @@ public class AppConfig
 
             var create = false;
             //文件不存在->创建文件
-            if((create = (!file.query_exists())
+            if((create = (!file.query_exists())))
             {
                 createAppFolder();
-                file.create(FileCreateFlags.NONE);
+            }
+
+            var ioStream = file.replace_readwrite(null,false,FileCreateFlags.NONE);
+
+            if(!create)
+            {
+                parser.load_from_stream(ioStream.input_stream);
+            }
+            else
+            {
                 parser.load_from_data("[]");
             }
 
-            var ioStream = file.open_readwrite();
-
-            //从文件中加载数据
-            if(!create)
+            var root = parser.get_root();
+            unowned var array = root.get_array();
+            if(update)
             {
-                var inputStream = ioStream.input_stream as FileInputStream;
-                parser.load_from_stream(inputStream);
+                foreach(var _node in array.get_elements())
+                {
+                    var obj = _node.get_object();
+                    var _uuid = obj.get_string_member(Constant.UUID);
+                    if(_uuid == uuid )
+                    {
+                        _node.set_object(node.get_object());
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                array.add_object_element(node.get_object());
             }
 
+            var jsonStr = JsonUtil.jsonStr(root);
+            var output = new DataOutputStream(ioStream.output_stream);
+            output.put_string(jsonStr);
         }
     }
 

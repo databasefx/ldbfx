@@ -217,7 +217,7 @@ public class ConnectDialog : Gtk.Dialog {
   }
 
   [GtkCallback]
-  public void save()
+  public async void save()
   {
 
     var valid = this.formValid();
@@ -240,6 +240,9 @@ public class ConnectDialog : Gtk.Dialog {
 
     builder.set_member_name(Constant.UUID);
     builder.add_string_value(uuid);
+
+    builder.set_member_name(Constant.TYPE);
+    builder.add_int_value(this.feature._type);
 
     builder.set_member_name(Constant.NAME);
     builder.add_string_value(this.name.text);
@@ -267,10 +270,28 @@ public class ConnectDialog : Gtk.Dialog {
     //持久化到文件
     if(this.saveBox.get_active_id()=="1")
     {
-        AppConfig.addDataSource(builder.get_root(),update);
+        Error error = null;
+        SourceFunc callback = save.callback;
+        var work = AsyncWork.create(()=>{
+            try{
+                AppConfig.addDataSource(uuid,builder.get_root(),update);
+            }catch(Error e){
+                error = e;
+                var errmsg = error.message;
+                warning(@"Write config file fail:$errmsg");
+            }
+            Idle.add(callback);
+        });
+
+        work.execute();
+
+        yield;
+
+        if(error!=null){
+            this.describle.label = _("Save config fail");
+        }
     }
 
-    stdout.printf("%s\n",JsonUtil.jsonStr(builder));
   }
 
 }

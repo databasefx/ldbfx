@@ -37,3 +37,6 @@ msgstr "测试连接"
 
 msgid "Not close connect"
 msgstr "当前连接归连接池所有不允许手动关闭连接"
+
+msgid "Save config fail"
+msgstr "配置信息持久化失败，具体错误信息请查看日志文件。"

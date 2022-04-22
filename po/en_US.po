@@ -36,3 +36,6 @@ msgstr "Test Connect"
 
 msgid "Not close connect"
 msgstr "Current connect manage by pool.Not allow manual close connect!"
+
+msgid "Save config fail"
+msgstr "Config persistence fail,more error info please view log file."
