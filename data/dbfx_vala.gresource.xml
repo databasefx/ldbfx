@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/cn/navclub/dbfx">
+    <file>ui/window.ui</file>
+    <file>ui/connect_dialog.ui</file>
+    <file>style/style.css</file>
+  </gresource>
+</gresources>

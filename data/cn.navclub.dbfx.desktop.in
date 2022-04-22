@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=dbfx-vala
+Exec=dbfx-vala
+Icon=cn.navclub.dbfx
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

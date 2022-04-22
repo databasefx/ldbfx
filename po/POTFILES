@@ -1,0 +1,6 @@
+data/cn.navclub.dbfx.desktop.in
+data/cn.navclub.dbfx.appdata.xml.in
+data/cn.navclub.dbfx.gschema.xml
+src/window.ui
+src/main.vala
+src/window.vala
