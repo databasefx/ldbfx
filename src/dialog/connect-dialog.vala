@@ -287,10 +287,13 @@ public class ConnectDialog : Gtk.Dialog {
 
         yield;
 
-        if(error!=null){
-            this.describle.label = _("Save config fail");
+        if(error!=null)
+        {
+            new Notification(_("Save config fail"));
         }
     }
+
+    UIUtil.textNotification(_("Save config fail"));
 
   }
 

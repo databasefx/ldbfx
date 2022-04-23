@@ -15,16 +15,16 @@ public class Application : Gtk.Application
     };
 
     public Application(){
-        Object(application_id:"cn.navclub.dbfx",flags:ApplicationFlags.FLAGS_NONE);
+        Object(application_id:APPLICATION_ID,flags:ApplicationFlags.FLAGS_NONE);
         this.activate.connect(this.appInit);
     }
 
-  /**
-   *
-   *
-   * 应用初始化
-   *
-   */
+    /**
+    *
+    *
+    * 应用初始化
+    *
+    **/
     public void appInit()
     {
         //设置窗口默认图标
@@ -56,58 +56,59 @@ public class Application : Gtk.Application
         this.controller.present();
     }
 
-  /**
-   *
-   * 新建连接
-   *
-   */
-  public void newConnect(){
-    var id = new ConnectDialog().run();
+    /**
+    *
+    * 新建连接
+    *
+    **/
+    public void newConnect()
+    {
+        var id = new ConnectDialog().run();
+    }
 
-  }
-
-  /**
-   *
-   * 退出程序
-   *
-   */
-  public void exit(){
-    //todo 释放对应资源
-
-
-    //退出当前程序
-    Process.exit(0);
-  }
-
-
-  public static int main (string[] args)
-  {
-    try{
-
-        //
-        // 初始化应用目录
-        //
-        AppConfig.initAppDataFolder();
-
-        //
-        // 国际化配置
-        //
-        Intl.setlocale(LocaleCategory.ALL,"");
-        Intl.bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-        Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "utf-8");
-        Intl.textdomain (GETTEXT_PACKAGE);
-
-        //初始化线程池
-        AsyncWork.createThreadPool(20);
-
-    }catch(Error e){
-        error("Application init failed:"+e.message);
+    /**
+    *
+    * 退出程序
+    *
+    **/
+    public void exit()
+    {
         Process.exit(0);
     }
 
-    return new Application().run(args);
 
-  }
+    public static Application ctx;
+
+    public static int main (string[] args)
+    {
+        try
+        {
+
+            //
+            // 初始化应用目录
+            //
+            AppConfig.initAppDataFolder();
+
+            //
+            // 国际化配置
+            //
+            Intl.setlocale(LocaleCategory.ALL,"");
+            Intl.bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+            Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "utf-8");
+            Intl.textdomain (GETTEXT_PACKAGE);
+
+            //初始化线程池
+            AsyncWork.createThreadPool(20);
+        }
+        catch(Error e)
+        {
+            error("Application init failed:"+e.message);
+            Process.exit(0);
+        }
+
+        ctx = new Application();
+        return ctx.run(args);
+    }
 }
 
 

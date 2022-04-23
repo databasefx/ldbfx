@@ -72,7 +72,7 @@ public class DatabaseFeature : Object {
 
     public static unowned DatabaseFeature? getFeature(DatabaseType type)
     {
-        foreach(unowned var feature in features)
+        foreach(unowned var feature in getFeatures())
         {
             if(feature._type == type)
             {

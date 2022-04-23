@@ -19,7 +19,7 @@ public class UIUtil : Object {
      *
      * 显示消息对话框
      *
-     */
+     **/
     public static void showMsgDialog(string msg,MessageType type,Gtk.Window ?window=null){
 
         var dialog = new MessageDialog
@@ -34,6 +34,11 @@ public class UIUtil : Object {
         dialog.show_all();
     }
 
+    /**
+     *
+     * 表单验证
+     *
+     **/
     public static bool formValid(Widget widget,FormValidator validator){
         var success = validator();
         var ctx = widget.get_style_context();
@@ -48,5 +53,16 @@ public class UIUtil : Object {
             ctx.add_class(FORM_VALID_FAIL);
         }
         return success;
+    }
+
+    /**
+     *
+     * 普通文本通知
+     *
+     **/
+    public static void textNotification(string text)
+    {
+        var notification = new Notification(text);
+        Application.ctx.send_notification(Uuid.string_random(),notification);
     }
 }
