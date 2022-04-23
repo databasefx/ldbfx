@@ -25,7 +25,7 @@
   "modules": [
     {
       "name": "libgee",
-      "buildsystem":"autotools",
+      "buildsystem": "autotools",
       "sources": [
         {
           "type": "git",
@@ -46,6 +46,17 @@
           "type": "git",
           "branch": "main",
           "url": "https://github.com/GZYangKui/flatpak-mysql.git"
+        }
+      ]
+    },
+    {
+      "name": "vte",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "branch": "master",
+          "url": "https://gitlab.gnome.org/GNOME/vte.git"
         }
       ]
     },

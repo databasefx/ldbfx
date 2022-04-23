@@ -25,6 +25,7 @@ add_project_arguments(
 min_glib_version = '2.50'
 
 
+libvte = dependency('vte-2.91')
 libgee = dependency('gee-0.8')
 libxml = dependency('libxml-2.0')
 mysql =  dependency('flatpak_mysql')
