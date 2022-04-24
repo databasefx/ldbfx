@@ -1,5 +1,4 @@
 using Gtk;
-using Vte;
 
 public const string EXIT_ACTION_NAME = "exit";
 public const string NEW_CONNECT_ACTION_NAME = "new";

@@ -16,7 +16,6 @@ dbfx_vala_deps = [
   gtk,
   libxml,
   libjson,
-  libvte,
   libdbfx_dep
 ]
 
