@@ -22,6 +22,8 @@ public class MainController : Gtk.ApplicationWindow {
     private Gtk.TreeViewColumn iconCol;
     [GtkChild]
     private Gtk.TreeViewColumn nameCol;
+    [GtkChild]
+    private Gtk.Notebook notebook;
 
     private Gtk.ListStore treeModel;
 
@@ -29,6 +31,7 @@ public class MainController : Gtk.ApplicationWindow {
 	public MainController (Gtk.Application app) {
 		Object (application: app);
 		this.initNavTree();
+		new NotebookTab("logo",_("Welcome Page"),this.notebook,new Label("test"));
 	 }
 
     public void initNavTree()
@@ -45,6 +48,7 @@ public class MainController : Gtk.ApplicationWindow {
         var node = AppConfig.fetchDataSource();
         var array = node.get_array();
         var elements = array.get_elements();
+        var iconTheme = IconTheme.get_default();
         foreach(var item in elements){
             var obj = item.get_object();
             var type = (DatabaseType)obj.get_int_member(Constant.TYPE);
@@ -56,14 +60,14 @@ public class MainController : Gtk.ApplicationWindow {
             }
 
             var iter = new TreeIter();
-
             this.treeModel.append(out iter);
 
-            var img = new Gtk.Image.from_icon_name(feature.icon,Gtk.IconSize.DND);
+            var pixbuf = iconTheme.load_icon(feature.icon,22,0);
+
             this.treeModel.set
             (
                 iter,
-                NavTreeCol.ICON,img.get_pixbuf(),
+                NavTreeCol.ICON,pixbuf,
                 NavTreeCol.NAME,name
             );
         }

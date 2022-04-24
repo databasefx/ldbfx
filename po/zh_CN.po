@@ -19,6 +19,12 @@ msgstr "dbfx"
 msgid "Welcome Page"
 msgstr "欢迎页"
 
+msgid "New"
+msgstr "新建"
+
+msgid "Duplicate"
+msgstr "复制"
+
 msgid "Not support"
 msgstr "暂不支持当前数据库!"
 

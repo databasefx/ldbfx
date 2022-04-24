@@ -1,48 +1,89 @@
-*
-{
+*{
+
   color: #ffffff;
-  background-color : #3c3f41;
+  border-image: none;
   background-image: none;
+  background-color : #3c3f41;
 }
 
 button
 {
-    background-image: none;
-    border-image: none;
+    background-color: transparent;
+}
+
+button label {
+  background-image: none;
+  background-color: transparent;
 }
 
 button:hover {
   background-color: #4c5052;
 }
 
-button image
+image
 {
   background-color: transparent;
   background-image: none;
 }
 
-menubar, .nav-tool-bar
+menubar, .nav-tool-bar, .notebook tabs
 {
   border-style: solid;
   border-color: #2b2b2b;
-  border-width: 0 0 .03em 0;
+  border-width: 0 0 1px 0;
+}
+
+paned separator
+{
+  background-color: #2b2b2b;
+}
+/**
+
+  设置滚动条样式
+
+**/
+scrollbar slider
+{
+  background-color: #626465;
+}
+
+scrollbar trough
+{
+  background-color:#3f4244;
+}
+
+/**
+
+  设置TreeView/MenuItem/ListBox 通用选中样式
+
+**/
+menuitem:hover,
+treeview:selected,
+list row:selected
+{
+  background-color:#3584E4;
+}
+
+.high-light
+{
+  background-color: #3b4954;
+}
+
+.high-light *, menuitem label,menuitem image
+{
+  background-color: transparent;
+
 }
 
 .nav-tool-bar
 {
-  padding: .2em;
-  border-width: 0 .05em .05em .05em;
+  padding: 1px;
+  border-width: 0 0 .05em .05em;
 }
 
 .nav-tool-bar button
 {
   border-width: 0;
-}
-
-.notebook,.nav-tool-bar separator
-{
-  border-image: none;
-  background-color: #2b2b2b;
 }
 
 /**
@@ -51,5 +92,18 @@ menubar, .nav-tool-bar
 .form-valid-fail
 {
   border-color: red;
-  border-width: .1em;
+  border-width: 1px;
+}
+
+.tt-box
+{
+  border-style: solid;
+  border-width: .1em 0 0 0;
+  border-color: #3b4954;
+
+}
+
+.padding-box
+{
+  padding: 5px;
 }

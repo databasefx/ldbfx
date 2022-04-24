@@ -25,8 +25,14 @@ msgstr "Current database not support!"
 msgid "devel title"
 msgstr "Current module developing...."
 
+msgid "New"
+msgstr "New"
+
 msgid "Save"
 msgstr "Save"
+
+msgid "Duplicate"
+msgstr "Duplicate"
 
 msgid "Cancel"
 msgstr "Cancel"

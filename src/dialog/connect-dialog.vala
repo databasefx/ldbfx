@@ -202,7 +202,7 @@ public class ConnectDialog : Gtk.Dialog {
     }
 
     //如果认证方式为`NONE`则禁用认证模块
-    var disable = (index != 1);
+    var disable = (index == 1);
 
     this.user.sensitive = disable;
     this.saveBox.sensitive = disable;
