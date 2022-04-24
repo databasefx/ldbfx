@@ -12,17 +12,17 @@ public class NotebookTab : Box
 
     private int index;
 
+    private Button btn;
+
     private unowned Notebook notebook;
 
 
-
-
-    public NotebookTab(string iconName,string title,Notebook notebook,Widget child)
+    public NotebookTab(string iconName,string title,Notebook notebook,Widget child,bool closeable)
     {
         Object(orientation:Orientation.HORIZONTAL,spacing:3);
 
         var label = new Label(title);
-        var btn   = new Button.from_icon_name("dbfx-close");
+        btn   = new Button.from_icon_name("dbfx-close");
         var icon = new Image.from_icon_name(iconName,IconSize.BUTTON);
 
         btn.relief = ReliefStyle.NONE;
@@ -45,5 +45,12 @@ public class NotebookTab : Box
 
         this.notebook.show_all();
 
+        this.setCloseable(closeable);
+    }
+
+    public void setCloseable(bool closeable)
+    {
+        stdout.printf("%s\n",closeable?"关闭":"不可关闭");
+        this.btn.visible = closeable;
     }
 }

@@ -10,12 +10,16 @@ private enum NavTreeCol
 {
     ICON,
     NAME,
+    //当前行类别
+    NT_ROW,
     COL_NUM;
 }
 
+
 [GtkTemplate (ui = "/cn/navclub/dbfx/ui/window.ui")]
 public class MainController : Gtk.ApplicationWindow {
-
+    [GtkChild]
+    private Gtk.Box navToolbar;
     [GtkChild]
     private Gtk.TreeView navTree;
     [GtkChild]
@@ -27,20 +31,27 @@ public class MainController : Gtk.ApplicationWindow {
 
     private Gtk.ListStore treeModel;
 
+    private NavTreeEvent treeEvent;
+
 
 	public MainController (Gtk.Application app) {
 		Object (application: app);
 		this.initNavTree();
-		new NotebookTab("logo",_("Welcome Page"),this.notebook,new Label("test"));
+		new NotebookTab("logo",_("Welcome Page"),this.notebook,new Label("test"),false);
 	 }
 
     public void initNavTree()
     {
+
+        //注册自定义弹出菜单
+        this.treeEvent = new NavTreeEvent.register(this.navTree,this);
+
         this.treeModel = new Gtk.ListStore
         (
             NavTreeCol.COL_NUM,
             Type.OBJECT,
-            Type.STRING
+            Type.STRING,
+            Type.INT
         );
 
         this.nameCol.set_expand(true);
@@ -68,12 +79,12 @@ public class MainController : Gtk.ApplicationWindow {
             (
                 iter,
                 NavTreeCol.ICON,pixbuf,
-                NavTreeCol.NAME,name
+                NavTreeCol.NAME,name,
+                NavTreeCol.NT_ROW,NTRow.ROOT
             );
         }
 
         this.navTree.model = new TreeModelSort.with_model(this.treeModel);
         this.navTree.show_all();
     }
-
 }
