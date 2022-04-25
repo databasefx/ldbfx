@@ -1,5 +1,5 @@
 
-[GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect_dialog.ui" )]
+[GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.ui" )]
 public class ConnectDialog : Gtk.Dialog {
     [GtkChild]
     private unowned Gtk.Entry name;
@@ -29,6 +29,8 @@ public class ConnectDialog : Gtk.Dialog {
     private unowned Gtk.Label describle;
     [GtkChild]
     private unowned Gtk.Button saveBtn;
+    [GtkChild]
+    private unowned Gtk.Box testBox;
 
     private string uuid;
 
@@ -154,8 +156,8 @@ public class ConnectDialog : Gtk.Dialog {
     var a =  UIUtil.formValid(this.host,()=>host!="");
     var b =  UIUtil.formValid(this.name,()=>name!="");
     var c =  UIUtil.formValid(this.port,()=>port!="");
-    var d = UIUtil.formValid(this.user,()=>(!require || user!=""));
-    var e = UIUtil.formValid(this.password,()=>(!require ||password!=""));
+    var d =  UIUtil.formValid(this.user,()=>(!require || user!=""));
+    var e =  UIUtil.formValid(this.password,()=>(!require ||password!=""));
 
     return a && b && c && d && e;
   }
@@ -183,6 +185,7 @@ public class ConnectDialog : Gtk.Dialog {
     var impl = t.impl;
     //判断是否需要显示保存按钮
     this.saveBtn.visible = impl;
+    this.testBox.visible = impl;
     //根据当前数据库实现情况判断显示页面
     this.stack.set_visible_child_name(impl?"properties":"none");
 

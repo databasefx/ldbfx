@@ -421,7 +421,6 @@
                 <property name="can-focus">True</property>
                 <property name="show-border">False</property>
                 <property name="enable-popup">True</property>
-                <signal name="size-allocate" handler="nbShow" swapped="no"/>
                 <child>
                   <placeholder/>
                 </child>
@@ -459,4 +458,5 @@
       </object>
     </child>
   </template>
+  <object class="GtkListStore" id="treeModel"/>
 </interface>

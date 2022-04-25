@@ -1,33 +1,17 @@
 using Gtk;
 
-/**
- *
- *
- * 枚举导航树列
- *
- **/
-private enum NavTreeCol
-{
-    ICON,
-    NAME,
-    //当前行类别
-    NT_ROW,
-    COL_NUM;
-}
-
-
-[GtkTemplate (ui = "/cn/navclub/dbfx/ui/window.ui")]
+[GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.ui")]
 public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
-    private Gtk.Box navToolbar;
+    private unowned Gtk.Box navToolbar;
     [GtkChild]
-    private Gtk.TreeView navTree;
+    private unowned Gtk.TreeView navTree;
     [GtkChild]
-    private Gtk.TreeViewColumn iconCol;
+    private unowned Gtk.TreeViewColumn iconCol;
     [GtkChild]
-    private Gtk.TreeViewColumn nameCol;
+    private unowned Gtk.TreeViewColumn nameCol;
     [GtkChild]
-    private Gtk.Notebook notebook;
+    private unowned Gtk.Notebook notebook;
 
     private Gtk.ListStore treeModel;
 
@@ -42,7 +26,6 @@ public class MainController : Gtk.ApplicationWindow {
 
     public void initNavTree()
     {
-
         //注册自定义弹出菜单
         this.treeEvent = new NavTreeEvent.register(this.navTree,this);
 
@@ -51,6 +34,7 @@ public class MainController : Gtk.ApplicationWindow {
             NavTreeCol.COL_NUM,
             Type.OBJECT,
             Type.STRING,
+            Type.INT,
             Type.INT
         );
 
@@ -77,10 +61,11 @@ public class MainController : Gtk.ApplicationWindow {
 
             this.treeModel.set
             (
-                iter,
-                NavTreeCol.ICON,pixbuf,
-                NavTreeCol.NAME,name,
-                NavTreeCol.NT_ROW,NTRow.ROOT
+                iter                                ,
+                NavTreeCol.ICON     ,   pixbuf      ,
+                NavTreeCol.NAME     ,   name        ,
+                NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
+                NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE
             );
         }
 

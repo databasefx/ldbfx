@@ -50,7 +50,6 @@ public class NotebookTab : Box
 
     public void setCloseable(bool closeable)
     {
-        stdout.printf("%s\n",closeable?"关闭":"不可关闭");
         this.btn.visible = closeable;
     }
 }
