@@ -35,7 +35,7 @@ public abstract class SqlConnection
      * 连接到指定数据库
      *
      */
-    public abstract void connect() throws SqlError.CONNECT_ERROR;
+    public abstract void connect() throws FXError;
 
 
     /**
@@ -43,7 +43,7 @@ public abstract class SqlConnection
      * 获取服务器信息
      *
      */
-    public abstract DatabaseInfo serverInfo() throws SqlError.SQL_QUERY_ERROR;
+    public abstract DatabaseInfo serverInfo() throws FXError;
 
     /**
      *
@@ -51,7 +51,11 @@ public abstract class SqlConnection
      *
      */
     public void close(){
-
+        if( this.pool == null )
+        {
+            return;
+        }
+        this.pool.back(this);
     }
 
     /**

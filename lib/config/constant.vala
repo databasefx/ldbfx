@@ -5,6 +5,8 @@ namespace Constant
     public const string USER = "user";
     public const string UUID = "uuid";
     public const string NAME = "name";
+    public const string HOST = "host";
+    public const string PORT = "port";
     public const string COMMENT ="comment";
     public const string PASSWORD = "password";
     public const string DATABASE = "database";

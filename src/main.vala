@@ -1,4 +1,5 @@
 using Gtk;
+using Gee;
 
 public const string EXIT_ACTION_NAME = "exit";
 public const string NEW_CONNECT_ACTION_NAME = "new";
@@ -7,6 +8,8 @@ public const string NEW_CONNECT_ACTION_NAME = "new";
 public class Application : Gtk.Application
 {
     private MainController controller;
+
+    private Map<string,SqlConnectionPool> pools;
 
     private const GLib.ActionEntry[] actionEntries =
     {
@@ -17,6 +20,28 @@ public class Application : Gtk.Application
     public Application(){
         Object(application_id:APPLICATION_ID,flags:ApplicationFlags.FLAGS_NONE);
         this.activate.connect(this.appInit);
+        this.pools = new HashMap<string,SqlConnectionPool>();
+    }
+
+    /**
+     *
+     *
+     * 创建数据库连接池
+     *
+     **/
+    public SqlConnectionPool getConnPool(string uuid) throws FXError
+    {
+        var pool = this.pools.get(uuid);
+        if(pool != null)
+        {
+            return pool;
+        }
+
+        var dataSource = AppConfig.getDataSource(uuid);
+        pool = new SqlConnectionPool(dataSource);
+        this.pools.set(uuid,pool);
+
+        return pool;
     }
 
     /**

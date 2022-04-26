@@ -1,101 +1,5 @@
 using Gtk;
 
-public enum NTRow
-{
-    /**
-     *
-     * 数据库
-     *
-     **/
-    ROOT,
-    /**
-     *
-     *
-     * scheme
-     *
-     */
-    SCHEME,
-    /**
-     *
-     * 表
-     *
-     **/
-    TABLE
-}
-
-/**
- *
- *
- * 枚举导航树列
- *
- **/
-public enum NavTreeCol
-{
-    /**
-     *
-     * 图标列
-     *
-     **/
-    ICON,
-    /**
-     *
-     *
-     * 名称列
-     *
-     **/
-    NAME,
-    /**
-     *
-     *
-     * 列类别字段
-     *
-     **/
-    NT_ROW,
-    /**
-     *
-     * 当前行激活状态
-     *
-     **/
-    STATUS,
-    /**
-     *
-     * 列数
-     *
-     **/
-    COL_NUM;
-}
-/**
- *
- *枚举导航数菜单
- *
- **/
-public enum NavTreeItem
-{
-    OPEN,
-    BREAK_OFF,
-    EDIT,
-    DELETE,
-    FLUSH,
-    COMMAND_LINE,
-    NEW_QUERY,
-    DDL,
-    CLEAR_TABLE,
-    COPY,
-    RENAME
-}
-
-public enum NavTRowStatus
-{
-    //非激活状态
-    INACTIVE,
-    //激活中
-    ACTIVING,
-    //已激活
-    ACTIVED,
-    //所有状态
-    ANY
-}
-
 public class NavTreeCtx
 {
     /**
@@ -233,7 +137,58 @@ public class NavTreeEvent : Gtk.Menu
     [GtkCallback]
     public void open()
     {
+        var iter = this.getSelectIter();
+        if(iter == null)
+        {
+            return;
+        }
+        Value val;
 
+        //
+        // 获取行类别
+        //
+        this.treeModel.get_value(iter,NavTreeCol.NT_ROW,out val);
+        var row = (NTRow)val.get_int();
+
+        //
+        // 获取行状态
+        //
+        this.treeModel.get_value(iter,NavTreeCol.STATUS,out val);
+        var status = (NavTRowStatus)val.get_int();
+
+        //
+        // 获取行id
+        //
+        this.treeModel.get_value(iter,NavTreeCol.UUID, out val);
+        var uuid = val.get_string();
+
+        if(row == NTRow.ROOT)
+        {
+            this.openRoot(iter,status,uuid);
+        }
+    }
+
+    private void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
+    {
+        if(status != NavTRowStatus.INACTIVE)
+        {
+            return;
+        }
+        var listModel = this.getListStore();
+        listModel.set_value(iter,NavTreeCol.STATUS,NavTRowStatus.ACTIVING);
+    }
+
+    /**
+     *
+     *
+     * 从{@link TreeModelSort}中获取{@link ListStore}
+     *
+     **/
+    private Gtk.ListStore getListStore()
+    {
+        var sortModel = (TreeModelSort)this.treeModel;
+
+        return (Gtk.ListStore)sortModel.model;
     }
 
     /**

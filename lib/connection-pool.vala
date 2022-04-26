@@ -6,21 +6,21 @@ using Gee;
  * 数据库连接池封装
  *
  */
-public class SqlConnectionPool<T>
+public class SqlConnectionPool
 {
     /**
      *
      * 空闲队列
      *
      */
-    private ArrayQueue<T> freeQueue;
+    private ArrayQueue<SqlConnection> freeQueue;
 
     /**
      *
      * 工作队列
      *
      */
-    private ArrayQueue<T> workQueue;
+    private ArrayQueue<SqlConnection> workQueue;
     /**
      *
      * Mutlip thread lock
@@ -44,8 +44,8 @@ public class SqlConnectionPool<T>
         this.mutex = new Object();
         this.initCapacity = false;
         this.dataSource = dataSource;
-        this.freeQueue = new ArrayQueue<T>(this.equal);
-        this.workQueue = new ArrayQueue<T>(this.equal);
+        this.freeQueue = new ArrayQueue<SqlConnection>(this.equal);
+        this.workQueue = new ArrayQueue<SqlConnection>(this.equal);
     }
 
     /**
@@ -53,13 +53,13 @@ public class SqlConnectionPool<T>
      * 简单比较队列中两个对象是否相等
      *
      */
-    private bool equal(T a,T b){
+    private bool equal(SqlConnection a,SqlConnection b){
         return a==b;
     }
 
 
-    public T getConnection() throws PoolError {
-        T con = null;
+    public SqlConnection getConnection() throws Error {
+        SqlConnection con = null;
         var thread = Thread.self<bool>();
         var startTime = get_real_time();
         var maxWait =get_real_time() + this.dataSource.maxWait*1000;
@@ -75,13 +75,13 @@ public class SqlConnectionPool<T>
 
         if(con == null)
         {
-            throw new PoolError.NOT_FREE_CONNECTION(_("Not free connection"));
+            throw new FXError.ERROR(_("Not free connection"));
         }
 
         return con;
     }
 
-    private T? getConnection0(){
+    private SqlConnection? getConnection0(){
         lock(mutex){
             var con = this.freeQueue.poll_head();
             //成功获取到连接
@@ -97,7 +97,7 @@ public class SqlConnectionPool<T>
      * 归还连接
      *
      */
-    public void conBack(T con){
+    public void back(SqlConnection con){
         lock(mutex){
             var exist = this.workQueue.remove(con);
             if(!exist){
@@ -109,7 +109,7 @@ public class SqlConnectionPool<T>
         }
     }
 
-    public SqlConnectionPool<T> capacity() throws DatabaseError
+    public SqlConnectionPool capacity() throws FXError
     {
 
         if(!this.initCapacity)
@@ -121,7 +121,7 @@ public class SqlConnectionPool<T>
 
             if(!instance.impl)
             {
-                throw new DatabaseError.NOT_SUPPORT(_("Not support"));
+                throw new FXError.ERROR(_("Not support"));
             }
 
             var maxSize = this.dataSource.maxSize;

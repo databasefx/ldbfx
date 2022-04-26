@@ -19,7 +19,7 @@ public class MysqlConnection : SqlConnection
     }
 
 
-    public override void connect() throws SqlError.CONNECT_ERROR
+    public override void connect() throws FXError
     {
         if(this.active)
         {
@@ -47,19 +47,19 @@ public class MysqlConnection : SqlConnection
         //数据库连接失败->抛出异常
         if(!success)
         {
-            throw new SqlError.CONNECT_ERROR(this.database.error());
+            throw new FXError.ERROR(this.database.error());
         }
 
         this.active = true;
     }
 
-    public override DatabaseInfo serverInfo() throws SqlError.SQL_QUERY_ERROR
+    public override DatabaseInfo serverInfo() throws FXError
     {
         var code = database.query("SHOW VARIABLES");
 
         if( code != 0)
         {
-            throw new SqlError.SQL_QUERY_ERROR(this.database.error());
+            throw new FXError.ERROR(this.database.error());
         }
 
         string[] rows;

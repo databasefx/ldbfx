@@ -35,7 +35,8 @@ public class MainController : Gtk.ApplicationWindow {
             Type.OBJECT,
             Type.STRING,
             Type.INT,
-            Type.INT
+            Type.INT,
+            Type.STRING
         );
 
         this.nameCol.set_expand(true);
@@ -65,7 +66,8 @@ public class MainController : Gtk.ApplicationWindow {
                 NavTreeCol.ICON     ,   pixbuf      ,
                 NavTreeCol.NAME     ,   name        ,
                 NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
-                NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE
+                NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
+                NavTreeCol.UUID     ,   obj.get_string_member(Constant.UUID)
             );
         }
 

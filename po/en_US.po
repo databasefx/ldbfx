@@ -45,3 +45,6 @@ msgstr "Current connect manage by pool.Not allow manual close connect!"
 
 msgid "Save config fail"
 msgstr "Config persistence fail,more error info please view log file."
+
+msgid "Unknow data source"
+msgstr "Unknow data source"

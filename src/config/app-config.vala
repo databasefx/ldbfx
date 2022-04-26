@@ -7,7 +7,12 @@ const string dbPreference = "db-preference.json";
 
 public class AppConfig
 {
-    public static string appDataFolder;
+
+    private static Json.Node node;
+
+    private static string appDataFolder;
+
+
 
     /**
      *
@@ -36,7 +41,7 @@ public class AppConfig
      * 加载配置文件中的数据源
      *
      **/
-    public static Json.Node fetchDataSource()
+    public static unowned Json.Node fetchDataSource()
     {
         var filename = "%s%s".printf(appDataFolder,dbPreference);
 
@@ -53,7 +58,7 @@ public class AppConfig
             parser.load_from_stream(file.read());
         }
 
-        return parser.get_root();
+        return (node = parser.get_root());
     }
 
     /**
@@ -67,23 +72,15 @@ public class AppConfig
 
         var file = File.new_for_path(filename);
 
-        var parser = new Json.Parser();
-
         var exists = file.query_exists();
         //文件不存在->创建文件
         if(!exists)
         {
             createAppFolder();
-            parser.load_from_data("[]");
             file.create(FileCreateFlags.NONE);
         }
-        else
-        {
-            parser.load_from_stream(file.read());
-        }
 
-        var root = parser.get_root();
-        unowned var array = root.get_array();
+        unowned var array = node.get_array();
         if(update)
         {
             foreach(var _node in array.get_elements())
@@ -102,10 +99,45 @@ public class AppConfig
             array.add_object_element(node.get_object());
         }
 
-        var jsonStr = JsonUtil.jsonStr(root);
+        var jsonStr = JsonUtil.jsonStr(node);
         var output = file.replace(null,false,FileCreateFlags.NONE);
         output.write(jsonStr.data);
     }
+
+    /**
+     *
+     * 根据UUID获取数据源
+     *
+     *
+     **/
+    public static  DataSource getDataSource(string uuid) throws FXError
+    {
+        var array = node.get_array();
+        foreach(var node in array.get_elements())
+        {
+            var obj = node.get_object();
+            var uid = obj.get_string_member(Constant.UUID);
+            if( uid == uuid){
+                var dataSource = new DataSource(obj.get_int_member(Constant.TYPE));
+
+                dataSource.maxWait = 3;
+                dataSource.maxSize = 10;
+
+                dataSource.port = (int)obj.get_int_member(Constant.PORT);
+                dataSource.user = obj.get_string_member(Constant.USER);
+                dataSource.host = obj.get_string_member(Constant.HOST);
+                dataSource.password = obj.get_string_member(Constant.PASSWORD);
+                dataSource.authModel = obj.get_int_member(Constant.AUTH_MODEL);
+
+
+                return dataSource;
+
+            }
+        }
+        throw new FXError.ERROR(_("Unknow data source"));
+    }
+
+
 
     /**
      *

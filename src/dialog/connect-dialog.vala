@@ -116,7 +116,7 @@ public class ConnectDialog : Gtk.Dialog {
             var con = new MysqlConnection.whitout(dataSource);
             con.connect();
             info = con.serverInfo();
-        }catch(SqlError e){
+        }catch(FXError e){
             errmsg = e.message;
         }
         Idle.add(callback);
@@ -258,6 +258,12 @@ public class ConnectDialog : Gtk.Dialog {
 
     builder.set_member_name(Constant.AUTH_MODEL);
     builder.add_int_value(this.authRequire());
+
+    builder.set_member_name(Constant.HOST);
+    builder.add_string_value(this.host.text);
+
+    builder.set_member_name(Constant.PORT);
+    builder.add_int_value(int.parse(this.port.text));
 
     if(this.authRequire() == AuthModel.USER_PASSWORD)
     {

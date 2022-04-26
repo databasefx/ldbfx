@@ -5,6 +5,7 @@ dbfx_vala_sources = [
   'main.vala',
   'util/ui-util.vala',
   'util/json-util.vala',
+  'config/nav-tree.vala',
   'config/app-config.vala',
   'widget/notebook-tab.vala',
   'event/nav-tree-event.vala',
@@ -16,6 +17,7 @@ dbfx_vala_sources = [
 dbfx_vala_deps = [
   gio,
   gtk,
+  libgee,
   libxml,
   libjson,
   libdbfx_dep
