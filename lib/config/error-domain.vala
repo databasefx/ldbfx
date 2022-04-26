@@ -20,6 +20,17 @@ public errordomain SqlError
     SQL_QUERY_ERROR
 }
 
+public errordomain PoolError
+{
+    /**
+     *
+     *
+     * 没有空闲连接
+     *
+     **/
+    NOT_FREE_CONNECTION
+}
+
 
 
 public errordomain DatabaseError

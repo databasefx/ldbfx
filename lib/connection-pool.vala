@@ -58,18 +58,27 @@ public class SqlConnectionPool<T>
     }
 
 
-    public T getConnection(){
-        var con = this.getConnection0();
+    public T getConnection() throws PoolError {
+        T con = null;
+        var thread = Thread.self<bool>();
+        var startTime = get_real_time();
+        var maxWait =get_real_time() + this.dataSource.maxWait*1000;
+        while(true){
+            con = this.getConnection0();
+            //判断是否已经获取连接或者连接超时
+            if(con != null || ( get_real_time() > maxWait)){
+                break;
+            }
 
-        var maxWait = this.dataSource.maxWait;
-        //连接获取失败
-        if(con == null || maxWait <= 0){
-            return null;
+            thread.usleep(500);
         }
-        //线程等待对应时间
-        Thread.usleep(maxWait*1000);
-        //重新获取连接
-        return this.getConnection0();
+
+        if(con == null)
+        {
+            throw new PoolError.NOT_FREE_CONNECTION(_("Not free connection"));
+        }
+
+        return con;
     }
 
     private T? getConnection0(){

@@ -1,5 +1,5 @@
 libdbfx_sources = [
-  'pool.vala',
+  'connection-pool.vala',
   'connection.vala',
   'config/constant.vala',
   'async/async-work.vala',
