@@ -135,12 +135,12 @@ public class NavTreeEvent : Gtk.Menu
      *
      **/
     [GtkCallback]
-    public void open()
+    public bool open(Gtk.Widget item,Gdk.EventButton event)
     {
         var iter = this.getSelectIter();
         if(iter == null)
         {
-            return;
+            return false;
         }
         Value val;
 
@@ -166,6 +166,8 @@ public class NavTreeEvent : Gtk.Menu
         {
             this.openRoot(iter,status,uuid);
         }
+
+        return false;
     }
 
     private void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
