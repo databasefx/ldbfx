@@ -10,7 +10,7 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">Open</property>
-        <signal name="select" handler="open" swapped="no"/>
+        <signal name="button-release-event" handler="open" swapped="no"/>
       </object>
     </child>
     <child>

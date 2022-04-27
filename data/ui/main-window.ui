@@ -458,5 +458,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkListStore" id="treeModel"/>
 </interface>
