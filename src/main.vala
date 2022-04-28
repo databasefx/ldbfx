@@ -7,6 +7,8 @@ public const string NEW_CONNECT_ACTION_NAME = "new";
 
 public class Application : Gtk.Application
 {
+    private Object mutex;
+
     private MainController controller;
 
     private Map<string,SqlConnectionPool> pools;
@@ -19,6 +21,7 @@ public class Application : Gtk.Application
 
     public Application(){
         Object(application_id:APPLICATION_ID,flags:ApplicationFlags.FLAGS_NONE);
+        this.mutex = new Object();
         this.activate.connect(this.appInit);
         this.pools = new HashMap<string,SqlConnectionPool>();
     }
@@ -31,17 +34,20 @@ public class Application : Gtk.Application
      **/
     public SqlConnectionPool getConnPool(string uuid) throws FXError
     {
-        var pool = this.pools.get(uuid);
-        if(pool != null)
+        lock(mutex)
         {
+            var pool = this.pools.get(uuid);
+            if(pool != null)
+            {
+                return pool;
+            }
+
+            var dataSource = AppConfig.getDataSource(uuid);
+            pool = new SqlConnectionPool(dataSource);
+            this.pools.set(uuid,pool);
+
             return pool;
         }
-
-        var dataSource = AppConfig.getDataSource(uuid);
-        pool = new SqlConnectionPool(dataSource);
-        this.pools.set(uuid,pool);
-
-        return pool;
     }
 
     /**
@@ -88,7 +94,7 @@ public class Application : Gtk.Application
     **/
     public void newConnect()
     {
-        var id = new ConnectDialog().run();
+        new ConnectDialog().run();
     }
 
     /**

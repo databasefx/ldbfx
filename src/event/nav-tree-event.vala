@@ -58,7 +58,7 @@ public class NavTreeCtx
 public class NavTreeEvent : Gtk.Menu
 {
     private unowned TreeView navTree;
-    private unowned TreeModel treeModel;
+    private unowned Gtk.TreeModel treeModel;
     private unowned MainController controller;
 
 
@@ -66,7 +66,7 @@ public class NavTreeEvent : Gtk.Menu
     {
         this.navTree = navTree;
         this.controller = controller;
-        this.treeModel = navTree.model;
+        this.treeModel = navTree.get_model();
         this.navTree.button_press_event.connect(btnPreEvent);
     }
 
@@ -164,20 +164,48 @@ public class NavTreeEvent : Gtk.Menu
 
         if(row == NTRow.ROOT)
         {
-            this.openRoot(iter,status,uuid);
+            this.openRoot.begin(iter,status,uuid);
         }
 
         return false;
     }
 
-    private void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
+    private async void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
     {
         if(status != NavTRowStatus.INACTIVE)
         {
             return;
         }
-        var listModel = this.getListStore();
-        listModel.set_value(iter,NavTreeCol.STATUS,NavTRowStatus.ACTIVING);
+
+        Value val = new Value(typeof(string));
+        val.set_string("NavTRowStatus.ACTIVING");
+
+        var work = AsyncWork.create(()=>{
+
+            try
+            {
+                var context = Application.ctx;
+                var pool = context.getConnPool(uuid);
+            }
+            catch(FXError e)
+            {
+
+            }
+            finally
+            {
+                SourceFunc callback = openRoot.callback;
+                Idle.add(callback);
+            }
+        });
+        work.execute();
+
+        yield;
+    }
+
+
+    public void getColValue(TreeIter iter,NavTreeCol col,out Value val)
+    {
+        this.treeModel.get_value(iter,col,out val);
     }
 
     /**
@@ -186,11 +214,9 @@ public class NavTreeEvent : Gtk.Menu
      * 从{@link TreeModelSort}中获取{@link ListStore}
      *
      **/
-    private Gtk.ListStore getListStore()
+    private Gtk.ListStore listStore()
     {
-        var sortModel = (TreeModelSort)this.treeModel;
-
-        return (Gtk.ListStore)sortModel.model;
+        return (Gtk.ListStore)this.treeModel;
     }
 
     /**
@@ -203,7 +229,7 @@ public class NavTreeEvent : Gtk.Menu
     {
         TreeIter iter;
         var selection = this.navTree.get_selection();
-        var selected = selection.get_selected(out this.treeModel,out iter);
+        var selected = selection.get_selected(out treeModel,out iter);
         if(!selected)
         {
             return null;

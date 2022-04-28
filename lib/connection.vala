@@ -45,6 +45,15 @@ public abstract class SqlConnection
      */
     public abstract DatabaseInfo serverInfo() throws FXError;
 
+
+    /**
+     *
+     * 获取数据库schema列表
+     *
+     *
+     * */
+    public abstract DatabaseSchema[] schemes() throws FXError;
+
     /**
      *
      * 关闭当前连接(放回连接池中)

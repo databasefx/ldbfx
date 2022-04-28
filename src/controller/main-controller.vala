@@ -71,7 +71,8 @@ public class MainController : Gtk.ApplicationWindow {
             );
         }
 
-        this.navTree.model = new TreeModelSort.with_model(this.treeModel);
+        // this.navTree.model = new TreeModelSort.with_model(this.treeModel);
+        this.navTree.model = this.treeModel;
         this.navTree.show_all();
     }
 }

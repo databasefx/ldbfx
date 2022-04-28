@@ -79,6 +79,20 @@ public class MysqlConnection : SqlConnection
         return info;
     }
 
+     public override DatabaseSchema[] schemes() throws FXError
+     {
+        this.connect();
+        var sql = "SELECT * FROM infomation_schema.SCHEMATA";
+        var code = this.database.query(sql);
+        if( code != 0)
+        {
+            throw new FXError.ERROR(this.database.error());
+        }
+        DatabaseSchema list[10];
+
+        return list;
+     }
+
 
     public override void shutdown()
     {

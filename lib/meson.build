@@ -7,6 +7,7 @@ libdbfx_sources = [
   'config/db-feature.vala',
   'config/error-domain.vala',
   'model/database-info.vala',
+  'model/database-schema.vala',
   'impl/mysql-connection.vala',
 ]
 
