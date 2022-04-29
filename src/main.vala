@@ -51,6 +51,26 @@ public class Application : Gtk.Application
     }
 
     /**
+     *
+     * 移除某个连接池
+     *
+     **/
+    public void removePool(string uuid)
+    {
+        lock(mutex)
+        {
+            var pool = this.pools.get(uuid);
+            if( pool == null ){
+                return;
+            }
+            //移除缓存
+            this.pools.remove(uuid);
+            //执行资源释放
+            pool.shutdown();
+        }
+    }
+
+    /**
     *
     *
     * 应用初始化

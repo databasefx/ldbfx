@@ -86,11 +86,11 @@ public class SqlConnectionPool
     private SqlConnection? getConnection0(){
         lock(mutex){
             var con = this.freeQueue.poll_head();
-            //成功获取到连接
+            //成功获取到连接,添加到工作队列中
             if(con != null){
-                return con;
+                this.workQueue.add(con);
             }
-            return null;
+            return con;
         }
     }
 
@@ -109,6 +109,18 @@ public class SqlConnectionPool
             //将连接重新放入队列
             this.freeQueue.add(con);
         }
+    }
+
+    /**
+     *
+     *
+     * 清除连接池缓存连接
+     *
+     **/
+    public void shutdown()
+    {
+        this.workQueue.clear();
+        this.freeQueue.clear();
     }
 
     private SqlConnectionPool capacity() throws FXError

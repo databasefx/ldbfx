@@ -170,6 +170,30 @@ public class NavTreeEvent : Gtk.Menu
         return false;
     }
 
+    /**
+     *
+     * 
+     * 断开连接
+     *
+     **/
+    [GtkCallback]
+    public bool breakOff(Gtk.Widget item,Gdk.EventButton event)
+    {
+        var iter = this.getSelectIter();
+        if( iter == null )
+        {
+            return false;
+        }
+        this.clear(iter);
+        var val = new Value(typeof(string));
+        this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
+        var uuid = val.get_string();
+        //移除连接池
+        Application.ctx.removePool(uuid);
+        this.treeStore().set_value( iter , NavTreeCol.STATUS , NavTRowStatus.INACTIVE );
+        return false;
+    }
+
     private async void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
     {
         if(status != NavTRowStatus.INACTIVE)
@@ -184,12 +208,12 @@ public class NavTreeEvent : Gtk.Menu
         Gee.List<DatabaseSchema> list = null;
 
         var work = AsyncWork.create(()=>{
-
+            SqlConnection con = null;
             try
             {
                 var context = Application.ctx;
                 var pool = context.getConnPool(uuid);
-                var con = pool.getConnection();
+                con = pool.getConnection();
                 list = con.schemas();
             }
             catch(FXError e)
@@ -199,6 +223,16 @@ public class NavTreeEvent : Gtk.Menu
             }
             finally
             {
+                //关闭连接
+                if( con != null ){
+                    con.close();
+                }
+
+                //清除连接池
+                if( error == null )
+                {
+                    Application.ctx.removePool(uuid);
+                }
                 SourceFunc callback = openRoot.callback;
                 Idle.add(callback);
             }
@@ -237,13 +271,6 @@ public class NavTreeEvent : Gtk.Menu
         }
     }
 
-
-    private void getColValue(TreeIter iter,NavTreeCol col,out Value val)
-    {
-        this.treeModel.get_value(iter,col,out val);
-    }
-
-
     private void collExpand(TreeIter iter,bool collapse)
     {
         var pathStr = this.treeModel.get_string_from_iter(iter);
@@ -279,6 +306,21 @@ public class NavTreeEvent : Gtk.Menu
         var val = new Value(typeof(int));
         val.set_int(status);
         this.treeStore().set_value(iter,NavTreeCol.STATUS,val);
+    }
+
+    /**
+     *
+     * 
+     * 清除指定行子节点
+     *    
+     **/
+    private void clear(TreeIter? parent)
+    {
+        TreeIter child;
+        while(this.treeModel.iter_children(out child,parent))
+        {
+            this.treeStore().remove(ref child);
+        }
     }
 
     /**
