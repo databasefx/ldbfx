@@ -13,7 +13,7 @@ public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
     private unowned Gtk.Notebook notebook;
 
-    private Gtk.ListStore treeModel;
+    private Gtk.TreeStore treeModel;
 
     private NavTreeEvent treeEvent;
 
@@ -29,7 +29,7 @@ public class MainController : Gtk.ApplicationWindow {
         //注册自定义弹出菜单
         this.treeEvent = new NavTreeEvent.register(this.navTree,this);
 
-        this.treeModel = new Gtk.ListStore
+        this.treeModel = new Gtk.TreeStore
         (
             NavTreeCol.COL_NUM,
             Type.OBJECT,
@@ -56,7 +56,7 @@ public class MainController : Gtk.ApplicationWindow {
             }
 
             var iter = new TreeIter();
-            this.treeModel.append(out iter);
+            this.treeModel.append(out iter,null);
 
             var pixbuf = iconTheme.load_icon(feature.icon,22,0);
 
@@ -71,7 +71,6 @@ public class MainController : Gtk.ApplicationWindow {
             );
         }
 
-        // this.navTree.model = new TreeModelSort.with_model(this.treeModel);
         this.navTree.model = this.treeModel;
         this.navTree.show_all();
     }

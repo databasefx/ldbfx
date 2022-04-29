@@ -39,13 +39,15 @@ public class SqlConnectionPool
     private bool initCapacity;
 
 
-    public SqlConnectionPool(DataSource dataSource)
+    public SqlConnectionPool(DataSource dataSource) throws FXError
     {
         this.mutex = new Object();
         this.initCapacity = false;
         this.dataSource = dataSource;
         this.freeQueue = new ArrayQueue<SqlConnection>(this.equal);
         this.workQueue = new ArrayQueue<SqlConnection>(this.equal);
+        //初始化扩容
+        this.capacity();
     }
 
     /**
@@ -58,7 +60,7 @@ public class SqlConnectionPool
     }
 
 
-    public SqlConnection getConnection() throws Error {
+    public SqlConnection getConnection() throws FXError {
         SqlConnection con = null;
         var thread = Thread.self<bool>();
         var startTime = get_real_time();
@@ -109,7 +111,7 @@ public class SqlConnectionPool
         }
     }
 
-    public SqlConnectionPool capacity() throws FXError
+    private SqlConnectionPool capacity() throws FXError
     {
 
         if(!this.initCapacity)

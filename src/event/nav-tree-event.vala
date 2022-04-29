@@ -85,7 +85,7 @@ public class NavTreeEvent : Gtk.Menu
             //双击
             if(type == Gdk.EventType.DOUBLE_BUTTON_PRESS && button != 3)
             {
-
+                this.open(null,null);
             }
         }
         return false;
@@ -135,7 +135,7 @@ public class NavTreeEvent : Gtk.Menu
      *
      **/
     [GtkCallback]
-    public bool open(Gtk.Widget item,Gdk.EventButton event)
+    public bool open(Gtk.Widget? item,Gdk.EventButton? event)
     {
         var iter = this.getSelectIter();
         if(iter == null)
@@ -177,8 +177,11 @@ public class NavTreeEvent : Gtk.Menu
             return;
         }
 
-        Value val = new Value(typeof(string));
-        val.set_string("NavTRowStatus.ACTIVING");
+        //更新为激活中状态
+        this.updateNTStatus(iter,NavTRowStatus.ACTIVING);
+
+        FXError error = null;
+        Gee.List<DatabaseSchema> list = null;
 
         var work = AsyncWork.create(()=>{
 
@@ -186,10 +189,13 @@ public class NavTreeEvent : Gtk.Menu
             {
                 var context = Application.ctx;
                 var pool = context.getConnPool(uuid);
+                var con = pool.getConnection();
+                list = con.schemas();
             }
             catch(FXError e)
             {
-
+                warning("Open/Query database schema fail:%s".printf(e.message));
+                error = e;
             }
             finally
             {
@@ -197,26 +203,82 @@ public class NavTreeEvent : Gtk.Menu
                 Idle.add(callback);
             }
         });
+
         work.execute();
 
         yield;
+
+        //根据是否发生错误决定状态
+        this.updateNTStatus( iter , error == null ? NavTRowStatus.ACTIVED : NavTRowStatus.INACTIVE );
+
+        if( error != null )
+        {
+            
+            return;
+        }
+        var pixbuf =  IconTheme.get_default().load_icon("dbfx-schema",22,0);
+        foreach(var schema in list)
+        {
+            TreeIter child = {0};
+            this.treeStore().append(out child,iter);
+            this.treeStore().set(
+                child,
+                NavTreeCol.ICON,pixbuf,
+                NavTreeCol.NAME,schema.name,
+                NavTreeCol.NT_ROW,NTRow.SCHEMA,
+                NavTreeCol.STATUS,NavTRowStatus.INACTIVE,
+                NavTreeCol.UUID,uuid,
+                -1
+            );
+        }
+        if ( list.size > 0 )
+        {
+            this.collExpand(iter,false);
+        }
     }
 
 
-    public void getColValue(TreeIter iter,NavTreeCol col,out Value val)
+    private void getColValue(TreeIter iter,NavTreeCol col,out Value val)
     {
         this.treeModel.get_value(iter,col,out val);
+    }
+
+
+    private void collExpand(TreeIter iter,bool collapse)
+    {
+        var pathStr = this.treeModel.get_string_from_iter(iter);
+        var treePath = new TreePath.from_string(pathStr);
+        if(collapse)
+        {
+            this.navTree.collapse_row(treePath);
+        }
+        else
+        {
+            this.navTree.expand_row(treePath,false);    
+        }
     }
 
     /**
      *
      *
-     * 从{@link TreeModelSort}中获取{@link ListStore}
+     * 从{@link TreeModel}中获取{@link TreeStore}
      *
      **/
-    private Gtk.ListStore listStore()
+    private Gtk.TreeStore treeStore()
     {
-        return (Gtk.ListStore)this.treeModel;
+        return (Gtk.TreeStore)this.treeModel;
+    }
+
+    /**
+     *
+     * 更新某一行状态
+     *
+     **/
+    private void updateNTStatus(TreeIter iter,NavTRowStatus status)
+    {
+        var val = new Value(typeof(int));
+        val.set_int(status);
+        this.treeStore().set_value(iter,NavTreeCol.STATUS,val);
     }
 
     /**

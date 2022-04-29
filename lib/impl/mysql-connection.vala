@@ -79,17 +79,26 @@ public class MysqlConnection : SqlConnection
         return info;
     }
 
-     public override DatabaseSchema[] schemes() throws FXError
+     public override Gee.List<DatabaseSchema> schemas() throws FXError
      {
         this.connect();
-        var sql = "SELECT * FROM infomation_schema.SCHEMATA";
+        var sql = "SELECT * FROM information_schema.SCHEMATA";
         var code = this.database.query(sql);
         if( code != 0)
         {
             throw new FXError.ERROR(this.database.error());
         }
-        DatabaseSchema list[10];
-
+        string[] rows;
+        var rs = this.database.use_result();
+        var list = new Gee.ArrayList<DatabaseSchema>();
+        while((rows = rs.fetch_row())!=null)
+        {
+            var item = new DatabaseSchema();
+            item.name = rows[1];
+            item.charset = rows[2];
+            item.collation = rows[3];
+            list.add(item);
+        }
         return list;
      }
 

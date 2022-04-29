@@ -9,10 +9,10 @@ public enum NTRow
     /**
      *
      *
-     * scheme
+     * schema
      *
      */
-    SCHEME,
+    SCHEMA,
     /**
      *
      * 表

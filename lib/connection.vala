@@ -52,7 +52,7 @@ public abstract class SqlConnection
      *
      *
      * */
-    public abstract DatabaseSchema[] schemes() throws FXError;
+    public abstract Gee.List<DatabaseSchema> schemas() throws FXError;
 
     /**
      *

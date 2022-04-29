@@ -66,7 +66,7 @@ public class AppConfig
      * 添加/更新数据源
      *
      */
-    public static void addDataSource(string uuid,Json.Node node,bool update) throws Error
+    public static void addDataSource(string uuid,Json.Node data,bool update) throws Error
     {
         var filename = "%s%s".printf(appDataFolder,dbPreference);
 
@@ -89,14 +89,14 @@ public class AppConfig
                 var _uuid = obj.get_string_member(Constant.UUID);
                 if(_uuid == uuid )
                 {
-                    _node.set_object(node.get_object());
+                    _node.set_object(data.get_object());
                     break;
                 }
             }
         }
         else
         {
-            array.add_object_element(node.get_object());
+            array.add_object_element(data.get_object());
         }
 
         var jsonStr = JsonUtil.jsonStr(node);
