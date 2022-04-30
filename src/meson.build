@@ -29,7 +29,7 @@ dbfx_c_args = [
 
 
 executable(
- 'dbfx-vala',
+ 'v-dbfx',
   dbfx_vala_sources,
   install: true,
   c_args:dbfx_c_args,

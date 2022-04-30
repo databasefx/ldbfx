@@ -34,7 +34,7 @@ public class DatabaseFeature : Object {
     }
 
     //当前数据库类型
-    public DatabaseType _type
+    public DatabaseType dbType
     {
         private set;
         get;
@@ -49,10 +49,10 @@ public class DatabaseFeature : Object {
 
     public DatabaseFeature(string name,string icon,DatabaseType type,bool impl)
     {
-        this._type = type;
         this.impl = impl;
         this.name = name;
         this.icon = icon;
+        this.dbType = type;
     }
 
     private static DatabaseFeature[] features = null;
@@ -74,7 +74,7 @@ public class DatabaseFeature : Object {
     {
         foreach(unowned var feature in getFeatures())
         {
-            if(feature._type == type)
+            if(feature.dbType == type)
             {
                 return feature;
             }

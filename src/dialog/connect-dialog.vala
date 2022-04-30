@@ -88,7 +88,7 @@ public class ConnectDialog : Gtk.Dialog {
         return;
     }
 
-    var dataSource = new DataSource(this.feature._type);
+    var dataSource = new DataSource(this.feature.dbType);
 
     dataSource.host = this.host.text;
     dataSource.port = int.parse(this.port.text);
@@ -245,7 +245,7 @@ public class ConnectDialog : Gtk.Dialog {
     builder.add_string_value(uuid);
 
     builder.set_member_name(Constant.TYPE);
-    builder.add_int_value(this.feature._type);
+    builder.add_int_value(this.feature.dbType);
 
     builder.set_member_name(Constant.NAME);
     builder.add_string_value(this.name.text);

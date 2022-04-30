@@ -18,7 +18,15 @@ public enum NTRow
      * 表
      *
      **/
-    TABLE
+    TABLE,
+    /**
+     *
+     * 
+     * 视图
+     *
+     *
+     **/
+     VIEW
 }
 
 /**

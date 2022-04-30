@@ -111,13 +111,13 @@ public class DataSource
      * 当前数据库类型
      *
      */
-    public DatabaseType _type{
+    public DatabaseType dbType{
         set;
         get;
     }
 
     public DataSource(DatabaseType type){
-        this._type = type;
+        this.dbType = type;
     }
 
     public string toString(){

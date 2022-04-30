@@ -93,6 +93,10 @@ public class Application : Gtk.Application
     **/
     public void appInit()
     {
+
+        //设置暗黑主题
+        Gtk.Settings.get_default().gtk_application_prefer_dark_theme = true;
+
         //设置窗口默认图标
         Gtk.Window.set_default_icon_name("cn.navclub.dbfx");
 

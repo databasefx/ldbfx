@@ -129,7 +129,7 @@ public class SqlConnectionPool
         if(!this.initCapacity)
         {
 
-            var type = this.dataSource._type;
+            var type = this.dataSource.dbType;
 
             unowned var instance = DatabaseFeature.getFeature(type);
 

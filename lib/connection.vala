@@ -61,7 +61,7 @@ public abstract class SqlConnection
      * 获取某个Schema下的表列表
      *
      **/
-    public abstract Gee.List<string> tables(string schema,bool view) throws FXError;
+    public abstract Gee.List<TableInfo> tables(string schema,bool view) throws FXError;
 
     /**
      *

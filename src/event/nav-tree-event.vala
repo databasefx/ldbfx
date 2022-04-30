@@ -219,7 +219,7 @@ public class NavTreeEvent : Gtk.Menu
         this.treeModel.get_value(iter,NavTreeCol.NAME, out val);
 
         FXError error = null;
-        Gee.List<string> list = null;
+        Gee.List<TableInfo> list = null;
         SourceFunc callback = fetchTable.callback;
 
         var work = AsyncWork.create(()=>{
@@ -246,10 +246,22 @@ public class NavTreeEvent : Gtk.Menu
 
         this.updateNTStatus(iter,error != null ? NavTRowStatus.INACTIVE : NavTRowStatus.ACTIVED );
 
+        TreeIter child;
+        var pixbuf = IconTheme.get_default().load_icon("dbfx-table",18,0);
         foreach(var table in list)
         {
-            stdout.printf("%s\n",table);
+            this.treeStore().append(out child,iter);
+               this.treeStore().set(
+                child,
+                NavTreeCol.ICON,pixbuf,
+                NavTreeCol.NAME,table.name,
+                NavTreeCol.NT_ROW,table.tableType==TableType.BASE_TABLE ? NTRow.TABLE : NTRow.VIEW,
+                NavTreeCol.STATUS,NavTRowStatus.INACTIVE,
+                NavTreeCol.UUID,uuid,
+                -1
+            );
         }
+        this.collExpand(iter,false);
     }
     /**
      *
@@ -311,7 +323,7 @@ public class NavTreeEvent : Gtk.Menu
             
             return;
         }
-        var pixbuf =  IconTheme.get_default().load_icon("dbfx-schema",22,0);
+        var pixbuf =  IconTheme.get_default().load_icon("dbfx-schema",16,0);
         foreach(var schema in list)
         {
             TreeIter child = {0};

@@ -7,7 +7,6 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
-  <object class="GtkListStore" id="treeModel"/>
   <template class="MainController" parent="GtkApplicationWindow">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">v-dbfx</property>
@@ -367,40 +366,53 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTreeView" id="navTree">
+                  <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="model">treeModel</property>
-                    <property name="headers-visible">False</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
-                    </child>
+                    <property name="kinetic-scrolling">False</property>
                     <child>
-                      <object class="GtkTreeViewColumn" id="iconCol">
-                        <property name="title" translatable="yes">icon</property>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="shadow-type">none</property>
                         <child>
-                          <object class="GtkCellRendererPixbuf"/>
-                          <attributes>
-                            <attribute name="pixbuf">0</attribute>
-                          </attributes>
+                          <object class="GtkTreeView" id="navTree">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="headers-visible">False</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection"/>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="iconCol">
+                                <property name="title" translatable="yes">icon</property>
+                                <child>
+                                  <object class="GtkCellRendererPixbuf"/>
+                                  <attributes>
+                                    <attribute name="pixbuf">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkTreeViewColumn" id="nameCol">
+                                <property name="sizing">autosize</property>
+                                <property name="title" translatable="yes">name</property>
+                                <child>
+                                  <object class="GtkCellRendererText"/>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="nav-tree"/>
+                            </style>
+                          </object>
                         </child>
                       </object>
                     </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="nameCol">
-                        <property name="sizing">autosize</property>
-                        <property name="title" translatable="yes">name</property>
-                        <child>
-                          <object class="GtkCellRendererText"/>
-                          <attributes>
-                            <attribute name="text">1</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="nav-tree"/>
-                    </style>
                   </object>
                   <packing>
                     <property name="expand">True</property>

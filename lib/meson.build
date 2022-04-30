@@ -4,6 +4,7 @@ libdbfx_sources = [
   'config/constant.vala',
   'async/async-work.vala',
   'config/datasource.vala',
+  'model/table-info.vala',
   'config/db-feature.vala',
   'config/error-domain.vala',
   'model/database-info.vala',
