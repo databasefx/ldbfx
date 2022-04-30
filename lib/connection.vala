@@ -54,6 +54,15 @@ public abstract class SqlConnection
      * */
     public abstract Gee.List<DatabaseSchema> schemas() throws FXError;
 
+
+    /**
+     *
+     *
+     * 获取某个Schema下的表列表
+     *
+     **/
+    public abstract Gee.List<string> tables(string schema,bool view) throws FXError;
+
     /**
      *
      * 关闭当前连接(放回连接池中)

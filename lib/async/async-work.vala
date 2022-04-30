@@ -59,12 +59,12 @@ public class AsyncWork
         this.endTime = get_monotonic_time();
     }
 
-    public void execute()
+    public async void execute()
     {
         pool.add(this);
     }
 
-    public void executePri(int priority)
+    public async void executePri(int priority)
     {
         this.priority = priority;
         this.execute();

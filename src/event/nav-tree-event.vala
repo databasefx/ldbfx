@@ -164,7 +164,12 @@ public class NavTreeEvent : Gtk.Menu
 
         if(row == NTRow.ROOT)
         {
-            this.openRoot.begin(iter,status,uuid);
+            this.fetchSchema.begin(iter,status,uuid);
+        }
+
+        if(row == NTRow.SCHEMA)
+        {
+            this.fetchTable(iter,status,uuid);
         }
 
         return false;
@@ -194,7 +199,65 @@ public class NavTreeEvent : Gtk.Menu
         return false;
     }
 
-    private async void openRoot(TreeIter iter,NavTRowStatus status,string uuid)
+    /**
+     *
+     *
+     * 获取schema下的表
+     *
+     **/
+    private async void fetchTable(TreeIter iter,NavTRowStatus status,string uuid)
+    {
+        if(status!=NavTRowStatus.INACTIVE)
+        {
+            return;
+        }
+
+        this.updateNTStatus(iter,NavTRowStatus.ACTIVING);
+
+        Value val = new Value(typeof(string));
+
+        this.treeModel.get_value(iter,NavTreeCol.NAME, out val);
+
+        FXError error = null;
+        Gee.List<string> list = null;
+        SourceFunc callback = fetchTable.callback;
+
+        var work = AsyncWork.create(()=>{
+            SqlConnection con = null;
+            try
+            {
+                con  = Application.getConnection(uuid);
+                list = con.tables(val.get_string(),true);
+            }
+            catch(FXError e)
+            {
+                warning("Query table list fail:%s".printf(e.message));
+                error = e;
+            }
+            finally
+            {
+                con.close();
+                Idle.add(callback);
+            }
+        });
+        work.execute();
+
+        yield;
+
+        this.updateNTStatus(iter,error != null ? NavTRowStatus.INACTIVE : NavTRowStatus.ACTIVED );
+
+        foreach(var table in list)
+        {
+            stdout.printf("%s\n",table);
+        }
+    }
+    /**
+     *
+     *
+     * 获取Schema列表
+     *
+     */
+    private async void fetchSchema(TreeIter iter,NavTRowStatus status,string uuid)
     {
         if(status != NavTRowStatus.INACTIVE)
         {
@@ -206,15 +269,14 @@ public class NavTreeEvent : Gtk.Menu
 
         FXError error = null;
         Gee.List<DatabaseSchema> list = null;
+        SourceFunc callback = fetchSchema.callback;
 
         var work = AsyncWork.create(()=>{
             SqlConnection con = null;
             try
             {
                 var context = Application.ctx;
-                var pool = context.getConnPool(uuid);
-                con = pool.getConnection();
-                list = con.schemas();
+                list = context.getConnection(uuid).schemas();
             }
             catch(FXError e)
             {
@@ -233,7 +295,6 @@ public class NavTreeEvent : Gtk.Menu
                 {
                     Application.ctx.removePool(uuid);
                 }
-                SourceFunc callback = openRoot.callback;
                 Idle.add(callback);
             }
         });

@@ -71,6 +71,21 @@ public class Application : Gtk.Application
     }
 
     /**
+     *
+     *
+     * 便利方法用户获取连接
+     *
+     **/
+    public static SqlConnection getConnection(string uuid) throws FXError
+    {
+        if(ctx == null)
+        {
+          throw new FXError.ERROR("Application can't instance!");  
+        }
+        return ctx.getConnPool(uuid).getConnection();
+    }
+
+    /**
     *
     *
     * 应用初始化

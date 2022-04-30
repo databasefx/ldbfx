@@ -102,6 +102,28 @@ public class MysqlConnection : SqlConnection
         return list;
      }
 
+    public override Gee.List<string> tables(string schema,bool view) throws FXError
+    {
+        this.connect();
+        var sql = "SELECT `TABLE_NAME` FROM information_schema.TABLES WHERE `TABLE_SCHEMA`='%s' %s"
+            .printf(schema,view?"":"AND `TABLE_TYPE`='BASE TABLE'");
+            stdout.printf("%s\n",sql);
+        if( this.database.query(sql) != 0 )
+        {
+            throw new FXError.ERROR(this.database.error());
+        }
+        var list = new Gee.ArrayList<string>();
+        var rs = this.database.use_result();
+        
+        string[] rows;
+        while((rows = rs.fetch_row())!=null )
+        {
+            list.add(rows[0]);
+        }
+
+        return list;
+    }
+
 
     public override void shutdown()
     {
