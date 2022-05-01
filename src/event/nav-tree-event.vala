@@ -172,6 +172,11 @@ public class NavTreeEvent : Gtk.Menu
             this.fetchTable(iter,status,uuid);
         }
 
+        if(row == NTRow.TABLE)
+        {
+            this.loadTable(iter,status,uuid);
+        }
+
         return false;
     }
 
@@ -197,6 +202,17 @@ public class NavTreeEvent : Gtk.Menu
         Application.ctx.removePool(uuid);
         this.treeStore().set_value( iter , NavTreeCol.STATUS , NavTRowStatus.INACTIVE );
         return false;
+    }
+
+    public async void loadTable(TreeIter iter,NavTRowStatus status,string uuid)
+    {
+        if( status != NavTRowStatus.INACTIVE )
+        {
+            return;
+        }
+        this.updateNTStatus(iter,NavTRowStatus.ACTIVED);
+        var path = this.treeModel.get_string_from_iter(iter);
+        new NotebookTable(path,Application.ctx.controller.notebook);
     }
 
     /**

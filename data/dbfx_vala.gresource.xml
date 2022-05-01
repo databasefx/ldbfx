@@ -4,6 +4,7 @@
     <file>ui/main-window.ui</file>
     <file>ui/nav-tree-menu.ui</file>
     <file>ui/connect-dialog.ui</file>
+    <file>ui/notebook-table.ui</file>
     <file>style/style.css</file>
   </gresource>
 </gresources>

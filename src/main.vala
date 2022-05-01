@@ -9,7 +9,10 @@ public class Application : Gtk.Application
 {
     private Object mutex;
 
-    private MainController controller;
+    public MainController controller{
+        set;
+        get;       
+    }
 
     private Map<string,SqlConnectionPool> pools;
 

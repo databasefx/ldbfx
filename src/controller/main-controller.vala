@@ -11,7 +11,10 @@ public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
     private unowned Gtk.TreeViewColumn nameCol;
     [GtkChild]
-    private unowned Gtk.Notebook notebook;
+    public unowned Gtk.Notebook notebook
+    {
+        get;
+    }
 
     private Gtk.TreeStore treeModel;
 
