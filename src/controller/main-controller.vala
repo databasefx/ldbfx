@@ -24,7 +24,6 @@ public class MainController : Gtk.ApplicationWindow {
 	public MainController (Gtk.Application app) {
 		Object (application: app);
 		this.initNavTree();
-		new NotebookTab("logo",_("Welcome Page"),this.notebook,new Label("test"),false);
 	 }
 
     public void initNavTree()

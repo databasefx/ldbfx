@@ -1,11 +1,31 @@
-public interface TabService
+public interface TabService : GLib.Object
 {
     /**
      *
-     * Tab 实例
+     * 
+     *  获取Tab实例
      *
-     */
-    public abstract NotebookTab notebookTab();
+     **/
+    public abstract NotebookTab tab();
+    
+    /**
+     *
+     *
+     * 获取Notebook实例
+     *
+     **/
+    public unowned Gtk.Notebook getNotebook(){
+        return Application.ctx.controller.notebook;
+    }
+
+
+    /**
+     *
+     * 
+     * 获取Tab路径字符串
+     *
+     **/
+    public abstract string getPath();
 
 
     /**

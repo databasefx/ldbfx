@@ -9,23 +9,46 @@ using Gtk;
  **/
  [GtkTemplate (ui="/cn/navclub/dbfx/ui/notebook-table.ui")]
 public class NotebookTable : Box, TabService
-{
-    private NotebookTab tab;
+{    
+    public string path;
 
-    public NotebookTable(string path,Notebook notebook)
+    private string pathVal;
+
+    private NotebookTab notebookTab;
+
+    public NotebookTable(string path,string pathVal)
     {
-        this.tab = new NotebookTab("dbfx-table","测试",notebook,this,true);
+        this.path = path;
+        this.pathVal = pathVal;
+        this.notebookTab = new NotebookTab("dbfx-table",getPosVal(pathVal,-1),this,true);
     }
 
-    public  NotebookTab notebookTab()
+    public  NotebookTab tab()
     {
-        return this.tab;
+        return this.notebookTab;
     }
 
+    public string getPath()
+    {
+        return this.path;
+    }
     
     public  void destory() throws FXError
     {
 
     }
-
+    /**
+     *
+     *
+     *  获取指定位置值
+     * 
+     *
+     **/
+    private string getPosVal(string str,int pos)
+    {
+        var array = str.split(":");
+        var len = array.length;
+        pos = pos < 0 ? len-1 : pos;
+        return array[pos];
+    }
 }

@@ -206,13 +206,15 @@ public class NavTreeEvent : Gtk.Menu
 
     public async void loadTable(TreeIter iter,NavTRowStatus status,string uuid)
     {
-        if( status != NavTRowStatus.INACTIVE )
+        var str = this.treeModel.get_string_from_iter(iter);
+        var path = @"$uuid:$str";
+        if( Application.ctx.tabExist(path,true) != -1 || status != NavTRowStatus.INACTIVE )
         {
             return;
         }
+        var pathVal = this.getPathValue(iter);
         this.updateNTStatus(iter,NavTRowStatus.ACTIVED);
-        var path = this.treeModel.get_string_from_iter(iter);
-        new NotebookTable(path,Application.ctx.controller.notebook);
+        Application.ctx.addTab(new NotebookTable(path,pathVal),true);
     }
 
     /**
@@ -428,5 +430,45 @@ public class NavTreeEvent : Gtk.Menu
             return null;
         }
         return iter;
+    }
+    /**
+     *
+     * 获取指定路径值,以`:`分隔
+     *
+     **/
+    private string getPathValue(TreeIter iter)
+    {
+        TreeIter lIter;
+        TreePath path;
+        var iterStr = this.treeModel.get_string_from_iter(iter);
+
+        var index = 0;
+        var pathStr = "";
+        string[] temp = {};
+        var paths = iterStr.split(":");
+        var val = new Value(typeof(string));
+
+        var pathVal = "";
+
+        foreach(unowned string str  in paths)
+        {
+            if( index != 0 )
+            {
+                pathStr = @"$pathStr:$str";
+            }
+            else
+            {
+                pathStr = str;
+            }
+            path = new TreePath.from_string(pathStr);
+            this.treeModel.get_iter(out lIter,path);
+            this.treeModel.get_value(lIter,NavTreeCol.NAME,out val);
+            
+            pathVal += ((index == 0 ?"":":")+val.get_string());
+
+            index++;
+        }
+        
+        return pathVal;
     }
 }

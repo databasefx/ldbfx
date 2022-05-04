@@ -9,8 +9,10 @@ public class Application : Gtk.Application
 {
     private Object mutex;
 
+    public static Application ctx;
+
     public MainController controller{
-        set;
+        private set;
         get;       
     }
 
@@ -24,9 +26,49 @@ public class Application : Gtk.Application
 
     public Application(){
         Object(application_id:APPLICATION_ID,flags:ApplicationFlags.FLAGS_NONE);
+
         this.mutex = new Object();
         this.activate.connect(this.appInit);
         this.pools = new HashMap<string,SqlConnectionPool>();
+    }
+
+    public int addTab(TabService service,bool selected)
+    {
+        var index = -1;
+        if( (index = this.tabExist(service.getPath(),selected)) != -1 )
+        {
+            return index;
+        }
+        var label = service.tab();
+        var content = service as Gtk.Widget;
+        var notebook = this.controller.notebook;
+        index = notebook.append_page(content,label);
+        if( selected )
+        {
+            notebook.page = index;
+        }
+        return index;
+    }
+
+    public int tabExist(string path,bool selected)
+    {
+        var notebook = this.controller.notebook;
+        var num = notebook.get_n_pages();
+        var index = -1;
+        for (int i = 0; i < num; i++)
+        {
+            var service = notebook.get_nth_page(i) as TabService;
+            var str = service.getPath();
+            if( str == path )
+            {
+                index = i;
+                break;
+            }
+        }
+        if( index != -1 && selected ){
+            notebook.page = index;
+        }
+        return index;
     }
 
     /**
@@ -149,8 +191,6 @@ public class Application : Gtk.Application
         Process.exit(0);
     }
 
-
-    public static Application ctx;
 
     public static int main (string[] args)
     {
