@@ -6,11 +6,6 @@
   background-color: #3c3f41;
 }
 
-scrolledwindow .bottom,
-scrolledwindow .top {
-  background-color: transparent;
-}
-
 button {
   background-color: transparent;
 }
@@ -71,7 +66,11 @@ list row:selected {
 
 .high-light *,
 menuitem label,
-menuitem image {
+menuitem image,
+scrolledwindow .top,
+scrolledwindow .left,
+scrolledwindow .right,
+scrolledwindow .bottom {
   background-color: transparent;
 
 }

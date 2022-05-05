@@ -48,3 +48,9 @@ msgstr "Config persistence fail,more error info please view log file."
 
 msgid "Unknow data source"
 msgstr "Unknow data source"
+
+msgid "views"
+msgstr "views"
+
+msgid "tables"
+msgstr "tables"

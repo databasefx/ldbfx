@@ -8,7 +8,13 @@ using Gtk;
  **/
 public class NotebookTab : Box
 {
-    private static string className = "nb-tab";
+    private static string className;
+
+
+    static construct
+    {
+        className = "nb-tab";
+    }
 
     private int index;
 
@@ -16,18 +22,18 @@ public class NotebookTab : Box
 
     private weak TabService tabService;
 
-    public NotebookTab(string iconName,string title,TabService tabService,bool closeable)
+    public NotebookTab(Gdk.Pixbuf pixbuf,string title,TabService tabService,bool closeable)
     {
         Object(orientation:Orientation.HORIZONTAL,spacing:3);
         
         this.tabService = tabService;
 
         var label = new Label(title);
-        btn   = new Button.from_icon_name("dbfx-close");
-        var icon = new Image.from_icon_name(iconName,IconSize.BUTTON);
+        var icon = new Image.from_pixbuf(pixbuf);
 
+        btn = new Button.from_icon_name("dbfx-close");
         btn.relief = ReliefStyle.NONE;
-
+        
         unowned var notebook = this.tabService.getNotebook();
 
         //添加关闭事件

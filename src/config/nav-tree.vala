@@ -15,6 +15,18 @@ public enum NTRow
     SCHEMA,
     /**
      *
+     * 表文件夹
+     *
+     **/
+    TABLE_FOLDER,
+    /**
+     *
+     * 视图文件夹
+     *
+     **/
+    VIEW_FOLDER,
+    /**
+     *
      * 表
      *
      **/

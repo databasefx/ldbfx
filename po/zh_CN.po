@@ -49,3 +49,9 @@ msgstr "配置信息持久化失败，具体错误信息请查看日志文件。
 
 msgid "Unknow data source"
 msgstr "未知数据源头"
+
+msgid "views"
+msgstr "视图"
+
+msgid "tables"
+msgstr "表"

@@ -57,6 +57,11 @@ public class NavTreeCtx
 [GtkTemplate (ui = "/cn/navclub/dbfx/ui/nav-tree-menu.ui")]
 public class NavTreeEvent : Gtk.Menu
 {
+    private Gdk.Pixbuf viewIcon;
+    private Gdk.Pixbuf tableIcon;
+    private Gdk.Pixbuf folderIcon;
+    private Gdk.Pixbuf schemaIcon;
+    
     private unowned TreeView navTree;
     private unowned Gtk.TreeModel treeModel;
     private unowned MainController controller;
@@ -68,6 +73,12 @@ public class NavTreeEvent : Gtk.Menu
         this.controller = controller;
         this.treeModel = navTree.get_model();
         this.navTree.button_press_event.connect(btnPreEvent);
+
+        //缓存常用图标
+        this.viewIcon = IconTheme.get_default().load_icon("dbfx-view",25,0);
+        this.tableIcon = IconTheme.get_default().load_icon("dbfx-table",18,0);
+        this.folderIcon = IconTheme.get_default().load_icon("dbfx-folder",15,0);
+        this.schemaIcon = IconTheme.get_default().load_icon("dbfx-schema",16,0);
     }
 
     private bool btnPreEvent(Gdk.EventButton event)
@@ -164,7 +175,7 @@ public class NavTreeEvent : Gtk.Menu
 
         if(row == NTRow.ROOT)
         {
-            this.fetchSchema.begin(iter,status,uuid);
+            this.fetchSchema(iter,status,uuid);
         }
 
         if(row == NTRow.SCHEMA)
@@ -172,9 +183,9 @@ public class NavTreeEvent : Gtk.Menu
             this.fetchTable(iter,status,uuid);
         }
 
-        if(row == NTRow.TABLE)
+        if(row == NTRow.TABLE || row == NTRow.VIEW)
         {
-            this.loadTable(iter,status,uuid);
+            this.loadTable(row == NTRow.VIEW, iter , status , uuid );
         }
 
         return false;
@@ -204,7 +215,7 @@ public class NavTreeEvent : Gtk.Menu
         return false;
     }
 
-    public async void loadTable(TreeIter iter,NavTRowStatus status,string uuid)
+    public async void loadTable(bool view,TreeIter iter,NavTRowStatus status,string uuid)
     {
         var str = this.treeModel.get_string_from_iter(iter);
         var path = @"$uuid:$str";
@@ -214,7 +225,7 @@ public class NavTreeEvent : Gtk.Menu
         }
         var pathVal = this.getPathValue(iter);
         this.updateNTStatus(iter,NavTRowStatus.ACTIVED);
-        Application.ctx.addTab(new NotebookTable(path,pathVal),true);
+        Application.ctx.addTab(new NotebookTable(path,pathVal,view),true);
     }
 
     /**
@@ -237,7 +248,12 @@ public class NavTreeEvent : Gtk.Menu
         this.treeModel.get_value(iter,NavTreeCol.NAME, out val);
 
         FXError error = null;
-        Gee.List<TableInfo> list = null;
+        
+        //基础表
+        Gee.List<TableInfo> tables = null;
+        //视图
+        Gee.List<TableInfo> views  = null;
+
         SourceFunc callback = fetchTable.callback;
 
         var work = AsyncWork.create(()=>{
@@ -245,7 +261,8 @@ public class NavTreeEvent : Gtk.Menu
             try
             {
                 con  = Application.getConnection(uuid);
-                list = con.tables(val.get_string(),true);
+                tables = con.tables(val.get_string(),false);
+                views  = con.tables(val.get_string(),true);
             }
             catch(FXError e)
             {
@@ -264,22 +281,42 @@ public class NavTreeEvent : Gtk.Menu
 
         this.updateNTStatus(iter,error != null ? NavTRowStatus.INACTIVE : NavTRowStatus.ACTIVED );
 
+        if(error != null)
+        {
+            return;
+        }
+        this.createTableOrView(iter,tables,false,uuid);
+        this.createTableOrView(iter,views,true,uuid);
+    }
+
+    private void createTableOrView(TreeIter parent,Gee.List<TableInfo> list,bool view,string uuid)
+    {
+        TreeIter iter;
+        this.treeStore().append(out iter,parent);
+        this.treeStore().set(
+            iter,
+            NavTreeCol.UUID,uuid,
+            NavTreeCol.ICON,folderIcon,
+            NavTreeCol.NAME,view?_("views"):_("tables"),
+            NavTreeCol.STATUS,NavTRowStatus.INACTIVE,
+            NavTreeCol.NT_ROW,view ? NTRow.VIEW_FOLDER : NTRow.TABLE_FOLDER,
+            -1
+        );
         TreeIter child;
-        var pixbuf = IconTheme.get_default().load_icon("dbfx-table",18,0);
         foreach(var table in list)
         {
             this.treeStore().append(out child,iter);
                this.treeStore().set(
                 child,
-                NavTreeCol.ICON,pixbuf,
                 NavTreeCol.NAME,table.name,
-                NavTreeCol.NT_ROW,table.tableType==TableType.BASE_TABLE ? NTRow.TABLE : NTRow.VIEW,
+                NavTreeCol.ICON,view?viewIcon:tableIcon,
+                NavTreeCol.NT_ROW,!view ? NTRow.TABLE : NTRow.VIEW,
                 NavTreeCol.STATUS,NavTRowStatus.INACTIVE,
                 NavTreeCol.UUID,uuid,
                 -1
             );
         }
-        this.collExpand(iter,false);
+        this.collExpand(parent,false);
     }
     /**
      *
@@ -341,14 +378,13 @@ public class NavTreeEvent : Gtk.Menu
             
             return;
         }
-        var pixbuf =  IconTheme.get_default().load_icon("dbfx-schema",16,0);
         foreach(var schema in list)
         {
             TreeIter child = {0};
             this.treeStore().append(out child,iter);
             this.treeStore().set(
                 child,
-                NavTreeCol.ICON,pixbuf,
+                NavTreeCol.ICON,schemaIcon,
                 NavTreeCol.NAME,schema.name,
                 NavTreeCol.NT_ROW,NTRow.SCHEMA,
                 NavTreeCol.STATUS,NavTRowStatus.INACTIVE,
