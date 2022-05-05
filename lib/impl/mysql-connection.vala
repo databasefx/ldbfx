@@ -128,6 +128,43 @@ public class MysqlConnection : SqlConnection
     }
 
 
+    public override Gee.List<TableColumnMeta> tableColumns(string schema,string name) throws FXError
+    {
+        this.connect();
+        var sql = """SELECT 
+                        `COLUMN_NAME`,
+                        `IS_NULLABLE`,
+                        `DATA_TYPE`,
+                        `COLUMN_DEFAULT`
+                    FROM 
+                        information_schema.COLUMNS 
+                    WHERE
+                        `TABLE_SCHEMA`='%s' 
+                    AND 
+                        `TABLE_NAME`='%s'""";
+        sql = sql.printf(schema,name);
+        if( this.database.query(sql) != 0 )
+        {
+            throw new FXError.ERROR(this.database.error());
+        }
+
+        string[] rows;
+        var rs = this.database.use_result();
+        var list = new Gee.ArrayList<TableColumnMeta>();
+        while((rows =  rs.fetch_row()) != null)
+        {
+            
+            var meta = new TableColumnMeta();
+            meta.name = rows[0];
+            meta.isNull = rows[1]=="YES";
+            meta.originType = rows[2];
+
+            list.add(meta);
+        }
+
+        return list;
+    }
+
     public override void shutdown()
     {
         //

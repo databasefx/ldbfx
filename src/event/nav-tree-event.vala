@@ -172,6 +172,16 @@ public class NavTreeEvent : Gtk.Menu
         //
         this.treeModel.get_value(iter,NavTreeCol.UUID, out val);
         var uuid = val.get_string();
+        
+        var pathStr = this.treeModel.get_string_from_iter(iter);
+        var treePath = new TreePath.from_string(pathStr);
+        var isExpand = this.navTree.is_row_expanded(treePath);
+
+        if(isExpand)
+        {
+            collExpand(iter,true);
+            return false;
+        }
 
         if(row == NTRow.ROOT)
         {
@@ -186,6 +196,11 @@ public class NavTreeEvent : Gtk.Menu
         if(row == NTRow.TABLE || row == NTRow.VIEW)
         {
             this.loadTable(row == NTRow.VIEW, iter , status , uuid );
+        }
+
+        if(row == NTRow.TABLE_FOLDER || row == NTRow.VIEW_FOLDER)
+        {
+            this.collExpand(iter,false);
         }
 
         return false;

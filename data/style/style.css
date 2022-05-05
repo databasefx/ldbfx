@@ -61,7 +61,8 @@ list row:selected {
 }
 
 .high-light {
-  background-color: #3b4954;
+  /* background-color: #3b4954; */
+  background-color: #2b2b2b;
 }
 
 .high-light *,
@@ -72,7 +73,6 @@ scrolledwindow .left,
 scrolledwindow .right,
 scrolledwindow .bottom {
   background-color: transparent;
-
 }
 
 .nav-tool-bar {
@@ -101,4 +101,9 @@ scrolledwindow .bottom {
 
 .padding-box {
   padding: 5px;
+}
+
+treeview.view header button {
+  background-color: #3b3b3b;
+  border-color: #2b2b2b;
 }

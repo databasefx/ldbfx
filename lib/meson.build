@@ -8,8 +8,10 @@ libdbfx_sources = [
   'config/db-feature.vala',
   'config/error-domain.vala',
   'model/database-info.vala',
+  'model/table-column.vala',
   'model/database-schema.vala',
   'impl/mysql-connection.vala',
+  'config/table-column-type.vala'
 ]
 
 libdbfx_c_args = [

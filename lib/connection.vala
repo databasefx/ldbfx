@@ -65,6 +65,13 @@ public abstract class SqlConnection
 
     /**
      *
+     * 获取某张表列信息
+     *
+     **/
+    public abstract Gee.List<TableColumnMeta> tableColumns(string schema,string name) throws FXError;
+
+    /**
+     *
      * 关闭当前连接(放回连接池中)
      *
      */
