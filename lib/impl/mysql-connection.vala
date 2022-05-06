@@ -106,7 +106,7 @@ public class MysqlConnection : SqlConnection
     {
         this.connect();
         var sql = "SELECT `TABLE_NAME`,`TABLE_TYPE` FROM information_schema.TABLES WHERE `TABLE_SCHEMA`='%s' %s"
-            .printf(schema,view?"AND `TABLE_TYPE`='SYSTEM VIEW' OR `TABLE_TYPE`='VIEW'":"AND `TABLE_TYPE`='BASE TABLE'");
+            .printf(schema,view?"AND `TABLE_TYPE`='VIEW'":"AND `TABLE_TYPE`='BASE TABLE'");
         if( this.database.query(sql) != 0 )
         {
             throw new FXError.ERROR(this.database.error());

@@ -369,11 +369,12 @@
                   <object class="GtkScrolledWindow">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="kinetic-scrolling">False</property>
                     <child>
                       <object class="GtkViewport">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="hscroll-policy">natural</property>
+                        <property name="vscroll-policy">natural</property>
                         <property name="shadow-type">none</property>
                         <child>
                           <object class="GtkTreeView" id="navTree">
@@ -385,6 +386,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="iconCol">
+                                <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">icon</property>
                                 <child>
                                   <object class="GtkCellRendererPixbuf"/>
@@ -396,7 +398,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="nameCol">
-                                <property name="sizing">autosize</property>
+                                <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">name</property>
                                 <child>
                                   <object class="GtkCellRendererText"/>
