@@ -10,20 +10,14 @@ public class DatabaseInfo : Object {
      * 数据库名称
      *
      */
-    public string name{
-        set;
-        get;
-    }
+    public string name;
 
     /**
      *
      * 数据库版本
      *
      */
-    public string version{
-        set;
-        get;
-    }
+    public string version;
 
     public DatabaseInfo ()
     {

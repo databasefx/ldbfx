@@ -31,90 +31,62 @@ public class DataSource
      * 数据库服务器主机
      *
      */
-    public string host{
-        set;
-        get;
-    }
+    public string host;
 
     /**
      *
      * 数据库服务器端口
      *
      */
-    public int port{
-        set;
-        get;
-    }
+    public int port;
 
     /**
      *
      * 连接池初始化尺寸
      *
      */
-    public int initSize{
-        set;
-        get;
-    }
-
+    public int initSize;
     /**
      *
      * 连接池最大尺寸
      *
      */
-    public int maxSize{
-        set;
-        get;
-    }
+    public int maxSize;
 
     /**
      *
      * 获取连接最大等待时间(秒)
      *
      */
-    public int maxWait{
-        set;
-        get;
-    }
+    public int maxWait;
 
     /**
      *
      * 认证用户名
      *
      */
-    public string user{
-        set;
-        get;
-    }
+    public string user;
 
     /**
      *
      * 认证密码
      *
      */
-    public string password{
-        set;
-        get;
-    }
+    public string password;
 
     /**
      *
      * 认证方式
      *
      */
-    public AuthModel authModel{
-        set;
-        get;
-    }
+    public AuthModel authModel;
 
     /**
      *
      * 当前数据库类型
      *
      */
-    public DatabaseType dbType{
-        set;
-        get;
-    }
+    public DatabaseType dbType;
 
     public DataSource(DatabaseType type){
         this.dbType = type;

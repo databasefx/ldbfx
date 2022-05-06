@@ -5,28 +5,18 @@ public class TableColumnMeta
      * 列名
      *    
      **/
-    public string name{
-        set;
-        get;
-    }
-
+    public string name;
     /*
      *
      * 是否可为空
      *
      **/
-    public bool isNull{
-        set;
-        get;
-    }
+    public bool isNull;
 
     /**
      *
      * 原始类型
      *
      **/
-    public string originType{
-        set;
-        get;
-    }
+    public string originType;
 }

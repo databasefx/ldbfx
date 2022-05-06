@@ -12,20 +12,13 @@ public class DatabaseSchema
      * Scheme名称
      *
      * */
-    public string name{
-        set;
-        get;
-    }
-
+    public string name;
     /**
      *
      * 字符集
      *
      * */
-    public string charset{
-        set;
-        get;
-    }
+    public string charset;
 
     /**
      *
