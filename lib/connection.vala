@@ -72,6 +72,20 @@ public abstract class SqlConnection
 
     /**
      *
+     * 分页查询数据
+     *
+     **/
+    public abstract Gee.List<string> pageQuery(string schema,string table,int page,int size) throws FXError;
+
+    /**
+     *
+     * 统计某张表数据条数
+     *
+     */
+    public abstract int64 count(string schema,string table) throws FXError;
+
+    /**
+     *
      * 关闭当前连接(放回连接池中)
      *
      */

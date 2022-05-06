@@ -105,9 +105,18 @@ public class MysqlConnection : SqlConnection
     public override Gee.List<TableInfo> tables(string schema,bool view) throws FXError
     {
         this.connect();
-        var sql = "SELECT `TABLE_NAME`,`TABLE_TYPE` FROM information_schema.TABLES WHERE `TABLE_SCHEMA`='%s' %s"
-            .printf(schema,view?"AND `TABLE_TYPE`='VIEW'":"AND `TABLE_TYPE`='BASE TABLE'");
-        if( this.database.query(sql) != 0 )
+        this.database.select_db("information_schema");
+        string sql;
+        if(view)
+        {
+            sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_SCHEMA = '%s' ORDER BY `TABLE_NAME` ASC";
+        }
+        else
+        {
+            sql = "SELECT `TABLE_NAME` FROM information_schema.TABLES WHERE `TABLE_SCHEMA`='%s' ORDER BY `TABLE_NAME` ASC";
+        }
+    
+        if( this.database.query(sql.printf(schema)) != 0 )
         {
             throw new FXError.ERROR(this.database.error());
         }
@@ -119,7 +128,7 @@ public class MysqlConnection : SqlConnection
         {
             var table = new TableInfo();
             table.name = rows[0];
-            table.tableType = rows[1] == "BASE TABLE"? TableType.BASE_TABLE : TableType.VIEW ;
+            table.tableType = view? TableType.VIEW : TableType.BASE_TABLE;
 
             list.add(table);
         }
@@ -163,6 +172,47 @@ public class MysqlConnection : SqlConnection
         }
 
         return list;
+    }
+
+
+    /**
+     *
+     * 分页查询数据
+     *
+     **/
+    public override Gee.List<string> pageQuery(string schema,string table,int page,int size) throws FXError
+    {
+        this.connect();
+
+        var offset = (page - 1) * size;
+        var sql = @"SELECT * FROM $schema.$table LIMIT  $offset,$page";
+
+        if(this.database.query(sql) != 0)
+        {
+            throw new FXError.ERROR(this.database.error());
+        }
+
+        string[] rows;
+        var rs = this.database.use_result();
+        var list = new Gee.ArrayList<string>();
+        while((rows=rs.fetch_row()) != null)
+        {
+            foreach (var item in rows)
+            {
+                list.add(item);
+            }    
+        }
+        return list;
+    }
+
+    /**
+     *
+     * 统计某张表数据条数
+     *
+     */
+    public override int64 count(string schema,string table) throws FXError
+    {
+        return 0l;
     }
 
     public override void shutdown()
