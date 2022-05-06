@@ -176,31 +176,29 @@ public class NavTreeEvent : Gtk.Menu
         var pathStr = this.treeModel.get_string_from_iter(iter);
         var treePath = new TreePath.from_string(pathStr);
         var isExpand = this.navTree.is_row_expanded(treePath);
-
-        if(isExpand)
+        var beforeEnd = false;
+        if(status == NavTRowStatus.ACTIVED || (beforeEnd = (status == NavTRowStatus.ACTIVING)))
         {
-            collExpand(iter,true);
+            if(!beforeEnd)
+            {
+                collExpand(iter,isExpand);
+            }
             return false;
         }
 
         if(row == NTRow.ROOT)
         {
-            this.fetchSchema(iter,status,uuid);
+            this.fetchSchema(iter,uuid);
         }
 
         if(row == NTRow.SCHEMA)
         {
-            this.fetchTable(iter,status,uuid);
+            this.fetchTable(iter,uuid);
         }
 
         if(row == NTRow.TABLE || row == NTRow.VIEW)
         {
-            this.loadTable(row == NTRow.VIEW, iter , status , uuid );
-        }
-
-        if(row == NTRow.TABLE_FOLDER || row == NTRow.VIEW_FOLDER)
-        {
-            this.collExpand(iter,false);
+            this.loadTable(row == NTRow.VIEW, iter, uuid );
         }
 
         return false;
@@ -230,16 +228,21 @@ public class NavTreeEvent : Gtk.Menu
         return false;
     }
 
-    public async void loadTable(bool view,TreeIter iter,NavTRowStatus status,string uuid)
+    /**
+     *
+     *
+     * 将表信息加载到可视化界面中
+     *
+     */
+    public async void loadTable(bool view,TreeIter iter,string uuid)
     {
         var str = this.treeModel.get_string_from_iter(iter);
         var path = @"$uuid:$str";
-        if( Application.ctx.tabExist(path,true) != -1 || status != NavTRowStatus.INACTIVE )
+        if( Application.ctx.tabExist(path,true) != -1)
         {
             return;
         }
         var pathVal = this.getPathValue(iter);
-        this.updateNTStatus(iter,NavTRowStatus.ACTIVED);
         Application.ctx.addTab(new NotebookTable(path,pathVal,view),true);
     }
 
@@ -249,13 +252,8 @@ public class NavTreeEvent : Gtk.Menu
      * 获取schema下的表
      *
      **/
-    private async void fetchTable(TreeIter iter,NavTRowStatus status,string uuid)
+    private async void fetchTable(TreeIter iter,string uuid)
     {
-        if(status!=NavTRowStatus.INACTIVE)
-        {
-            return;
-        }
-
         this.updateNTStatus(iter,NavTRowStatus.ACTIVING);
 
         Value val = new Value(typeof(string));
@@ -317,6 +315,10 @@ public class NavTreeEvent : Gtk.Menu
             NavTreeCol.NT_ROW,view ? NTRow.VIEW_FOLDER : NTRow.TABLE_FOLDER,
             -1
         );
+        
+        //设置为激活状态
+        this.updateNTStatus(iter,NavTRowStatus.ACTIVED);
+        
         TreeIter child;
         foreach(var table in list)
         {
@@ -339,13 +341,8 @@ public class NavTreeEvent : Gtk.Menu
      * 获取Schema列表
      *
      */
-    private async void fetchSchema(TreeIter iter,NavTRowStatus status,string uuid)
+    private async void fetchSchema(TreeIter iter,string uuid)
     {
-        if(status != NavTRowStatus.INACTIVE)
-        {
-            return;
-        }
-
         //更新为激活中状态
         this.updateNTStatus(iter,NavTRowStatus.ACTIVING);
 
@@ -448,6 +445,11 @@ public class NavTreeEvent : Gtk.Menu
         var val = new Value(typeof(int));
         val.set_int(status);
         this.treeStore().set_value(iter,NavTreeCol.STATUS,val);
+        //非激活状态=>清空子节点
+        if (status == NavTRowStatus.INACTIVE)
+        {
+            this.clear(iter);
+        }
     }
 
     /**
