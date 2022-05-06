@@ -185,8 +185,8 @@ public class MysqlConnection : SqlConnection
         this.connect();
 
         var offset = (page - 1) * size;
-        var sql = @"SELECT * FROM $schema.$table LIMIT  $offset,$page";
-
+        var sql = @"SELECT * FROM $schema.$table LIMIT  $offset,$size";
+        
         if(this.database.query(sql) != 0)
         {
             throw new FXError.ERROR(this.database.error());
@@ -199,7 +199,8 @@ public class MysqlConnection : SqlConnection
         {
             foreach (var item in rows)
             {
-                list.add(item);
+
+                list.add(item == null ? NULL_SYMBOL : item);
             }    
         }
         return list;

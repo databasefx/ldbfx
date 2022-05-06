@@ -27,7 +27,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkScrolledWindow">
+      <object class="GtkScrolledWindow" id="scrolledWindow">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <child>
@@ -39,14 +39,10 @@
               <object class="GtkTreeView" id="tableView">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="model">listStore</property>
                 <property name="reorderable">True</property>
                 <property name="rubber-banding">True</property>
                 <property name="enable-grid-lines">both</property>
                 <property name="enable-tree-lines">True</property>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
-                </child>
               </object>
             </child>
           </object>
@@ -62,5 +58,4 @@
       <class name="high-light"/>
     </style>
   </template>
-  <object class="GtkListStore" id="listStore"/>
 </interface>

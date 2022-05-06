@@ -1,4 +1,11 @@
 /**
+*
+*
+* 空值字符串
+*
+**/
+public const string NULL_SYMBOL = "\\+//NULL\\*//";
+/**
  *
  *
  * 数据库连接封装

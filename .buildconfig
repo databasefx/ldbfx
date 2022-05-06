@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+toolchain=default
+config-opts=
+run-opts=
+prefix=/home/yangkui/.cache/gnome-builder/install/v-dbfx/host
+app-id=
+postbuild=
+prebuild=
