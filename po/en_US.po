@@ -54,3 +54,6 @@ msgstr "views"
 
 msgid "tables"
 msgstr "tables"
+
+msgid "slogan"
+msgstr "v-dbfx A professional visual database management tool."

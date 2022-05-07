@@ -3,7 +3,7 @@ using Gtk;
 [GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.ui")]
 public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
-    private unowned Gtk.Box navToolbar;
+    private unowned Gtk.Toolbar navToolbar;
     [GtkChild]
     private unowned Gtk.TreeView navTree;
     [GtkChild]
@@ -11,10 +11,9 @@ public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
     private unowned Gtk.TreeViewColumn nameCol;
     [GtkChild]
-    public unowned Gtk.Notebook notebook
-    {
-        get;
-    }
+    public unowned Gtk.Notebook notebook;
+    [GtkChild]
+    private unowned Gtk.Stack stack;
 
     private Gtk.TreeStore treeModel;
 
@@ -75,5 +74,12 @@ public class MainController : Gtk.ApplicationWindow {
 
         this.navTree.model = this.treeModel;
         this.navTree.show_all();
+    }
+
+    [GtkCallback]
+    public void noteChildChange(Gtk.Widget child,uint page)
+    {
+        var size = this.notebook.get_n_pages();
+        this.stack.set_visible_child_name(size > 0 ? "page1" : "page0");
     }
 }

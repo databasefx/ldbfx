@@ -55,3 +55,6 @@ msgstr "视图"
 
 msgid "tables"
 msgstr "表"
+
+msgid "slogan"
+msgstr "v-dbfx 一款专业数据库可视化管理工具."
