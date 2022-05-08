@@ -29,7 +29,7 @@ libgee = dependency('gee-0.8')
 libxml = dependency('libxml-2.0')
 mysql =  dependency('flatpak_mysql')
 libjson = dependency('json-glib-1.0')
-gtk = dependency('gtk+-3.0', version: '>= 3.24.33')
+gtk = dependency('gtk4', version: '>= 4.6.3')
 gio = dependency('gio-2.0', version: '>=' + min_glib_version)
 glib = dependency('glib-2.0', version: '>=' + min_glib_version)
 

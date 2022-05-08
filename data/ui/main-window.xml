@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="MainController" parent="GtkApplicationWindow">
+        <property name="title">v-dbfx</property>
+        <property name="show_menubar">True</property>
+        <property name="default_width">1300</property>
+        <property name="default_height">900</property>
+        <property name="icon_name">cn.navclub.dbfx</property>
+        <child>
+            <object class="GtkPaned">
+                <property name="shrink_start_child">True</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                            <object class="GtkBox">
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon_name">dbfx-copy</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon_name">dbfx-refresh</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">dbfx-prop</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">dbfx-stop</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">dbfx-table</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">dbfx-ddl</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkButton">
+                                        <property name="icon-name">dbfx-sql</property>
+                                    </object>
+                                </child>
+                                <style>
+                                    <class name="main-tool-bar"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkTreeView" id="navTree">
+                                <property name="hexpand">True</property>
+                                <property name="headers_visible">False</property>
+                                <child>
+                                    <object class="GtkTreeViewColumn" id="iconCol">
+                                        <property name="sizing">fixed</property>
+                                        <property name="title" translatable="yes">icon</property>
+                                        <child>
+                                            <object class="GtkCellRendererPixbuf"/>
+                                            <attributes>
+                                                <attribute name="pixbuf">0</attribute>
+                                            </attributes>
+                                        </child>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkTreeViewColumn" id="nameCol">
+                                        <property name="sizing">fixed</property>
+                                        <property name="title" translatable="yes">name</property>
+                                        <child>
+                                            <object class="GtkCellRendererText"/>
+                                            <attributes>
+                                                <attribute name="text">1</attribute>
+                                            </attributes>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkStack" id="stack">
+                        <child>
+                            <object class="GtkBox">
+                                <property name="name">page0</property>
+                                <property name="valign">center</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                    <object class="GtkImage">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="pixel-size">200</property>
+                                        <property name="icon-name">v-dbfx</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">slogan</property>
+                                        <style>
+                                            <class name="slogan"/>
+                                        </style>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkNotebook" id="notebook">
+                                <property name="name">page1</property>
+                                <signal name="page_added" handler="noteChildChange" swapped="no"/>
+                                <signal name="page_removed" handler="noteChildChange" swapped="no"/>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

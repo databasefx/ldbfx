@@ -1,7 +1,7 @@
 {
     "app-id" : "cn.navclub.dbfx",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "40",
+    "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
     "command" : "v-dbfx",
     "finish-args" : [

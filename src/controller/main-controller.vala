@@ -1,9 +1,7 @@
 using Gtk;
 
-[GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.ui")]
+[GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.xml")]
 public class MainController : Gtk.ApplicationWindow {
-    [GtkChild]
-    private unowned Gtk.Toolbar navToolbar;
     [GtkChild]
     private unowned Gtk.TreeView navTree;
     [GtkChild]
@@ -17,7 +15,7 @@ public class MainController : Gtk.ApplicationWindow {
 
     private Gtk.TreeStore treeModel;
 
-    private NavTreeEvent treeEvent;
+    //  //  private NavTreeEvent treeEvent;
 
 
 	public MainController (Gtk.Application app) {
@@ -28,7 +26,7 @@ public class MainController : Gtk.ApplicationWindow {
     public void initNavTree()
     {
         //注册自定义弹出菜单
-        this.treeEvent = new NavTreeEvent.register(this.navTree,this);
+        //  this.treeEvent = new NavTreeEvent.register(this.navTree,this);
 
         this.treeModel = new Gtk.TreeStore
         (
@@ -45,7 +43,6 @@ public class MainController : Gtk.ApplicationWindow {
         var node = AppConfig.fetchDataSource();
         var array = node.get_array();
         var elements = array.get_elements();
-        var iconTheme = IconTheme.get_default();
         foreach(var item in elements){
             var obj = item.get_object();
             var type = (DatabaseType)obj.get_int_member(Constant.TYPE);
@@ -59,12 +56,12 @@ public class MainController : Gtk.ApplicationWindow {
             var iter = new TreeIter();
             this.treeModel.append(out iter,null);
 
-            var pixbuf = iconTheme.load_icon(feature.icon,22,0);
+            //  var pixbuf = iconTheme.load_icon(feature.icon,22,0);
 
             this.treeModel.set
             (
                 iter                                ,
-                NavTreeCol.ICON     ,   pixbuf      ,
+                NavTreeCol.ICON     ,   null        ,
                 NavTreeCol.NAME     ,   name        ,
                 NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
                 NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
@@ -73,7 +70,6 @@ public class MainController : Gtk.ApplicationWindow {
         }
 
         this.navTree.model = this.treeModel;
-        this.navTree.show_all();
     }
 
     [GtkCallback]

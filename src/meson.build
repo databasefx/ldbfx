@@ -3,14 +3,14 @@ vala_compiler = meson.get_compiler('vala')
 dbfx_vala_sources = [
   resources,
   'main.vala',
-  'tab-service.vala',
+  # 'tab-service.vala',
   'util/ui-util.vala',
   'util/json-util.vala',
   'config/nav-tree.vala',
   'config/app-config.vala',
-  'widget/notebook-tab.vala',
-  'widget/notebook-table.vala',
-  'event/nav-tree-event.vala',
+  # 'widget/notebook-tab.vala',
+  # 'widget/notebook-table.vala',
+  # 'event/nav-tree-event.vala',
   'dialog/connect-dialog.vala',
   'controller/main-controller.vala'
 ]

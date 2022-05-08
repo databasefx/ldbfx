@@ -92,14 +92,14 @@ public class NotebookTable : Box, TabService
 
         this.diffCol(columns);
 
+
         this.listStore.clear();
 
         var index = 0;
         var colNum = columns.size;
         var rowNum = data.size/colNum;
-
+    
         TreeIter iter;
-        
         var val = new Value(typeof(string));
 
         for (int i = 0; i < rowNum; i++)
@@ -112,8 +112,6 @@ public class NotebookTable : Box, TabService
                 this.listStore.set_value(iter,j-offset,val);
             }
         }
-
-        this.tableView.show_all();
     }
 
     /**

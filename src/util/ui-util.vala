@@ -15,6 +15,23 @@ private const string FORM_VALID_FAIL = "form-valid-fail";
 public delegate bool FormValidator();
 
 public class UIUtil : Object {
+    
+    private static Gtk.IconTheme iconTheme = null;
+
+    /**
+     *
+     *
+     * 获取主题实例
+     *
+     **/
+    public static unowned Gtk.IconTheme getIconTheme()
+    {
+        if(iconTheme == null)
+        {
+            iconTheme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default());
+        }
+        return iconTheme;
+    }
     /**
      *
      * 显示消息对话框
@@ -31,7 +48,7 @@ public class UIUtil : Object {
             msg
         );
 
-        dialog.show_all();
+        dialog.visible = true;
     }
 
     /**

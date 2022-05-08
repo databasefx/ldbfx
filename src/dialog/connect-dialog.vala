@@ -1,5 +1,5 @@
 
-[GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.ui" )]
+[GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
     [GtkChild]
     private unowned Gtk.Entry name;
@@ -54,16 +54,15 @@ public class ConnectDialog : Gtk.Dialog {
         foreach(var feature in features){
 
             var label = new Gtk.Label(feature.name);
-            var icon = new Gtk.Image.from_icon_name(feature.icon,Gtk.IconSize.DND);
+            var icon = new Gtk.Image.from_icon_name(feature.icon);
             var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL,1);
 
-            box.pack_start(icon,false,false);
-            box.pack_start(label);
+            box.append(icon);
+            box.append(label);
 
             this.listBox.insert(box,-1);
         }
 
-        this.listBox.show_all();
     }
 
   /**
@@ -103,7 +102,7 @@ public class ConnectDialog : Gtk.Dialog {
         dataSource.authModel = AuthModel.NONE;
     }
 
-    this.spinner.active = true;
+    this.spinner.start();
 
     string errmsg = null;
 
@@ -132,7 +131,7 @@ public class ConnectDialog : Gtk.Dialog {
         this.describle.label = "%s(%s)".printf(info.name,info.version);
     }
 
-    this.spinner.active = false;
+    this.spinner.stop();
   }
 
   /**

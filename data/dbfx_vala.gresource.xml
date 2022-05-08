@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/cn/navclub/dbfx">
-    <file>ui/main-window.ui</file>
-    <file>ui/nav-tree-menu.ui</file>
-    <file>ui/connect-dialog.ui</file>
-    <file>ui/notebook-table.ui</file>
+    <file>ui/main-window.xml</file>
+    <file>ui/nav-tree-menu.xml</file>
+    <file>ui/connect-dialog.xml</file>
+    <file>ui/notebook-table.xml</file>
     <file>style/style.css</file>
   </gresource>
 </gresources>
