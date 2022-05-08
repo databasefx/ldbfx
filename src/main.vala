@@ -7,6 +7,8 @@ public const string NEW_CONNECT_ACTION_NAME = "new";
 
 public class Application : Gtk.Application
 {
+    private Menu menu;
+    
     private Object mutex;
 
     public static Application ctx;
@@ -32,44 +34,44 @@ public class Application : Gtk.Application
         this.pools = new HashMap<string,SqlConnectionPool>();
     }
 
-    //  public int addTab(TabService service,bool selected)
-    //  {
-    //      var index = -1;
-    //      if( (index = this.tabExist(service.getPath(),selected)) != -1 )
-    //      {
-    //          return index;
-    //      }
-    //      var label = service.tab();
-    //      var content = service as Gtk.Widget;
-    //      var notebook = this.controller.notebook;
-    //      index = notebook.append_page(content,label);
-    //      if( selected )
-    //      {
-    //          notebook.page = index;
-    //      }
-    //      return index;
-    //  }
+    public int addTab(TabService service,bool selected)
+    {
+        var index = -1;
+        if( (index = this.tabExist(service.getPath(),selected)) != -1 )
+        {
+            return index;
+        }
+        var label = service.tab();
+        var content = service as Gtk.Widget;
+        var notebook = this.controller.notebook;
+        index = notebook.append_page(content,label);
+        if( selected )
+        {
+            notebook.page = index;
+        }
+        return index;
+    }
 
-    //  public int tabExist(string path,bool selected)
-    //  {
-    //      var notebook = this.controller.notebook;
-    //      var num = notebook.get_n_pages();
-    //      var index = -1;
-    //      for (int i = 0; i < num; i++)
-    //      {
-    //          var service = notebook.get_nth_page(i) as TabService;
-    //          var str = service.getPath();
-    //          if( str == path )
-    //          {
-    //              index = i;
-    //              break;
-    //          }
-    //      }
-    //      if( index != -1 && selected ){
-    //          notebook.page = index;
-    //      }
-    //      return index;
-    //  }
+    public int tabExist(string path,bool selected)
+    {
+        var notebook = this.controller.notebook;
+        var num = notebook.get_n_pages();
+        var index = -1;
+        for (int i = 0; i < num; i++)
+        {
+            var service = notebook.get_nth_page(i) as TabService;
+            var str = service.getPath();
+            if( str == path )
+            {
+                index = i;
+                break;
+            }
+        }
+        if( index != -1 && selected ){
+            notebook.page = index;
+        }
+        return index;
+    }
 
     /**
      *
@@ -141,12 +143,12 @@ public class Application : Gtk.Application
         //设置窗口默认图标
         Gtk.Window.set_default_icon_name("cn.navclub.dbfx");
 
-        //注册action对应函数句柄
-        add_action_entries(actionEntries, this);
-
         //注册快捷方式
         set_accels_for_action("app." + EXIT_ACTION_NAME,        {  "<Control>e"  });
         set_accels_for_action("app." + NEW_CONNECT_ACTION_NAME, {  "<Control>n"  });
+
+        //注册action对应函数句柄
+        add_action_entries(actionEntries, this);
 
         // 设置应用自定义图标搜索路径
         var iconTheme = UIUtil.getIconTheme();
@@ -164,9 +166,14 @@ public class Application : Gtk.Application
 
         Gtk.Settings.get_default().gtk_application_prefer_dark_theme = true;
 
-        if(this.controller==null){
+        ;
+
+        this.menubar = this.menu = (Menu)UIUtil.loadXmlUI("menubar.xml","menu");
+
+        if(this.controller == null){
             this.controller = new MainController(this);
         }
+
         this.controller.present();
     }
 

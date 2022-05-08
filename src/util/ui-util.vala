@@ -20,6 +20,16 @@ public class UIUtil : Object {
 
     /**
      *
+     * 加载UI视图
+     *
+     **/
+    public static Object? loadXmlUI(string ui,string id)
+    {
+        return new Gtk.Builder.from_resource (@"/cn/navclub/dbfx/ui/$ui").get_object(id);   
+    }
+
+    /**
+     *
      *
      * 获取主题实例
      *

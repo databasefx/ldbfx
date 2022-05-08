@@ -32,7 +32,6 @@ public class NotebookTab : Box
         var icon = new Image.from_pixbuf(pixbuf);
 
         btn = new Button.from_icon_name("dbfx-close");
-        btn.relief = ReliefStyle.NONE;
         
         unowned var notebook = this.tabService.getNotebook();
 
@@ -41,13 +40,11 @@ public class NotebookTab : Box
             notebook.remove_page(this.index);
         });
 
-        this.pack_start(icon,false,false,0);
-        this.pack_start(label,true,true,0);
-        this.pack_start(btn,false,false,0);
+        this.append(icon);
+        this.append(label);
+        this.append(btn);
 
         this.get_style_context().add_class(className);
-
-        this.show_all();
 
         this.setCloseable(closeable);
     }

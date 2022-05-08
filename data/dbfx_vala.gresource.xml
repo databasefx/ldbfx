@@ -5,6 +5,7 @@
     <file>ui/nav-tree-menu.xml</file>
     <file>ui/connect-dialog.xml</file>
     <file>ui/notebook-table.xml</file>
+    <file>ui/menubar.xml</file>
     <file>style/style.css</file>
   </gresource>
 </gresources>
