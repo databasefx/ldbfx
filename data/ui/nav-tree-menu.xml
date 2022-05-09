@@ -3,25 +3,37 @@
   <menu id="menu">
     <section>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Open</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Break off</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Edit</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Delete</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Flush</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">Command line</attribute>
       </item>
       <item>
-        <attribute name="label">Open</attribute>
+        <attribute name="label" translatable="yes">New query</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">DDL</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Create Table</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Rename</attribute>
       </item>
     </section>
   </menu>

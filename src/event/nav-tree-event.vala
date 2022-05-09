@@ -1,6 +1,6 @@
 using Gtk;
 
-public class NavTreeCtx
+public class NTRowMMeta
 {
     /**
      *
@@ -11,51 +11,35 @@ public class NavTreeCtx
         private set;
         get;
     }
-    public NavTreeItem item {
+
+    public string name {
         private set;
         get;
     }
 
-    public NavTreeCtx(NavTRowStatus status,NavTreeItem item)
+    public NTRowMMeta(NavTRowStatus status,string name)
     {
-        this.item = item;
+        this.name = name;
         this.status = status;
     }
 
-    private static NavTreeCtx create(NavTRowStatus status,NavTreeItem item)
+    public static NTRowMMeta create(NavTRowStatus status,string name)
     {
-        return new NavTreeCtx(status,item);
-    }
-
-    private static NavTreeCtx[] rootCtx = null;
-
-
-    public static NavTreeCtx[] getRootCtx()
-    {
-        if(rootCtx == null)
-        {
-            rootCtx =
-            {
-                NavTreeCtx.create(NavTRowStatus.INACTIVE , NavTreeItem.OPEN),
-                NavTreeCtx.create(NavTRowStatus.ACTIVED , NavTreeItem.BREAK_OFF),
-                NavTreeCtx.create(NavTRowStatus.ANY , NavTreeItem.EDIT),
-                NavTreeCtx.create(NavTRowStatus.ANY , NavTreeItem.DELETE)
-            };
-        }
-        return rootCtx;
+        return new NTRowMMeta(status,name);
     }
 
 }
 
-
-/**
- *
- * 导航视图自定义弹出菜单
- *
- *
- **/
 public class NavTreeEvent
 {
+    private static NTRowMMeta[] rootMetas = 
+    {
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Open")),
+        NTRowMMeta.create(NavTRowStatus.ACTIVED , _("Break off")),
+        NTRowMMeta.create(NavTRowStatus.ANY , _("Edit")),
+        NTRowMMeta.create(NavTRowStatus.ANY , _("Delete"))
+    };
+
     private Menu menu;
     private GestureClick rGesture;
     private PopoverMenu popoverMenu;
@@ -75,8 +59,7 @@ public class NavTreeEvent
         this.rGesture.set_button(Gdk.BUTTON_SECONDARY);
         this.rGesture.pressed.connect(this.rightPreEvent);
 
-        this.menu = (Menu)UIUtil.loadXmlUI("nav-tree-menu.xml","menu");
-        this.popoverMenu = new Gtk.PopoverMenu.from_model(this.menu);
+        this.popoverMenu = new PopoverMenu.from_model(null);
         this.popoverMenu.set_autohide(true);
         this.popoverMenu.set_parent(this.navTree);
     }
@@ -84,11 +67,46 @@ public class NavTreeEvent
     private void rightPreEvent(int num,double x,double y)
     {
         var iter = this.getSelectIter();
-        if(iter != null)
+        Menu menu = null;
+        if(iter != null && (menu =  this.getRowMenuItem(iter)) != null)
         {
+            this.popoverMenu.menu_model = menu;
             this.popoverMenu.popup();
         }
         this.rGesture.set_state(EventSequenceState.CLAIMED);
+    }
+
+    private Menu? getRowMenuItem(TreeIter iter){
+        
+        Value val;
+        
+        this.treeModel.get_value(iter,NavTreeCol.NT_ROW,out val);
+        
+        var row = (NTRow)val.get_int();
+        NTRowMMeta[] arr = null;
+        
+        if(row == NTRow.ROOT)
+        {
+            arr = rootMetas;
+        }
+        
+        Menu menu = null;
+       
+        if(arr != null && arr.length > 0)
+        {
+            menu = new Menu();
+            this.treeModel.get_value(iter,NavTreeCol.STATUS,out val);
+            var status = (NavTRowStatus)val.get_int();
+            foreach(var meta in arr)
+            {
+                if(meta.status == NavTRowStatus.ANY || status == meta.status)
+                {
+                    menu.append(meta.name,"app.exit");
+                }
+            }
+        }
+
+        return menu;
     }
 
     //  private void btnPreEvent(int num,double x,double y)
