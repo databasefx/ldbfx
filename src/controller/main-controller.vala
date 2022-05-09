@@ -3,19 +3,20 @@ using Gtk;
 [GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.xml")]
 public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
-    private unowned Gtk.TreeView navTree;
+    private unowned Stack stack;
     [GtkChild]
-    private unowned Gtk.TreeViewColumn iconCol;
+    public unowned Notebook notebook;
     [GtkChild]
-    private unowned Gtk.TreeViewColumn nameCol;
+    private unowned TreeView navTree;
     [GtkChild]
-    public unowned Gtk.Notebook notebook;
+    private unowned TreeViewColumn iconCol;
     [GtkChild]
-    private unowned Gtk.Stack stack;
+    private unowned TreeViewColumn nameCol;
 
     private Gtk.TreeStore treeModel;
-
-    //  //  private NavTreeEvent treeEvent;
+    
+    //保存引用,防止对象被回收
+    private NavTreeEvent navTreeEvent;
 
 
 	public MainController (Gtk.Application app) {
@@ -25,9 +26,6 @@ public class MainController : Gtk.ApplicationWindow {
 
     public void initNavTree()
     {
-        //注册自定义弹出菜单
-        new NavTreeEvent.register(this.navTree,this);
-
         this.treeModel = new Gtk.TreeStore
         (
             NavTreeCol.COL_NUM,
@@ -69,6 +67,8 @@ public class MainController : Gtk.ApplicationWindow {
         }
 
         this.navTree.model = this.treeModel;
+        //注册自定义弹出菜单
+        this.navTreeEvent = new NavTreeEvent.register(this.navTree,this);
     }
 
     [GtkCallback]

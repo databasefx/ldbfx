@@ -69,6 +69,8 @@
         }
     ],
     "build-options" : {
-        "env" : {        }
+        "env" : {
+            "GDK_GL" : "gles"
+        }
     }
 }

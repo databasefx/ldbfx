@@ -56,43 +56,49 @@ public class NavTreeCtx
  **/
 public class NavTreeEvent
 {
-    //  private Gdk.Pixbuf viewIcon;
-    //  private Gdk.Pixbuf tableIcon;
-    //  private Gdk.Pixbuf folderIcon;
-    //  private Gdk.Pixbuf schemaIcon;
-    
-    private GLib.Menu menu;
-    private Gtk.PopoverMenu popoverMenu;
-    
+    private Menu menu;
+    private GestureClick rGesture;
+    private PopoverMenu popoverMenu;
+
     private unowned TreeView navTree;
-    private unowned Gtk.TreeModel treeModel;
-    private unowned MainController controller;
+    private unowned TreeModel treeModel;
+    private weak MainController controller;
 
     public NavTreeEvent.register(TreeView navTree,MainController controller)
     {
         this.navTree = navTree;
         this.controller = controller;
         this.treeModel = navTree.get_model();
-        var gester = new GestureClick();
-        this.navTree.add_controller(gester);
-        gester.released.connect(this.btnPreEvent);
+
+        this.rGesture = new GestureClick();
+        this.navTree.add_controller(rGesture);
+        this.rGesture.set_button(Gdk.BUTTON_SECONDARY);
+        this.rGesture.pressed.connect(this.rightPreEvent);
 
         this.menu = (Menu)UIUtil.loadXmlUI("nav-tree-menu.xml","menu");
         this.popoverMenu = new Gtk.PopoverMenu.from_model(this.menu);
-
-        //  //缓存常用图标
-        //  this.viewIcon = IconTheme.get_default().load_icon("dbfx-view",25,0);
-        //  this.tableIcon = IconTheme.get_default().load_icon("dbfx-table",18,0);
-        //  this.folderIcon = IconTheme.get_default().load_icon("dbfx-folder",15,0);
-        //  this.schemaIcon = IconTheme.get_default().load_icon("dbfx-schema",16,0);
+        this.popoverMenu.set_autohide(true);
+        this.popoverMenu.set_parent(this.navTree);
     }
 
-    private void btnPreEvent(int num,double x,double y)
+    private void rightPreEvent(int num,double x,double y)
     {
-        //  var type = event.type;
         var iter = this.getSelectIter();
-        if( iter != null )
+        if(iter != null)
         {
+            this.popoverMenu.popup();
+        }
+        this.rGesture.set_state(EventSequenceState.CLAIMED);
+    }
+
+    //  private void btnPreEvent(int num,double x,double y)
+    //  {
+    //      this.rGesture.set_state(EventSequenceState.CLAIMED);
+        //  stdout.printf("button=%u\n",this.gester.get_button());
+        //  var type = event.type;
+        //  var iter = this.getSelectIter();
+        //  if( iter != null )
+        //  {
             //  //右键按下=>弹出菜单
             //  if(button == 3)
             //  {
@@ -103,8 +109,8 @@ public class NavTreeEvent
             //  {
             //      //  this.open(null,null);
             //  }
-        }
-    }
+    //      }
+    //  }
 
     //  private void showMenu(TreeIter iter)
     //  {
