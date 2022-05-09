@@ -26,7 +26,7 @@ public class MainController : Gtk.ApplicationWindow {
     public void initNavTree()
     {
         //注册自定义弹出菜单
-        //  this.treeEvent = new NavTreeEvent.register(this.navTree,this);
+        new NavTreeEvent.register(this.navTree,this);
 
         this.treeModel = new Gtk.TreeStore
         (
@@ -56,7 +56,6 @@ public class MainController : Gtk.ApplicationWindow {
             var iter = new TreeIter();
             this.treeModel.append(out iter,null);
 
-            //  var pixbuf = iconTheme.load_icon(feature.icon,22,0);
 
             this.treeModel.set
             (
