@@ -31,7 +31,7 @@ public class MainController : Gtk.ApplicationWindow {
         this.treeModel = new Gtk.TreeStore
         (
             NavTreeCol.COL_NUM,
-            Type.OBJECT,
+            Type.STRING,
             Type.STRING,
             Type.INT,
             Type.INT,
@@ -61,7 +61,7 @@ public class MainController : Gtk.ApplicationWindow {
             this.treeModel.set
             (
                 iter                                ,
-                NavTreeCol.ICON     ,   null        ,
+                NavTreeCol.ICON     ,   feature.icon,
                 NavTreeCol.NAME     ,   name        ,
                 NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
                 NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
