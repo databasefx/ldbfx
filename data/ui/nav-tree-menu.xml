@@ -4,6 +4,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Open</attribute>
+        <attribute name="action">nav_open</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Break off</attribute>

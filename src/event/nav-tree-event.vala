@@ -36,10 +36,10 @@ public class NTRowMMeta
 
 }
 
-public const string NAV_OPEN = "nav-open";
-public const string NAV_EDIT = "nav-edit";
-public const string NAV_DEL = "nav-delete";
-public const string NAV_BREAK_OFF = "nav-breakoff";
+public const string NAV_OPEN = "nav.open";
+public const string NAV_EDIT = "nav.edit";
+public const string NAV_DEL = "nav.delete";
+public const string NAV_BREAK_OFF = "nav.breakoff";
 
 
 public class NavTreeEvent
@@ -54,10 +54,10 @@ public class NavTreeEvent
 
     private const GLib.ActionEntry[] actionEntries =
     {
-        { NAV_OPEN,      open}
+        { NAV_OPEN,      open},
+        { NAV_BREAK_OFF, breakOff}
     };
 
-    private Menu menu;
     private GestureClick rGesture;
     private PopoverMenu popoverMenu;
 
@@ -82,8 +82,9 @@ public class NavTreeEvent
         this.popoverMenu = new PopoverMenu.from_model(null);
         this.popoverMenu.set_autohide(true);
         this.popoverMenu.set_parent(this.navTree);
+        this.popoverMenu.set_position(PositionType.RIGHT);
 
-        Application.ctx.add_action_entries(actionEntries,null);
+        Application.ctx.add_action_entries(actionEntries,this);
     }
 
     private void rightPreEvent(int num,double x,double y)
@@ -123,11 +124,10 @@ public class NavTreeEvent
             {
                 if(meta.status == NavTRowStatus.ANY || status == meta.status)
                 {
-                    menu.append(meta.name,meta.action);
+                    menu.append(meta.name,"app."+meta.action);
                 }
             }
         }
-
         return menu;
     }
 
@@ -137,9 +137,8 @@ public class NavTreeEvent
      * 响应打开Open事件
      *
      **/
-    public void open()
+    private void open()
     {
-        stdout.printf("测试\n");
         var iter = this.getSelectIter();
         if(iter == null)
         {

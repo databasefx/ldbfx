@@ -143,12 +143,12 @@ public class Application : Gtk.Application
         //设置窗口默认图标
         Gtk.Window.set_default_icon_name("cn.navclub.dbfx");
 
-        //注册快捷方式
-        set_accels_for_action("app." + EXIT_ACTION_NAME,        {  "<Control>e"  });
-        set_accels_for_action("app." + NEW_CONNECT_ACTION_NAME, {  "<Control>n"  });
+        //  //注册快捷方式
+        //  set_accels_for_action("app." + EXIT_ACTION_NAME,        {  "<Control>e"  });
+        //  set_accels_for_action("app." + NEW_CONNECT_ACTION_NAME, {  "<Control>n"  });
 
-        //注册action对应函数句柄
-        add_action_entries(actionEntries, this);
+        //  //注册action对应函数句柄
+        //  add_action_entries(actionEntries, this);
 
         // 设置应用自定义图标搜索路径
         var iconTheme = UIUtil.getIconTheme();
