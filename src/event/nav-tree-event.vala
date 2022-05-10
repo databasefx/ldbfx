@@ -59,6 +59,7 @@ public class NavTreeEvent
     };
 
     private GestureClick rGesture;
+    private GestureClick lGesture;
     private PopoverMenu popoverMenu;
 
     private unowned TreeView navTree;
@@ -74,19 +75,43 @@ public class NavTreeEvent
         this.treeModel = navTree.get_model();
 
         this.rGesture = new GestureClick();
-        this.navTree.add_controller(rGesture);
-        this.rGesture.set_button(Gdk.BUTTON_SECONDARY);
-        this.rGesture.pressed.connect(this.rightPreEvent);
+        this.lGesture = new GestureClick();
         
+        this.navTree.add_controller(rGesture);
+        this.navTree.add_controller(lGesture);
+
+        this.lGesture.set_button(Gdk.BUTTON_PRIMARY);
+        this.rGesture.set_button(Gdk.BUTTON_SECONDARY);
+        
+        this.rGesture.pressed.connect(this.rightPreEvent);
+        this.lGesture.pressed.connect(this.leftPreEvent);
 
         this.popoverMenu = new PopoverMenu.from_model(null);
         this.popoverMenu.set_autohide(true);
         this.popoverMenu.set_parent(this.navTree);
-        this.popoverMenu.set_position(PositionType.RIGHT);
 
         Application.ctx.add_action_entries(actionEntries,this);
     }
+    /**
+     *
+     *
+     * 左键按下
+     *
+     */
+    private void leftPreEvent(int num,double x,double y)
+    {
+        if( num > 1){
+            this.open();
+        }
+        this.lGesture.set_state(EventSequenceState.CLAIMED);
+    }
 
+    /**
+     *
+     *
+     *  右键按下
+     *
+     */
     private void rightPreEvent(int num,double x,double y)
     {
         var iter = this.getSelectIter();
@@ -94,6 +119,7 @@ public class NavTreeEvent
         if(iter != null && (menu =  this.getRowMenuItem(iter)) != null)
         {
             this.popoverMenu.menu_model = menu;
+            this.popoverMenu. set_pointing_to({(int)x,(int)y,1,1});
             this.popoverMenu.popup();
         }
         this.rGesture.set_state(EventSequenceState.CLAIMED);
