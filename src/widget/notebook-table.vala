@@ -1,5 +1,14 @@
 using Gtk;
 
+public class TableRowMeta : Object
+{
+    public string value;
+
+    public TableRowMeta(string value)
+    {
+        this.value = value;
+    }
+}
 /*
  *
  *
@@ -18,6 +27,7 @@ public class NotebookTable : Box, TabService
     private NotebookTab notebookTab;
     private MultiSelection selection;
     private GLib.ListStore listStore;
+    private SignalListItemFactory factory;
     
     [GtkChild]
     private unowned Gtk.ColumnView tableView;
@@ -34,9 +44,27 @@ public class NotebookTable : Box, TabService
         this.view = view;
         this.path = path;
         this.pathVal = pathVal;
-        this.listStore = new GLib.ListStore(Type.OBJECT);
+        this.factory = new SignalListItemFactory();
+        this.listStore = new GLib.ListStore(typeof(TableRowMeta));
         this.selection = new MultiSelection(this.listStore);
         this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
+
+        this.factory.bind.connect(listItem=>{
+            var item = listItem.item as TableRowMeta;
+            (listItem.child as Label).label = item.value;
+        });
+        this.factory.setup.connect((listItem)=>{
+            listItem.activatable  = true;
+            listItem.child = new Label("");
+        });
+
+        this.factory.unbind.connect((listItem)=>{
+            listItem.child = null;
+            listItem.activatable = false;
+        });
+
+        this.tableView.model = this.selection;
+
         this.loadTableData();
     }
 
@@ -80,11 +108,19 @@ public class NotebookTable : Box, TabService
         }
         
         this.diffCol(columns);
-        //  var object = new Object(Type.STRING);
-        //  foreach(var str in data)
-        //  {
-        //      this.listStore.append(object);
-        //  }
+        
+        var dataSize  = data.size;
+        var colNum    = columns.size;
+        var rowNum    = dataSize / colNum;
+
+        for (int i = 0; i < colNum; i++)
+        {
+            for (int j = 0; j < rowNum; j++)
+            {
+                //  stdout.printf("%s\n",data.get(j*colNum+i));
+                this.listStore.append(new TableRowMeta(data.get(j*colNum+i)));
+            }
+        }
     }
 
     /**
@@ -98,15 +134,15 @@ public class NotebookTable : Box, TabService
         foreach(var column in list)
         {
             var name = column.name;
-            var tColumn = new ColumnViewColumn
+            var ccolumn = new ColumnViewColumn
             (
                 name,
-                null
+                factory
             );
             
-            tColumn.set_resizable(true);
+            ccolumn.set_resizable(true);
             
-            this.tableView.append_column(tColumn);
+            this.tableView.append_column(ccolumn);
         }
     }
 
@@ -139,5 +175,4 @@ public class NotebookTable : Box, TabService
     {
 
     }
-
 }
