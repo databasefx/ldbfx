@@ -9,7 +9,7 @@ dbfx_vala_sources = [
   'config/nav-tree.vala',
   'config/app-config.vala',
   'widget/notebook-tab.vala',
-  # 'widget/notebook-table.vala',
+  'widget/notebook-table.vala',
   'event/nav-tree-event.vala',
   'dialog/connect-dialog.vala',
   'controller/main-controller.vala'

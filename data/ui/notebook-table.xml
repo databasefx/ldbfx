@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.24"/>
   <template class="NotebookTable" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -20,11 +18,6 @@
           <placeholder/>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkScrolledWindow" id="scrolledWindow">
@@ -34,25 +27,16 @@
           <object class="GtkViewport">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="shadow-type">none</property>
             <child>
-              <object class="GtkTreeView" id="tableView">
+              <object class="GtkColumnView" id="tableView">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="reorderable">True</property>
-                <property name="rubber-banding">True</property>
-                <property name="enable-grid-lines">both</property>
-                <property name="enable-tree-lines">True</property>
+                <property name="vexpand">True</property>
               </object>
             </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
     <style>
       <class name="high-light"/>

@@ -56,31 +56,35 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkTreeView" id="navTree">
-                                <property name="hexpand">True</property>
-                                <property name="vexpand">True</property>
-                                <property name="headers_visible">False</property>
+                            <object class="GtkScrolledWindow">
                                 <child>
-                                    <object class="GtkTreeViewColumn" id="iconCol">
-                                        <property name="sizing">fixed</property>
-                                        <property name="title" translatable="yes">icon</property>
+                                    <object class="GtkTreeView" id="navTree">
+                                        <property name="hexpand">True</property>
+                                        <property name="vexpand">True</property>
+                                        <property name="headers_visible">False</property>
                                         <child>
-                                            <object class="GtkCellRendererPixbuf"/>
-                                            <attributes>
-                                                <attribute name="icon_name">0</attribute>
-                                            </attributes>
+                                            <object class="GtkTreeViewColumn" id="iconCol">
+                                                <property name="sizing">fixed</property>
+                                                <property name="title" translatable="yes">icon</property>
+                                                <child>
+                                                    <object class="GtkCellRendererPixbuf"/>
+                                                    <attributes>
+                                                        <attribute name="icon_name">0</attribute>
+                                                    </attributes>
+                                                </child>
+                                            </object>
                                         </child>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkTreeViewColumn" id="nameCol">
-                                        <property name="sizing">fixed</property>
-                                        <property name="title" translatable="yes">name</property>
                                         <child>
-                                            <object class="GtkCellRendererText"/>
-                                            <attributes>
-                                                <attribute name="text">1</attribute>
-                                            </attributes>
+                                            <object class="GtkTreeViewColumn" id="nameCol">
+                                                <property name="sizing">fixed</property>
+                                                <property name="title" translatable="yes">name</property>
+                                                <child>
+                                                    <object class="GtkCellRendererText"/>
+                                                    <attributes>
+                                                        <attribute name="text">1</attribute>
+                                                    </attributes>
+                                                </child>
+                                            </object>
                                         </child>
                                     </object>
                                 </child>
@@ -91,35 +95,43 @@
                 <child>
                     <object class="GtkStack" id="stack">
                         <child>
-                            <object class="GtkBox">
+                            <object class="GtkStackPage">
                                 <property name="name">page0</property>
-                                <property name="valign">center</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                    <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="pixel-size">200</property>
-                                        <property name="icon-name">v-dbfx</property>
+                                <property name="child">
+                                    <object class="GtkBox">
+                                        <property name="valign">center</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                            <object class="GtkImage">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="pixel-size">200</property>
+                                                <property name="icon-name">v-dbfx</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">slogan</property>
+                                                <style>
+                                                    <class name="slogan"/>
+                                                </style>
+                                            </object>
+                                        </child>
                                     </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="label" translatable="yes">slogan</property>
-                                        <style>
-                                            <class name="slogan"/>
-                                        </style>
-                                    </object>
-                                </child>
+                                </property>
                             </object>
                         </child>
                         <child>
-                            <object class="GtkNotebook" id="notebook">
+                            <object class="GtkStackPage">
                                 <property name="name">page1</property>
-                                <signal name="page_added" handler="noteChildChange" swapped="no"/>
-                                <signal name="page_removed" handler="noteChildChange" swapped="no"/>
+                                <property name="child">
+                                    <object class="GtkNotebook" id="notebook">
+                                        <signal name="page_added" handler="noteChildChange" swapped="no"/>
+                                        <signal name="page_removed" handler="noteChildChange" swapped="no"/>
+                                    </object>
+                                </property>
                             </object>
                         </child>
                     </object>

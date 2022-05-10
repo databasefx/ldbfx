@@ -22,14 +22,14 @@ public class NotebookTab : Box
 
     private weak TabService tabService;
 
-    public NotebookTab(Gdk.Pixbuf pixbuf,string title,TabService tabService,bool closeable)
+    public NotebookTab(string iconName,string title,TabService tabService,bool closeable)
     {
         Object(orientation:Orientation.HORIZONTAL,spacing:3);
         
         this.tabService = tabService;
 
         var label = new Label(title);
-        var icon = new Image.from_pixbuf(pixbuf);
+        var icon = new Image.from_icon_name(iconName);
 
         btn = new Button.from_icon_name("dbfx-close");
         

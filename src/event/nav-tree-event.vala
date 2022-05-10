@@ -256,7 +256,7 @@ public class NavTreeEvent
             return;
         }
         var pathVal = this.getPathValue(iter);
-        //  Application.ctx.addTab(new NotebookTable(path,pathVal,view),true);
+        Application.ctx.addTab(new NotebookTable(path,pathVal,view),true);
     }
 
     /**
