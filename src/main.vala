@@ -166,9 +166,7 @@ public class Application : Gtk.Application
 
         Gtk.Settings.get_default().gtk_application_prefer_dark_theme = true;
 
-        stdout.printf("%p\n",this.menubar);
         this.menubar = (Menu)UIUtil.loadXmlUI("menubar.xml","menubar");
-        stdout.printf("%p\n",this.menubar);
 
         if(this.controller == null){
             this.controller = new MainController(this);
