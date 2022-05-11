@@ -2,11 +2,35 @@ using Gtk;
 
 public class TableRowMeta : Object
 {
-    public string value;
+    /**
+     *
+     *
+     * 记录当前渲染单元格位位置
+     *
+     **/
+    public int index{
+        private set;
+        private get;
+    }
 
-    public TableRowMeta(string value)
+    public string[] value{
+        private set;
+        private get;
+    }
+
+    public TableRowMeta(string[] value)
     {
         this.value = value;
+        this.index = 0;
+    }
+
+    public string getStrValue(){
+        if(this.index > this.value.length)
+        {
+            index = 0;
+        }
+        var str =  this.value[index++];
+        return str == Constant.NULL_SYMBOL ? "null" : str;
     }
 }
 /*
@@ -32,10 +56,6 @@ public class NotebookTable : Box, TabService
     [GtkChild]
     private unowned Gtk.ColumnView tableView;
 
-    [GtkChild]
-    private unowned Gtk.ScrolledWindow scrolledWindow;
-
-
 
     public NotebookTable(string path,string pathVal,bool view)
     {
@@ -51,16 +71,10 @@ public class NotebookTable : Box, TabService
 
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
-            (listItem.child as Label).label = item.value;
+            (listItem.child as Label).label = item.getStrValue();
         });
         this.factory.setup.connect((listItem)=>{
-            listItem.activatable  = true;
             listItem.child = new Label("");
-        });
-
-        this.factory.unbind.connect((listItem)=>{
-            listItem.child = null;
-            listItem.activatable = false;
         });
 
         this.tableView.model = this.selection;
@@ -112,14 +126,15 @@ public class NotebookTable : Box, TabService
         var dataSize  = data.size;
         var colNum    = columns.size;
         var rowNum    = dataSize / colNum;
-
-        for (int i = 0; i < colNum; i++)
+        for (int j = 0; j < rowNum; j++)
         {
-            for (int j = 0; j < rowNum; j++)
+            var offset = j * colNum;
+            var array  = new string[colNum];
+            for (int i = offset; i < offset + colNum; i++)
             {
-                //  stdout.printf("%s\n",data.get(j*colNum+i));
-                this.listStore.append(new TableRowMeta(data.get(j*colNum+i)));
+                array[i-offset] = data.get(i);
             }
+            this.listStore.append(new TableRowMeta(array));
         }
     }
 

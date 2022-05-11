@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <interface>
-  <menu id="menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Incendio</attribute>
-        <attribute name="action">app.incendio</attribute>
-      </item>
-    </section>
-    <section>
-      <attribute name="label" translatable="yes">Defensive Charms</attribute>
-      <item>
-        <attribute name="label" translatable="yes">Expelliarmus</attribute>
-        <attribute name="action">app.expelliarmus</attribute>
-        <attribute name="icon">/usr/share/my-app/poof!.png</attribute>
-      </item>
-    </section>
-  </menu>
+    <menu id='menubar'>
+        <submenu>
+            <attribute name='label' translatable='yes'>_Edit</attribute>
+            <item>
+                <attribute name='label' translatable='yes'>_Copy</attribute>
+                <attribute name='action'>win.copy</attribute>
+            </item>
+            <item>
+                <attribute name='label' translatable='yes'>_Paste</attribute>
+                <attribute name='action'>win.paste</attribute>
+            </item>
+        </submenu>
+    </menu>
 </interface>

@@ -200,7 +200,7 @@ public class MysqlConnection : SqlConnection
             foreach (var item in rows)
             {
 
-                list.add(item == null ? NULL_SYMBOL : item);
+                list.add(item == null ? Constant.NULL_SYMBOL : item);
             }    
         }
         return list;

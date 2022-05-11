@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="NotebookTable" parent="GtkBox">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkBox">
+    <template class="NotebookTable" parent="GtkBox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
-          <placeholder/>
+            <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                    <placeholder/>
+                </child>
+                <child>
+                    <placeholder/>
+                </child>
+                <child>
+                    <placeholder/>
+                </child>
+            </object>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkScrolledWindow" id="scrolledWindow">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <child>
-          <object class="GtkViewport">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <child>
-              <object class="GtkColumnView" id="tableView">
+            <object class="GtkScrolledWindow" id="scrolledWindow">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="vexpand">True</property>
-              </object>
-            </child>
-          </object>
+                <child>
+                    <object class="GtkColumnView" id="tableView">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="show_row_separators">True</property>
+                        <property name="show_column_separators">True</property>
+                    </object>
+                </child>
+            </object>
         </child>
-      </object>
-    </child>
-    <style>
-      <class name="high-light"/>
-    </style>
-  </template>
+        <style>
+            <class name="high-light"/>
+        </style>
+    </template>
 </interface>
