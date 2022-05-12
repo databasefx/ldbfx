@@ -36,4 +36,13 @@ public interface TabService : GLib.Object
      *
      **/
     public abstract void destory() throws FXError;
+
+    /**
+     *
+     *
+     * 获取当前视图组件
+     *
+     *
+     */
+    public abstract unowned Gtk.Widget getContent();
 }

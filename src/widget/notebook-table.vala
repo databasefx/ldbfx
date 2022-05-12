@@ -185,6 +185,11 @@ public class NotebookTable : Box, TabService
     {
         return this.path;
     }
+
+    public unowned Gtk.Widget getContent()
+    {
+        return this;
+    }
     
     public  void destory() throws FXError
     {

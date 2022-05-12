@@ -16,8 +16,6 @@ public class NotebookTab : Box
         className = "tab";
     }
 
-    private int index;
-
     private Button btn;
 
     private weak TabService tabService;
@@ -37,7 +35,7 @@ public class NotebookTab : Box
 
         //添加关闭事件
         btn.clicked.connect(()=>{
-            notebook.remove_page(this.index);
+            notebook.detach_tab(this.tabService.getContent());
         });
 
         this.append(icon);
