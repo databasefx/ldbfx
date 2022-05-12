@@ -6,6 +6,23 @@
   border-width: 0;
 }
 
+.main-notebook .tab button {
+  padding: 0;
+  border-width: 1px;
+  border-color: transparent;
+}
+
+.main-notebook .tab button:hover {
+  border-color: #fff;
+}
+
+.main-notebook .tab .image-button {
+  background-image: none;
+  background-color: transparent;
+}
+
+
+
 /**
  输入框验证失败
  */

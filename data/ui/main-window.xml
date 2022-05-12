@@ -132,6 +132,9 @@
                                         <property name="scrollable">True</property>
                                         <signal name="page_added" handler="noteChildChange" swapped="no"/>
                                         <signal name="page_removed" handler="noteChildChange" swapped="no"/>
+                                        <style>
+                                            <class name="main-notebook"/>
+                                        </style>
                                     </object>
                                 </property>
                             </object>

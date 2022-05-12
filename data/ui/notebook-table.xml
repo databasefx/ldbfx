@@ -34,8 +34,5 @@
                 </child>
             </object>
         </child>
-        <style>
-            <class name="high-light"/>
-        </style>
     </template>
 </interface>

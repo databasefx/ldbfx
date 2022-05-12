@@ -13,7 +13,7 @@ public class NotebookTab : Box
 
     static construct
     {
-        className = "nb-tab";
+        className = "tab";
     }
 
     private int index;
@@ -24,7 +24,7 @@ public class NotebookTab : Box
 
     public NotebookTab(string iconName,string title,TabService tabService,bool closeable)
     {
-        Object(orientation:Orientation.HORIZONTAL,spacing:3);
+        Object(orientation:Orientation.HORIZONTAL,spacing:5);
         
         this.tabService = tabService;
 
