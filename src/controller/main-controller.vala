@@ -21,6 +21,7 @@ public class MainController : Gtk.ApplicationWindow {
 
 	public MainController (Gtk.Application app) {
 		Object (application: app);
+        this.show_menubar = true;
 		this.initNavTree();
 	 }
 

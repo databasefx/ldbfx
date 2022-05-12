@@ -4,7 +4,6 @@
         <property name="title">v-dbfx</property>
         <property name="default_width">1300</property>
         <property name="default_height">900</property>
-        <property name="show_menubar">True</property>
         <property name="icon_name">cn.navclub.dbfx</property>
         <child>
             <object class="GtkPaned">

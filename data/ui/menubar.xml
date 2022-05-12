@@ -2,14 +2,14 @@
 <interface>
     <menu id='menubar'>
         <submenu>
-            <attribute name='label' translatable='yes'>_Edit</attribute>
+            <attribute name='label' translatable='yes'>File</attribute>
             <item>
-                <attribute name='label' translatable='yes'>_Copy</attribute>
-                <attribute name='action'>win.copy</attribute>
+                <attribute name='label' translatable='yes'>New Connection</attribute>
+                <attribute name='action'>app.new</attribute>
             </item>
             <item>
-                <attribute name='label' translatable='yes'>_Paste</attribute>
-                <attribute name='action'>win.paste</attribute>
+                <attribute name='label' translatable='yes'>Exit</attribute>
+                <attribute name='action'>app.exit</attribute>
             </item>
         </submenu>
     </menu>
