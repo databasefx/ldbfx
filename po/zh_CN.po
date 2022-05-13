@@ -58,3 +58,14 @@ msgstr "表"
 
 msgid "slogan"
 msgstr "v-dbfx 一款专业数据库可视化管理工具."
+
+
+msgid "_Setting"
+msgstr "设置"
+
+msgid "_Exit"
+msgstr "退出"
+
+msgid "_Ok"
+msgstr "确定"
+

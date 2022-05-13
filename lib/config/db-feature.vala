@@ -57,7 +57,7 @@ public class DatabaseFeature : Object {
 
     private static DatabaseFeature[] features = null;
 
-    public static DatabaseFeature[] getFeatures()
+    public static unowned DatabaseFeature[] getFeatures()
     {
         if(features == null )
         {

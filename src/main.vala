@@ -3,6 +3,7 @@ using Gee;
 
 public const string EXIT_ACTION_NAME = "exit";
 public const string NEW_CONNECT_ACTION_NAME = "new";
+public const string FULL_SCREEN_ACTION_NAME = "fullscreen";
 
 
 public class Application : Gtk.Application
@@ -23,7 +24,8 @@ public class Application : Gtk.Application
     private const GLib.ActionEntry[] actionEntries =
     {
         { NEW_CONNECT_ACTION_NAME,      newConnect  },
-        { EXIT_ACTION_NAME,             exit        }
+        { EXIT_ACTION_NAME,             exit        },
+        { FULL_SCREEN_ACTION_NAME,      fullscreen  }
     };
 
     public Application(){
@@ -145,7 +147,7 @@ public class Application : Gtk.Application
 
         //注册快捷方式
         set_accels_for_action("app." + EXIT_ACTION_NAME,        {  "<Control>e"  });
-        set_accels_for_action("app." + NEW_CONNECT_ACTION_NAME, {  "<Control>n"  });
+        set_accels_for_action("app."+NEW_CONNECT_ACTION_NAME,   {  "<Control>n"  });
 
         //注册action对应函数句柄
         add_action_entries(actionEntries, this);
@@ -183,6 +185,17 @@ public class Application : Gtk.Application
     public void newConnect()
     {
         new ConnectDialog();
+    }
+
+    /**
+     *
+     *
+     *  全屏
+     *
+     * */
+    public void fullscreen(SimpleAction action,Variant? parameter)
+    {
+        this.controller.fullscreened = !this.controller.fullscreened;
     }
 
     /**

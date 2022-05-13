@@ -1,33 +1,80 @@
+using Gtk;
 
+private class FeatureListItem : Box
+{
+  private unowned DatabaseFeature feature;
+  
+  public FeatureListItem(unowned DatabaseFeature feature)
+  {
+    this.feature = feature;
+    this.orientation = Orientation.VERTICAL;
+
+    var label = new Label(feature.name);
+    var image = new Image.from_icon_name(feature.icon);
+
+    image.icon_size = IconSize.LARGE;
+
+    this.append(image);
+    this.append(label);
+
+    this.width_request = 100;
+    this.height_request = 50;
+
+    this.valign = Align.CENTER;
+  }
+}
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
     [GtkChild]
-    private unowned Gtk.Entry name;
+    private unowned Entry name;
     [GtkChild]
-    private unowned Gtk.Entry comment;
+    private unowned Entry comment;
     [GtkChild]
-    private unowned Gtk.Entry user;
+    private unowned Entry user;
     [GtkChild]
-    private unowned Gtk.Entry password;
+    private unowned Entry password;
     [GtkChild]
-    private unowned Gtk.ComboBox authBox;
+    private unowned ComboBox authBox;
     [GtkChild]
-    private unowned Gtk.ComboBox saveBox;
+    private unowned ComboBox saveBox;
     [GtkChild]
-    private unowned Gtk.Entry host;
+    private unowned Entry host;
     [GtkChild]
-    private unowned Gtk.Entry port;
+    private unowned Entry port;
     [GtkChild]
-    private unowned Gtk.Spinner spinner;
+    private unowned Spinner spinner;
     [GtkChild]
-    private unowned Gtk.Label tText;
+    private unowned Label tText;
+    [GtkChild]
+    private unowned FlowBox flowBox;
+    [GtkChild]
+    private unowned Button apply;
+    [GtkChild]
+    private unowned Button cancel;
     
     //当前数据库配置信息
     private unowned DatabaseFeature feature;
 
     public ConnectDialog()
     {
+        this.createListItem();
         this.visible = true;
+    }
+
+    public ConnectDialog.edit(string uuid)
+    {
+
+    }
+
+    private void createListItem()
+    {
+      var list = DatabaseFeature.getFeatures();
+
+      foreach(var feature in list)
+      {
+        var item = new FeatureListItem(feature);
+        this.flowBox.append(item); 
+      }
     }
 
   /**

@@ -7,8 +7,6 @@
         <property name="icon_name">cn.navclub.dbfx</property>
         <child>
             <object class="GtkPaned">
-                <property name="vexpand">True</property>
-                <property name="shrink_start_child">True</property>
                 <child>
                     <object class="GtkBox">
                         <property name="orientation">vertical</property>

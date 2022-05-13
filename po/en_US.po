@@ -57,3 +57,12 @@ msgstr "tables"
 
 msgid "slogan"
 msgstr "v-dbfx A professional visual database management tool."
+
+msgid "_Setting"
+msgstr "Setting"
+
+msgid "_Exit"
+msgstr "Exit"
+
+msgid "_Ok"
+msgstr "Ok"
