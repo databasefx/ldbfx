@@ -1,82 +1,45 @@
 
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
-    //  [GtkChild]
-    //  private unowned Gtk.Entry name;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry comment;
-    //  [GtkChild]
-    //  private unowned Gtk.Stack stack;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry user;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry password;
-    //  [GtkChild]
-    //  private unowned Gtk.ListBox listBox;
-    //  [GtkChild]
-    //  private unowned Gtk.ComboBox authBox;
-    //  [GtkChild]
-    //  private unowned Gtk.ComboBox saveBox;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry host;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry port;
-    //  [GtkChild]
-    //  private unowned Gtk.Entry database;
-    //  [GtkChild]
-    //  private unowned Gtk.Spinner spinner;
-    //  [GtkChild]
-    //  private unowned Gtk.Label describle;
-    //  [GtkChild]
-    //  private unowned Gtk.Button saveBtn;
-    //  [GtkChild]
-    //  private unowned Gtk.Box testBox;
-
-    private string uuid;
-
+    [GtkChild]
+    private unowned Gtk.Entry name;
+    [GtkChild]
+    private unowned Gtk.Entry comment;
+    [GtkChild]
+    private unowned Gtk.Entry user;
+    [GtkChild]
+    private unowned Gtk.Entry password;
+    [GtkChild]
+    private unowned Gtk.ComboBox authBox;
+    [GtkChild]
+    private unowned Gtk.ComboBox saveBox;
+    [GtkChild]
+    private unowned Gtk.Entry host;
+    [GtkChild]
+    private unowned Gtk.Entry port;
+    [GtkChild]
+    private unowned Gtk.Spinner spinner;
+    [GtkChild]
+    private unowned Gtk.Label tText;
+    
     //当前数据库配置信息
     private unowned DatabaseFeature feature;
 
     public ConnectDialog()
     {
-        //  this.initListBox();
-        //  this.set_default_response(0);
-
         this.visible = true;
     }
 
-//      public ConnectDialog.update(string uuid)
-//      {
-//          this.uuid = uuid;
-//      }
-
-//      private void initListBox(){
-//          var features = DatabaseFeature.getFeatures();
-
-//          foreach(var feature in features){
-
-//              var label = new Gtk.Label(feature.name);
-//              var icon = new Gtk.Image.from_icon_name(feature.icon);
-//              var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL,1);
-
-//              box.append(icon);
-//              box.append(label);
-
-//              this.listBox.insert(box,-1);
-//          }
-
-//      }
-
-//    /**
-//     *
-//     *
-//     *
-//     * 检查当前配置是否可用
-//     *
-//     *
-//     */
-//    [GtkCallback]
-//    public async void testConnect(Gtk.Button btn){
+  /**
+   *
+   *
+   *
+   * 检查当前配置是否可用
+   *
+   *
+   */
+  [GtkCallback]
+  public async void testConnect(Gtk.Button btn){
 //      if(!this.feature.impl)
 //      {
 //          warning("Current database not support!");
@@ -134,7 +97,7 @@ public class ConnectDialog : Gtk.Dialog {
 //      }
 
 //      this.spinner.stop();
-//    }
+  }
 
 //    /**
 //     *

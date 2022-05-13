@@ -30,3 +30,12 @@
   border-color: red;
   border-width: 1px;
 }
+
+.connect-dialog grid,
+.connect-dialog .test-box {
+  padding: 5px;
+}
+
+.connect-dialog .action-item {
+  margin: 5px;
+}
