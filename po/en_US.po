@@ -75,3 +75,9 @@ msgstr "Test Connection"
 
 msgid "_General"
 msgstr "General"
+
+msgid "_New Connection"
+msgstr "New Connection"
+
+msgid "_Back"
+msgstr "Back"

@@ -5,18 +5,25 @@
  */
 public enum AuthModel
 {
-    /**
-     *
-     * 无认证方式
-     */
-    NONE,
-
-    /**
+        /**
      *
      * 用户名/密码认证
      *
      */
-    USER_PASSWORD
+    USER_PASSWORD,
+
+    /**
+     *
+     *
+     * Window系统帐号认证
+     *
+     **/
+    WINDOW_CREDENTIALS,
+    /**
+     *
+     * 无认证方式
+     */
+    NONE
 }
 
 /**

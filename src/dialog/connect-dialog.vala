@@ -2,7 +2,11 @@ using Gtk;
 
 private class FeatureListItem : Box
 {
-  private unowned DatabaseFeature feature;
+  
+  public unowned DatabaseFeature feature{
+    private set;
+    get;
+  }
   
   public FeatureListItem(unowned DatabaseFeature feature)
   {
@@ -22,74 +26,109 @@ private class FeatureListItem : Box
 
   }
 }
+
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
-    //  [GtkChild]
-    //  private unowned Entry name;
-    //  [GtkChild]
-    //  private unowned Entry comment;
-    //  [GtkChild]
-    //  private unowned Entry user;
-    //  [GtkChild]
-    //  private unowned Entry password;
-    //  [GtkChild]
-    //  private unowned ComboBox authBox;
-    //  [GtkChild]
-    //  private unowned ComboBox saveBox;
-    //  [GtkChild]
-    //  private unowned Entry host;
-    //  [GtkChild]
-    //  private unowned Entry port;
-    //  [GtkChild]
-    //  private unowned Spinner spinner;
-    //  [GtkChild]
-    //  private unowned Label tText;
-    //  [GtkChild]
-    //  private unowned Button apply;
-    //  [GtkChild]
-    //  private unowned Button cancel;
-    [GtkChild]
-    private unowned Stack stack;
-    [GtkChild]
-    private unowned FlowBox flowBox;
+  [GtkChild]
+  private unowned Entry name;
+  [GtkChild]
+  private unowned Entry comment;
+  [GtkChild]
+  private unowned Entry user;
+  [GtkChild]
+  private unowned PasswordEntry password;
+  [GtkChild]
+  private unowned ComboBox authBox;
+  [GtkChild]
+  private unowned ComboBox saveBox;
+  [GtkChild]
+  private unowned Entry host;
+  [GtkChild]
+  private unowned Entry port;
+  [GtkChild]
+  private unowned Spinner spinner;
+  [GtkChild]
+  private unowned Label tText;
+  [GtkChild]
+  private unowned Button apply;
+  [GtkChild]
+  private unowned Button cancel;
+  [GtkChild]
+  private unowned Stack stack;
+  [GtkChild]
+  private unowned Button stepBtn;
+  [GtkChild]
+  private unowned FlowBox flowBox;
     
-    //当前数据库配置信息
-    private unowned DatabaseFeature feature;
+  //当前数据库配置信息
+  private unowned DatabaseFeature feature;
 
-    public ConnectDialog()
-    {
-        this.createListItem();
-        this.visible = true;
-    }
+  public ConnectDialog()
+  {
+    this.createListItem();
+    this.saveBox.active = 0;
+    this.authBox.active = 0;
+    this.visible = true;
+  }
 
-    public ConnectDialog.edit(string uuid)
-    {
-    }
+  public ConnectDialog.edit(string uuid)
+  {
 
-    private void createListItem()
-    {
-      var list = DatabaseFeature.getFeatures();
+  }
+
+  /**
+   *
+   *
+   * 创建支持数据库条目
+   *
+   */
+  private void createListItem()
+  {
+    var list = DatabaseFeature.getFeatures();
             
-      foreach(var feature in list)
-      {
-        var box = new FlowBoxChild();
-        box.width_request  = 100;
-        box.height_request = 100;
-        box.child = new FeatureListItem(feature);
-        this.flowBox.append(box); 
-      }
+    foreach(var feature in list)
+    {
+      var box = new FlowBoxChild();
+      box.width_request  = 100;
+      box.height_request = 100;
+      box.child = new FeatureListItem(feature);
+      this.flowBox.append(box); 
     }
 
-    [GtkCallback]
-    public void nextOrSave()
+    //默认选中第一个
+    if((this.apply.sensitive =(list.length > 0)))
     {
-      var visibleName = this.stack.visible_child_name;
-      if(visibleName == "page0")
-      {
-        this.stack.set_visible_child_name("page1");
-      }
-      stdout.printf("%s\n",visibleName);
+      this.feature = list[0];
     }
+
+  }
+
+  [GtkCallback]
+  public void nextOrSave()
+  {
+    var visibleName = this.stack.visible_child_name;
+    if(visibleName == "page0")
+    {
+      this.stepBtn.visible = true;
+      this.stack.set_visible_child_name("page1");
+      return;
+    }
+    //执行保存
+  }
+
+  [GtkCallback]
+  public void back()
+  {
+    this.stack.set_visible_child_name("page0");
+    this.stepBtn.visible = false;
+  }
+
+  [GtkCallback]
+  public void flowBoxChildActive(FlowBoxChild box){
+    this.apply.sensitive = true;
+    var item = box.child as FeatureListItem;
+    this.feature = item.feature;
+  }
 
   /**
    *
@@ -99,143 +138,119 @@ public class ConnectDialog : Gtk.Dialog {
    *
    *
    */
-  //  [GtkCallback]
+  [GtkCallback]
   public async void testConnect(Gtk.Button btn){
-//      if(!this.feature.impl)
-//      {
-//          warning("Current database not support!");
-//          return;
-//      }
+    if(!this.feature.impl)
+    {
+        debug("Current database not support!");
+        return;
+    }
 
-//      if(!this.formValid())
-//      {
-//          warning("Connect info miss!");
-//          return;
-//      }
+    if(!this.formValid())
+    {
+        debug("Connect info miss!");
+        return;
+    }
 
-//      var dataSource = new DataSource(this.feature.dbType);
+    var dataSource = new DataSource(this.feature.dbType);
 
-//      dataSource.host = this.host.text;
-//      dataSource.port = int.parse(this.port.text);
+    dataSource.host = this.host.text;
+    dataSource.port = int.parse(this.port.text);
 
-//      if(authRequire()== AuthModel.USER_PASSWORD)
-//      {
-//          dataSource.user = this.user.text;
-//          dataSource.password = this.password.text;
-//          dataSource.authModel = AuthModel.USER_PASSWORD;
-//      }else
-//      {
-//          dataSource.authModel = AuthModel.NONE;
-//      }
+    if(authRequire()== AuthModel.USER_PASSWORD)
+    {
+        dataSource.user = this.user.text;
+        dataSource.password = this.password.text;
+        dataSource.authModel = AuthModel.USER_PASSWORD;
+    }else
+    {
+        dataSource.authModel = AuthModel.NONE;
+    }
 
-//      this.spinner.start();
+    this.spinner.start();
 
-//      string errmsg = null;
+    string errmsg = null;
 
-//      DatabaseInfo info = null;
+    DatabaseInfo info = null;
 
-//      SourceFunc callback = testConnect.callback;
+    SourceFunc callback = testConnect.callback;
 
-//      WorkDetail work = ()=>{
-//          try{
-//              var con = new MysqlConnection.whitout(dataSource);
-//              con.connect();
-//              info = con.serverInfo();
-//          }catch(FXError e){
-//              errmsg = e.message;
-//          }
-//          Idle.add(callback);
-//      };
+    WorkDetail work = ()=>{
+        try{
+            var con = new MysqlConnection.whitout(dataSource);
+            con.connect();
+            info = con.serverInfo();
+        }catch(FXError e){
+            errmsg = e.message;
+        }
+        Idle.add(callback);
+    };
 
-//      AsyncWork.create(work).execute();
+    AsyncWork.create(work).execute();
 
-//      yield;
+    yield;
 
-//      if(errmsg != null){
-//          this.describle.label = errmsg;
-//      }else{
-//          this.describle.label = "%s(%s)".printf(info.name,info.version);
-//      }
+    if(errmsg != null){
+        this.tText.label = errmsg;
+    }else{
+        this.tText.label = "%s(%s)".printf(info.name,info.version);
+    }
 
-//      this.spinner.stop();
+    this.spinner.stop();
   }
 
-//    /**
-//     *
-//     * 验证当前表单是否完整
-//     *
-//     */
-//    private bool formValid()
-//    {
+  /**
+   *
+   * 验证当前表单是否完整
+   *
+   */
+  private bool formValid()
+  {
 
-//      var host = this.host.text.strip();
-//      var port = this.port.text.strip();
-//      var user = this.user.text.strip();
-//      var name = this.name.text.strip();
+    var host = this.host.text.strip();
+    var port = this.port.text.strip();
+    var user = this.user.text.strip();
+    var name = this.name.text.strip();
 
-//      var require  = authRequire()==AuthModel.USER_PASSWORD;
+    var require  = (authRequire()==AuthModel.USER_PASSWORD);
 
-//      var password = this.password.text.strip();
+    var password = this.password.text.strip();
 
 
-//      var a =  UIUtil.formValid(this.host,()=>host!="");
-//      var b =  UIUtil.formValid(this.name,()=>name!="");
-//      var c =  UIUtil.formValid(this.port,()=>port!="");
-//      var d =  UIUtil.formValid(this.user,()=>(!require || user!=""));
-//      var e =  UIUtil.formValid(this.password,()=>(!require ||password!=""));
+    var a =  UIUtil.formValid(this.host,()=>host!="");
+    var b =  UIUtil.formValid(this.name,()=>name!="");
+    var c =  UIUtil.formValid(this.port,()=>port!="");
+    var d =  UIUtil.formValid(this.user,()=>(!require || user!=""));
+    var e =  UIUtil.formValid(this.password,()=>(!require ||password!=""));
 
-//      return a && b && c && d && e;
-//    }
+    return a && b && c && d && e;
+  }
 
-//    private AuthModel authRequire()
-//    {
-//        return (AuthModel)this.authBox.get_active();
-//    }
+  private AuthModel authRequire()
+  {
+      return (AuthModel)this.authBox.get_active();
+  }
 
-//    /**
-//     *
-//     * 数据源改变
-//     *
-//     */
-//    [GtkCallback]
-//    public void rowSelected(Gtk.ListBoxRow? selectRow){
-//      if(selectRow == null){
-//          return;
-//      }
+  /**
+   *
+   * 认证方式改变
+   *
+   */
+  [GtkCallback]
+  public void authChange(){
 
-//      var index = selectRow.get_index();
+    var index = this.authBox.get_active();
+    if ( index == -1 ){
+        return;
+    }
 
-//      unowned var t = this.feature =DatabaseFeature.getFeatures()[index];
+    //如果认证方式为`NONE`则禁用认证模块
+    var disable = (index != AuthModel.USER_PASSWORD);
 
-//      var impl = t.impl;
-//      //判断是否需要显示保存按钮
-//      this.saveBtn.visible = impl;
-//      this.testBox.visible = impl;
-//      //根据当前数据库实现情况判断显示页面
-//      this.stack.set_visible_child_name(impl?"properties":"none");
-
-//    }
-
-//    /**
-//     *
-//     * 认证方式改变
-//     *
-//     */
-//    [GtkCallback]
-//    public void authChange(){
-
-//      var index = this.authBox.get_active();
-//      if ( index == -1 ){
-//          return;
-//      }
-
-//      //如果认证方式为`NONE`则禁用认证模块
-//      var disable = (index == 1);
-
-//      this.user.sensitive = disable;
-//      this.saveBox.sensitive = disable;
-//      this.password.sensitive = disable;
-//    }
+    this.user.sensitive = disable;
+    this.saveBox.sensitive = disable;
+    this.password.sensitive = disable;
+  }
 
 //    [GtkCallback]
 //    public void cancel()

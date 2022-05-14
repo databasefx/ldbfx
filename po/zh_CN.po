@@ -78,3 +78,9 @@ msgstr "测试连接"
 msgid "_General"
 msgstr "通用"
 
+msgid "_New Connection"
+msgstr "新建连接"
+
+msgid "_Back"
+msgstr "返回"
+

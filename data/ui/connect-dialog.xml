@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="ConnectDialog" parent="GtkDialog">
-        <property name="title" translatable="yes">New Connect</property>
+        <property name="title" translatable="yes">_New Connection</property>
         <property name="default-width">800</property>
         <property name="default-height">600</property>
         <property name="destroy-with-parent">True</property>
@@ -19,6 +19,7 @@
                                         <property name="halign">1</property>
                                         <property name="valign">1</property>
                                         <property name="orientation">vertical</property>
+                                        <signal name="child_activated" handler="flowBoxChildActive"/>
                                     </object>
                                 </property>
                             </object>
@@ -40,11 +41,11 @@
                                                         <property name="hexpand">1</property>
                                                         <child>
                                                             <object class="GtkLabel">
-                                                                <property translatable="yes" name="label">Name
-                                                                </property>
+                                                                <property translatable="yes" name="label">Name</property>
                                                                 <layout>
                                                                     <property name="row">0</property>
                                                                     <property name="column">0</property>
+                                                                    <property name="column-span">1</property>
                                                                 </layout>
                                                             </object>
                                                         </child>
@@ -54,25 +55,27 @@
                                                                 <layout>
                                                                     <property name="row">0</property>
                                                                     <property name="column">1</property>
+                                                                    <property name="column-span">6</property>
                                                                 </layout>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkLabel">
-                                                                <property translatable="yes" name="label">Comment
-                                                                </property>
+                                                                <property translatable="yes" name="label">Comment</property>
                                                                 <layout>
                                                                     <property name="row">1</property>
                                                                     <property name="column">0</property>
+                                                                    <property name="column-span">1</property>
                                                                 </layout>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkEntry" id="comment">
-                                                                <property name="hexpand">True</property>
+                                                                <property name="hexpand">1</property>
                                                                 <layout>
                                                                     <property name="row">1</property>
                                                                     <property name="column">1</property>
+                                                                    <property name="column-span">6</property>
                                                                 </layout>
                                                             </object>
                                                         </child>
@@ -134,7 +137,7 @@
                                                                 </child>
                                                                 <child>
                                                                     <object class="GtkComboBoxText" id="authBox">
-                                                                        <property name="active">0</property>
+                                                                        <signal name="changed" handler="authChange"/>
                                                                         <items>
                                                                             <item translatable="yes">User &amp; Password</item>
                                                                             <item translatable="yes">Windows credentials </item>
@@ -237,11 +240,24 @@
                                         </child>
                                         <child>
                                             <object class="GtkBox">
+                                                <property name="spacing">10</property>
                                                 <child>
                                                     <object class="GtkButton">
                                                         <property name="label" translatable="yes">_Test Connection</property>
+                                                        <signal name="clicked" handler="testConnect"/>
                                                     </object>
                                                 </child>
+                                                <child>
+                                                    <object class="GtkSpinner" id="spinner">
+
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkLabel" id="tText"></object>
+                                                </child>
+                                                <style>
+                                                    <class name="test-box"/>
+                                                </style>
                                             </object>
                                         </child>
                                     </object>
@@ -250,6 +266,17 @@
                         </child>
                     </object>
                 </child>
+            </object>
+        </child>
+        <child type="action">
+            <object class="GtkButton" id="stepBtn">
+                <property translatable="yes" name="label">_Back</property>
+                <property name="width-request">100</property>
+                <property name="visible">0</property>
+                <signal name="clicked" handler="back"/>
+                <style>
+                    <class name="action-item"/>
+                </style>
             </object>
         </child>
         <child type="action">
@@ -275,6 +302,7 @@
         <action-widgets>
             <action-widget response="cancel" default="true">cancel</action-widget>
             <action-widget response="ok">apply</action-widget>
+            <action-widget response="ok">stepBtn</action-widget>
         </action-widgets>
         <style>
             <class name="connect-dialog"/>
