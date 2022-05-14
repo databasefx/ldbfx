@@ -69,3 +69,12 @@ msgstr "退出"
 msgid "_Ok"
 msgstr "确定"
 
+msgid "_Next"
+msgstr "下一步"
+
+msgid "_Test Connection"
+msgstr "测试连接"
+
+msgid "_General"
+msgstr "通用"
+

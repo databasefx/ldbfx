@@ -6,7 +6,10 @@ private class FeatureListItem : Box
   
   public FeatureListItem(unowned DatabaseFeature feature)
   {
+
+    this.vexpand = false;
     this.feature = feature;
+    this.valign = Align.CENTER;
     this.orientation = Orientation.VERTICAL;
 
     var label = new Label(feature.name);
@@ -17,40 +20,38 @@ private class FeatureListItem : Box
     this.append(image);
     this.append(label);
 
-    this.width_request = 100;
-    this.height_request = 50;
-
-    this.valign = Align.CENTER;
   }
 }
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
+    //  [GtkChild]
+    //  private unowned Entry name;
+    //  [GtkChild]
+    //  private unowned Entry comment;
+    //  [GtkChild]
+    //  private unowned Entry user;
+    //  [GtkChild]
+    //  private unowned Entry password;
+    //  [GtkChild]
+    //  private unowned ComboBox authBox;
+    //  [GtkChild]
+    //  private unowned ComboBox saveBox;
+    //  [GtkChild]
+    //  private unowned Entry host;
+    //  [GtkChild]
+    //  private unowned Entry port;
+    //  [GtkChild]
+    //  private unowned Spinner spinner;
+    //  [GtkChild]
+    //  private unowned Label tText;
+    //  [GtkChild]
+    //  private unowned Button apply;
+    //  [GtkChild]
+    //  private unowned Button cancel;
     [GtkChild]
-    private unowned Entry name;
-    [GtkChild]
-    private unowned Entry comment;
-    [GtkChild]
-    private unowned Entry user;
-    [GtkChild]
-    private unowned Entry password;
-    [GtkChild]
-    private unowned ComboBox authBox;
-    [GtkChild]
-    private unowned ComboBox saveBox;
-    [GtkChild]
-    private unowned Entry host;
-    [GtkChild]
-    private unowned Entry port;
-    [GtkChild]
-    private unowned Spinner spinner;
-    [GtkChild]
-    private unowned Label tText;
+    private unowned Stack stack;
     [GtkChild]
     private unowned FlowBox flowBox;
-    [GtkChild]
-    private unowned Button apply;
-    [GtkChild]
-    private unowned Button cancel;
     
     //当前数据库配置信息
     private unowned DatabaseFeature feature;
@@ -63,18 +64,31 @@ public class ConnectDialog : Gtk.Dialog {
 
     public ConnectDialog.edit(string uuid)
     {
-
     }
 
     private void createListItem()
     {
       var list = DatabaseFeature.getFeatures();
-
+            
       foreach(var feature in list)
       {
-        var item = new FeatureListItem(feature);
-        this.flowBox.append(item); 
+        var box = new FlowBoxChild();
+        box.width_request  = 100;
+        box.height_request = 100;
+        box.child = new FeatureListItem(feature);
+        this.flowBox.append(box); 
       }
+    }
+
+    [GtkCallback]
+    public void nextOrSave()
+    {
+      var visibleName = this.stack.visible_child_name;
+      if(visibleName == "page0")
+      {
+        this.stack.set_visible_child_name("page1");
+      }
+      stdout.printf("%s\n",visibleName);
     }
 
   /**
@@ -85,7 +99,7 @@ public class ConnectDialog : Gtk.Dialog {
    *
    *
    */
-  [GtkCallback]
+  //  [GtkCallback]
   public async void testConnect(Gtk.Button btn){
 //      if(!this.feature.impl)
 //      {

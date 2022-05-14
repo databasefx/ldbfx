@@ -1,88 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
 <interface>
     <template class="ConnectDialog" parent="GtkDialog">
         <property name="title" translatable="yes">New Connect</property>
-        <property name="use-header-bar">True</property>
         <property name="default-width">800</property>
         <property name="default-height">600</property>
         <property name="destroy-with-parent">True</property>
         <child internal-child="content_area">
-            <object class="GtkScrolledWindow">
+            <object class="GtkBox">
+                <property name="vexpand">1</property>
+                <property name="hexpand">1</property>
                 <child>
-                    <object class="GtkStack">
+                    <object class="GtkStack" id="stack">
                         <child>
                             <object class="GtkStackPage">
                                 <property name="name">page0</property>
                                 <property name="child">
                                     <object class="GtkFlowBox" id="flowBox">
-                                        <property name="row_spacing">10</property>
-                                        <property name="column_spacing">10</property>
-                                        <property name="vexpand">False</property>
-                                        <property name="homogeneous">True</property>
+                                        <property name="halign">1</property>
+                                        <property name="valign">1</property>
+                                        <property name="orientation">vertical</property>
                                     </object>
                                 </property>
                             </object>
                         </child>
                         <child>
                             <object class="GtkStackPage">
+                                <property name="visible">1</property>
                                 <property name="name">page1</property>
                                 <property name="child">
                                     <object class="GtkBox">
                                         <property name="orientation">vertical</property>
                                         <child>
-                                            <object class="GtkGrid">
-                                                <property name="row_spacing">5</property>
-                                                <property name="column_spacing">5</property>
-                                                <property name="hexpand">True</property>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property translatable="yes" name="label">Name</property>
-                                                        <layout>
-                                                            <property name="row">0</property>
-                                                            <property name="column">0</property>
-                                                        </layout>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkEntry" id="name">
-                                                        <property name="hexpand">True</property>
-                                                        <layout>
-                                                            <property name="row">0</property>
-                                                            <property name="column">1</property>
-                                                        </layout>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property translatable="yes" name="label">Comment</property>
-                                                        <layout>
-                                                            <property name="row">1</property>
-                                                            <property name="column">0</property>
-                                                        </layout>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkEntry" id="comment">
-                                                        <property name="hexpand">True</property>
-                                                        <layout>
-                                                            <property name="row">1</property>
-                                                            <property name="column">1</property>
-                                                        </layout>
-                                                    </object>
-                                                </child>
-                                            </object>
-                                        </child>
-                                        <child>
                                             <object class="GtkBox">
                                                 <property name="orientation">vertical</property>
                                                 <child>
+                                                    <object class="GtkGrid">
+                                                        <property name="row_spacing">5</property>
+                                                        <property name="column_spacing">5</property>
+                                                        <property name="hexpand">1</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property translatable="yes" name="label">Name
+                                                                </property>
+                                                                <layout>
+                                                                    <property name="row">0</property>
+                                                                    <property name="column">0</property>
+                                                                </layout>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkEntry" id="name">
+                                                                <property name="hexpand">True</property>
+                                                                <layout>
+                                                                    <property name="row">0</property>
+                                                                    <property name="column">1</property>
+                                                                </layout>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property translatable="yes" name="label">Comment
+                                                                </property>
+                                                                <layout>
+                                                                    <property name="row">1</property>
+                                                                    <property name="column">0</property>
+                                                                </layout>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkEntry" id="comment">
+                                                                <property name="hexpand">True</property>
+                                                                <layout>
+                                                                    <property name="row">1</property>
+                                                                    <property name="column">1</property>
+                                                                </layout>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
                                                     <object class="GtkNotebook">
-                                                        <property name="vexpand">True</property>
                                                         <child>
                                                             <object class="GtkGrid">
                                                                 <property name="row_spacing">5</property>
                                                                 <property name="column_spacing">5</property>
+                                                                <property name="vexpand">1</property>
                                                                 <child>
                                                                     <object class="GtkLabel">
                                                                         <property name="label" translatable="yes">Host</property>
@@ -94,10 +96,11 @@
                                                                 </child>
                                                                 <child>
                                                                     <object class="GtkEntry" id="host">
-                                                                        <property name="hexpand">True</property>
+                                                                        <property name="hexpand">1</property>
                                                                         <layout>
                                                                             <property name="row">0</property>
                                                                             <property name="column">1</property>
+                                                                            <property name="column-span">6</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -106,15 +109,17 @@
                                                                         <property name="label" translatable="yes">Port</property>
                                                                         <layout>
                                                                             <property name="row">0</property>
-                                                                            <property name="column">2</property>
+                                                                            <property name="column">7</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
                                                                 <child>
                                                                     <object class="GtkEntry" id="port">
+                                                                        <property name="hexpand">1</property>
                                                                         <layout>
                                                                             <property name="row">0</property>
-                                                                            <property name="column">3</property>
+                                                                            <property name="column">8</property>
+                                                                            <property name="column-span">2</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -138,6 +143,7 @@
                                                                         <layout>
                                                                             <property name="row">1</property>
                                                                             <property name="column">1</property>
+                                                                            <property name="column-span">6</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -145,7 +151,7 @@
                                                                     <object class="GtkLabel">
                                                                         <property name="label" translatable="yes">User</property>
                                                                         <layout>
-                                                                            <property name="row">3</property>
+                                                                            <property name="row">2</property>
                                                                             <property name="column">0</property>
                                                                         </layout>
                                                                     </object>
@@ -153,8 +159,9 @@
                                                                 <child>
                                                                     <object class="GtkEntry" id="user">
                                                                         <layout>
-                                                                            <property name="row">3</property>
+                                                                            <property name="row">2</property>
                                                                             <property name="column">1</property>
+                                                                            <property name="column-span">6</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -162,16 +169,19 @@
                                                                     <object class="GtkLabel">
                                                                         <property name="label" translatable="yes">Password</property>
                                                                         <layout>
-                                                                            <property name="row">4</property>
+                                                                            <property name="row">3</property>
                                                                             <property name="column">0</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
                                                                 <child>
                                                                     <object class="GtkEntry" id="password">
+                                                                        <property name="invisible-char"/>
+                                                                        <property name="visibility">0</property>
                                                                         <layout>
-                                                                            <property name="row">4</property>
+                                                                            <property name="row">3</property>
                                                                             <property name="column">1</property>
+                                                                            <property name="column-span">6</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -179,21 +189,40 @@
                                                                     <object class="GtkLabel">
                                                                         <property name="label" translatable="yes">Save</property>
                                                                         <layout>
-                                                                            <property name="row">4</property>
-                                                                            <property name="column">2</property>
+                                                                            <property name="row">3</property>
+                                                                            <property name="column">7</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
                                                                 <child>
                                                                     <object class="GtkComboBoxText" id="saveBox">
-                                                                        <property name="active">0</property>
+                                                                        <property name="hexpand">1</property>
                                                                         <items>
                                                                             <item translatable="yes">Forever</item>
                                                                             <item translatable="yes">Never</item>
                                                                         </items>
                                                                         <layout>
+                                                                            <property name="row">3</property>
+                                                                            <property name="column">8</property>
+                                                                            <property name="column-span">2</property>
+                                                                        </layout>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkLabel">
+                                                                        <property name="label" translatable="yes">Database</property>
+                                                                        <layout>
                                                                             <property name="row">4</property>
-                                                                            <property name="column">3</property>
+                                                                            <property name="column">0</property>
+                                                                        </layout>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkEntry" id="database">
+                                                                        <layout>
+                                                                            <property name="row">4</property>
+                                                                            <property name="column">1</property>
+                                                                            <property name="column-span">6</property>
                                                                         </layout>
                                                                     </object>
                                                                 </child>
@@ -201,31 +230,18 @@
                                                         </child>
                                                         <child type="tab">
                                                             <object class="GtkLabel">
-                                                                <property name="label" translatable="yes">General</property>
+                                                                <property name="label" translatable="yes">_General</property>
                                                             </object>
                                                         </child>
                                                     </object>
                                                 </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
                                                 <child>
-                                                    <object class="GtkBox">
-                                                        <property name="spacing">5</property>
-                                                        <child>
-                                                            <object class="GtkButton">
-                                                                <property translatable="yes" name="label">Test Connection</property>
-                                                                <signal name="activate" handler="testConnect"/>
-                                                            </object>
-                                                        </child>
-                                                        <child>
-                                                            <object class="GtkSpinner" id="spinner">
-
-                                                            </object>
-                                                        </child>
-                                                        <child>
-                                                            <object class="GtkLabel" id="tText"/>
-                                                        </child>
-                                                        <style>
-                                                            <class name="test-box"/>
-                                                        </style>
+                                                    <object class="GtkButton">
+                                                        <property name="label" translatable="yes">_Test Connection</property>
                                                     </object>
                                                 </child>
                                             </object>
@@ -240,8 +256,9 @@
         </child>
         <child type="action">
             <object class="GtkButton" id="apply">
-                <property translatable="yes" name="label">_Ok</property>
+                <property translatable="yes" name="label">_Next</property>
                 <property name="width-request">100</property>
+                <signal name="clicked" handler="nextOrSave"/>
                 <style>
                     <class name="action-item"/>
                 </style>

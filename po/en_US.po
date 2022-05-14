@@ -66,3 +66,12 @@ msgstr "Exit"
 
 msgid "_Ok"
 msgstr "Ok"
+
+msgid "_Next"
+msgstr "Next"
+
+msgid "_Test Connection"
+msgstr "Test Connection"
+
+msgid "_General"
+msgstr "General"
