@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=dbfx-vala
-Exec=dbfx-vala
+Name=v-dbfx
+Exec=v-dbfx
 Icon=cn.navclub.dbfx
 Terminal=false
 Type=Application

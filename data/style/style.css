@@ -4,6 +4,11 @@
 
 .main-tool-bar button {
   border-width: 0;
+  background-image: none;
+}
+
+.main-tool-bar button:hover {
+  background-color: #2d2d2d;
 }
 
 .main-notebook .tab button {
