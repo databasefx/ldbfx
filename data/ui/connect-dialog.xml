@@ -175,9 +175,7 @@
                                                                     </object>
                                                                 </child>
                                                                 <child>
-                                                                    <object class="GtkEntry" id="password">
-                                                                        <property name="invisible-char"/>
-                                                                        <property name="visibility">0</property>
+                                                                    <object class="GtkPasswordEntry" id="password">
                                                                         <layout>
                                                                             <property name="row">3</property>
                                                                             <property name="column">1</property>
