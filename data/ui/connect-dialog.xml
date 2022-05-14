@@ -294,6 +294,7 @@
                 <style>
                     <class name="action-item"/>
                 </style>
+                <signal handler="dialogClose" name="clicked"/>
                 <property name="width-request">100</property>
                 <property translatable="yes" name="label">Cancel</property>
             </object>

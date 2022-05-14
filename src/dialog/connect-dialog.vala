@@ -59,6 +59,10 @@ public class ConnectDialog : Gtk.Dialog {
   private unowned Button stepBtn;
   [GtkChild]
   private unowned FlowBox flowBox;
+  [GtkChild]
+  private unowned Entry database;
+
+  private string uuid;
     
   //当前数据库配置信息
   private unowned DatabaseFeature feature;
@@ -69,11 +73,6 @@ public class ConnectDialog : Gtk.Dialog {
     this.saveBox.active = 0;
     this.authBox.active = 0;
     this.visible = true;
-  }
-
-  public ConnectDialog.edit(string uuid)
-  {
-
   }
 
   /**
@@ -109,17 +108,20 @@ public class ConnectDialog : Gtk.Dialog {
     var visibleName = this.stack.visible_child_name;
     if(visibleName == "page0")
     {
+      this.apply.label = _("_Ok");
       this.stepBtn.visible = true;
       this.stack.set_visible_child_name("page1");
       return;
     }
     //执行保存
+    this.save();
   }
 
   [GtkCallback]
   public void back()
   {
     this.stack.set_visible_child_name("page0");
+    this.apply.label = _("_Next");
     this.stepBtn.visible = false;
   }
 
@@ -240,110 +242,105 @@ public class ConnectDialog : Gtk.Dialog {
   public void authChange(){
 
     var index = this.authBox.get_active();
-    if ( index == -1 ){
-        return;
-    }
 
     //如果认证方式为`NONE`则禁用认证模块
-    var disable = (index != AuthModel.USER_PASSWORD);
-
+    var disable = (index == AuthModel.USER_PASSWORD);
+    
     this.user.sensitive = disable;
     this.saveBox.sensitive = disable;
     this.password.sensitive = disable;
   }
 
-//    [GtkCallback]
-//    public void cancel()
-//    {
-//      this.response(1);
-//      this.close();
-//    }
+  [GtkCallback]
+  public void dialogClose()
+  {
+    this.close();
+  }
 
-//    [GtkCallback]
-//    public async void save()
-//    {
+  private async void save()
+  {
 
-//      var valid = this.formValid();
+    var valid = this.formValid();
 
-//      if(!valid){
-//          return;
-//      }
+    if(!valid){
+        return;
+    }
 
-//      var update = false;
-//      var uuid = this.uuid;
+    var update = false;
+    var uuid = this.uuid;
 
-//      if(!(update = !(uuid == null)))
-//      {
-//          uuid = Uuid.string_random();
-//      }
+    if(!(update = !(uuid == null)))
+    {
+        uuid = Uuid.string_random();
+    }
 
-//      var builder = new Json.Builder();
+    var builder = new Json.Builder();
 
-//      builder.begin_object();
+    builder.begin_object();
 
-//      builder.set_member_name(Constant.UUID);
-//      builder.add_string_value(uuid);
+    builder.set_member_name(Constant.UUID);
+    builder.add_string_value(uuid);
 
-//      builder.set_member_name(Constant.TYPE);
-//      builder.add_int_value(this.feature.dbType);
+    builder.set_member_name(Constant.TYPE);
+    builder.add_int_value(this.feature.dbType);
 
-//      builder.set_member_name(Constant.NAME);
-//      builder.add_string_value(this.name.text);
+    builder.set_member_name(Constant.NAME);
+    builder.add_string_value(this.name.text);
 
-//      builder.set_member_name(Constant.COMMENT);
-//      builder.add_string_value(this.comment.text);
+    builder.set_member_name(Constant.COMMENT);
+    builder.add_string_value(this.comment.text);
 
-//      builder.set_member_name(Constant.DATABASE);
-//      builder.add_string_value(this.database.text);
+    builder.set_member_name(Constant.DATABASE);
+    builder.add_string_value(this.database.text);
 
-//      builder.set_member_name(Constant.AUTH_MODEL);
-//      builder.add_int_value(this.authRequire());
+    builder.set_member_name(Constant.AUTH_MODEL);
+    builder.add_int_value(this.authRequire());
 
-//      builder.set_member_name(Constant.HOST);
-//      builder.add_string_value(this.host.text);
+    builder.set_member_name(Constant.HOST);
+    builder.add_string_value(this.host.text);
 
-//      builder.set_member_name(Constant.PORT);
-//      builder.add_int_value(int.parse(this.port.text));
+    builder.set_member_name(Constant.PORT);
+    builder.add_int_value(int.parse(this.port.text));
 
-//      if(this.authRequire() == AuthModel.USER_PASSWORD)
-//      {
-//          builder.set_member_name(Constant.USER);
-//          builder.add_string_value(this.user.text);
+    if(this.authRequire() == AuthModel.USER_PASSWORD)
+    {
+        builder.set_member_name(Constant.USER);
+        builder.add_string_value(this.user.text);
 
-//          builder.set_member_name(Constant.PASSWORD);
-//          builder.add_string_value(this.password.text);
-//      }
+        builder.set_member_name(Constant.PASSWORD);
+        builder.add_string_value(this.password.text);
+    }
 
-//      builder.end_object();
+    builder.end_object();
 
-//      //持久化到文件
-//      if(this.saveBox.get_active_id()=="1")
-//      {
-//          Error error = null;
-//          SourceFunc callback = save.callback;
-//          var work = AsyncWork.create(()=>{
-//              try{
-//                  AppConfig.addDataSource(uuid,builder.get_root(),update);
-//              }catch(Error e){
-//                  error = e;
-//                  var errmsg = error.message;
-//                  warning(@"Write config file fail:$errmsg");
-//              }
-//              Idle.add(callback);
-//          });
+    //持久化到文件
+    if(this.saveBox.active == 0)
+    {
+        Error error = null;
+        SourceFunc callback = save.callback;
+        var work = AsyncWork.create(()=>{
+            try{
+                AppConfig.addDataSource(uuid,builder.get_root(),update);
+            }catch(Error e){
+                error = e;
+                var errmsg = error.message;
+                warning(@"Write config file fail:$errmsg");
+            }
+            Idle.add(callback);
+        });
 
-//          work.execute();
+        work.execute();
 
-//          yield;
+        yield;
 
-//          if(error!=null)
-//          {
-//              new Notification(_("Save config fail"));
-//          }
-//      }
+        if(error != null)
+        {
+            new Notification(_("Save config fail"));
+        }
+    }
 
-//      UIUtil.textNotification(_("Save config fail"));
+    UIUtil.textNotification(_("Save config fail"));
 
-//    }
+  }
 
 }
