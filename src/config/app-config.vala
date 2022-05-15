@@ -217,6 +217,7 @@ public class AppConfig
 
         builder.end_object();
 
-        return builder.get_root().get_object();
+        var node = builder.get_root();
+        return node.get_object();
     }
 }
