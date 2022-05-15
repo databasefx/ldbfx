@@ -1,17 +1,17 @@
 {
-    "app-id": "cn.navclub.dbfx",
-    "runtime": "org.gnome.Sdk",
-    "runtime-version": "42",
-    "sdk": "org.gnome.Sdk",
-    "command": "v-dbfx",
-    "finish-args": [
+    "app-id" : "cn.navclub.dbfx",
+    "runtime" : "org.gnome.Sdk",
+    "runtime-version" : "42",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "v-dbfx",
+    "finish-args" : [
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland"
     ],
-    "cleanup": [
+    "cleanup" : [
         "/include",
         "/lib/pkgconfig",
         "/man",
@@ -23,50 +23,49 @@
         "*.la",
         "*.a"
     ],
-    "modules": [
+    "modules" : [
         {
-            "name": "libgee",
-            "buildsystem": "autotools",
-            "sources": [
+            "name" : "libgee",
+            "buildsystem" : "autotools",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libgee.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libgee.git"
                 }
             ]
         },
         {
-            "name": "flatpak_mysql",
-            "no-autogen": true,
-            "buildsystem": "cmake",
-            "cleanup": [
+            "name" : "flatpak_mysql",
+            "no-autogen" : true,
+            "buildsystem" : "cmake",
+            "cleanup" : [
                 "lib",
                 "include"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "git",
-                    "branch": "main",
-                    "url": "https://github.com/GZYangKui/flatpak-mysql.git"
+                    "type" : "git",
+                    "branch" : "main",
+                    "url" : "https://github.com/GZYangKui/flatpak-mysql.git"
                 }
             ]
         },
         {
-            "name": "dbfx",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "dbfx",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "branch": "main",
-                    "url": "https://github.com/GZYangKui/databasefx/v-dbfx.git"
+                    "type" : "git",
+                    "branch" : "main",
+                    "url" : "https://github.com/GZYangKui/databasefx/v-dbfx.git"
                 }
             ],
-            "config-opts": [
-                "gsettings",
-                "set",
-                "org.gtk.Settings.Debug",
-                "enable-inspector-keybinding",
-                "true"
+            "config-opts" : [
+                "G_MESSAGES_DEBUG=all"
             ]
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {        }
+    }
 }

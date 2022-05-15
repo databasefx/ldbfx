@@ -48,14 +48,15 @@ public class NavTreeEvent
     {
         NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Open"),NAV_OPEN),
         NTRowMMeta.create(NavTRowStatus.ACTIVED , _("Break off"),NAV_BREAK_OFF),
-        NTRowMMeta.create(NavTRowStatus.ANY , _("Edit"),NAV_EDIT),
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Edit"),NAV_EDIT),
         NTRowMMeta.create(NavTRowStatus.ANY , _("Delete"),NAV_DEL)
     };
 
     private const GLib.ActionEntry[] actionEntries =
     {
-        { NAV_OPEN,      open},
-        { NAV_BREAK_OFF, breakOff}
+        { NAV_OPEN,         open        },
+        { NAV_BREAK_OFF,    breakOff    },
+        { NAV_EDIT,         navEdit     }
     };
 
     private GestureClick rGesture;
@@ -91,6 +92,31 @@ public class NavTreeEvent
         this.popoverMenu.set_parent(this.navTree);
 
         Application.ctx.add_action_entries(actionEntries,this);
+    }
+    /*
+     *
+     *
+     * 导航树触发编辑
+     *
+     **/
+    private void navEdit()
+    {
+        var iter = this.getSelectIter();
+        if(iter == null)
+        {
+            return;
+        }
+        Value val;
+        //
+        // 获取行类别
+        //
+        this.treeModel.get_value(iter,NavTreeCol.NT_ROW,out val);
+        var at = (NTRow)val.get_int();
+        if(at == NTRow.ROOT)
+        {
+            this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
+            new ConnectDialog.fromEdit(val.get_string());
+        }
     }
     /**
      *

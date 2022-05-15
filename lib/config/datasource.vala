@@ -35,6 +35,29 @@ public class DataSource
 {
     /**
      *
+     *
+     * 数据源唯一id
+     *
+     **/
+    public string uuid;
+    /**
+     *
+     *
+     * 数据源名称
+     *
+     *
+     **/
+    public string name;
+    /**
+     *
+     *
+     * 数据源备注
+     *
+     *
+     **/
+    public string comment;
+    /**
+     *
      * 数据库服务器主机
      *
      */
@@ -87,6 +110,23 @@ public class DataSource
      *
      */
     public AuthModel authModel;
+
+    /**
+     *
+     *
+     * 数据库
+     *
+     *
+     **/
+    public string database;
+
+    /**
+     *
+     * 
+     * 保存模式
+     *   
+     **/
+    public int saveModel;
 
     /**
      *

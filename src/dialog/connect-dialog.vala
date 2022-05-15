@@ -75,6 +75,33 @@ public class ConnectDialog : Gtk.Dialog {
     this.visible = true;
   }
 
+  public ConnectDialog.fromEdit(string uuid)
+  {
+    this.uuid = uuid;
+    this.initDialog();
+    this.visible = true;
+  }
+
+
+  private void initDialog()
+  {
+    this.nextOrSave();
+    this.stepBtn.visible = false;
+
+    //更新编辑属性
+    var dataSource = AppConfig.getDataSource(this.uuid);
+    if(dataSource != null)
+    {
+      this.host.text = dataSource.host;
+      this.user.text = dataSource.user;
+      this.name.text = dataSource.name;
+      this.comment.text = dataSource.comment;
+      this.password.text = dataSource.password;
+      this.authBox.active = dataSource.authModel;
+      this.port.text = dataSource.port.to_string();
+    }
+  }
+
   /**
    *
    *
@@ -316,12 +343,12 @@ public class ConnectDialog : Gtk.Dialog {
     //持久化到文件
     if(this.saveBox.active == 0)
     {
-        Error error = null;
+        FXError error = null;
         SourceFunc callback = save.callback;
         var work = AsyncWork.create(()=>{
             try{
                 AppConfig.addDataSource(uuid,builder.get_root(),update);
-            }catch(Error e){
+            }catch(FXError e){
                 error = e;
                 var errmsg = error.message;
                 warning(@"Write config file fail:$errmsg");
@@ -335,12 +362,10 @@ public class ConnectDialog : Gtk.Dialog {
 
         if(error != null)
         {
-            new Notification(_("Save config fail"));
+            UIUtil.textNotification(_("Save config fail"));
+            return;
         }
     }
-
-    UIUtil.textNotification(_("Save config fail"));
-
   }
 
 }

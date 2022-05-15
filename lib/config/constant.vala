@@ -11,6 +11,8 @@ namespace Constant
     public const string PASSWORD = "password";
     public const string DATABASE = "database";
     public const string AUTH_MODEL = "authModel";
+    //保存模式
+    public const string SAVE_MODEL = "saveModel";
     //空值字符串
     public const string NULL_SYMBOL = "\\+//NULL\\*//";
 }

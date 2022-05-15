@@ -39,18 +39,10 @@ public class MainController : Gtk.ApplicationWindow {
 
         this.nameCol.set_expand(true);
 
-        var node = AppConfig.fetchDataSource();
-        var array = node.get_array();
-        var elements = array.get_elements();
-        foreach(var item in elements){
-            var obj = item.get_object();
-            var type = (DatabaseType)obj.get_int_member(Constant.TYPE);
-            var name = obj.get_string_member(Constant.NAME);
-            var feature = DatabaseFeature.getFeature(type);
-            if (feature == null || !feature.impl)
-            {
-                continue;
-            }
+        var dataSources = AppConfig.fetchDataSource();
+        foreach(var dataSource in dataSources){
+            
+            var feature = DatabaseFeature.getFeature(dataSource.dbType);
 
             var iter = new TreeIter();
             this.treeModel.append(out iter,null);
@@ -60,10 +52,10 @@ public class MainController : Gtk.ApplicationWindow {
             (
                 iter                                ,
                 NavTreeCol.ICON     ,   feature.icon,
-                NavTreeCol.NAME     ,   name        ,
+                NavTreeCol.NAME     ,   dataSource.name,
                 NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
                 NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
-                NavTreeCol.UUID     ,   obj.get_string_member(Constant.UUID)
+                NavTreeCol.UUID     ,   dataSource.uuid
             );
         }
 
