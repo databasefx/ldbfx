@@ -74,7 +74,7 @@ public class AppConfig
      * 添加/更新数据源
      *
      */
-    public static void addDataSource(string uuid,Json.Node data,bool update) throws FXError
+    public static void addDataSource(DataSource dataSource,bool update) throws FXError
     {
         var filename = "%s%s".printf(appDataFolder,dbPreference);
 
@@ -87,24 +87,23 @@ public class AppConfig
             createAppFolder();
             file.create(FileCreateFlags.NONE);
         }
-
-        unowned var array = node.get_array();
+        var array = node.get_array();
         if(update)
         {
-            foreach(var _node in array.get_elements())
+            foreach(var node in array.get_elements())
             {
-                var obj = _node.get_object();
-                var _uuid = obj.get_string_member(Constant.UUID);
-                if(_uuid == uuid )
+                var obj = node.get_object();
+                var uuid = obj.get_string_member(Constant.UUID);
+                if(uuid == dataSource.uuid)
                 {
-                    _node.set_object(data.get_object());
+                    node.set_object(toJson(dataSource));
                     break;
                 }
             }
         }
         else
         {
-            array.add_object_element(data.get_object());
+            array.add_object_element(toJson(dataSource));
         }
 
         var jsonStr = JsonUtil.jsonStr(node);
@@ -182,4 +181,42 @@ public class AppConfig
         return dataSource;   
     }
 
+    private static Json.Object toJson(DataSource dataSource)
+    {
+            
+        var builder = new Json.Builder();
+
+        builder.begin_object();
+
+        builder.set_member_name(Constant.UUID);
+        builder.add_string_value(dataSource.uuid);
+
+        builder.set_member_name(Constant.TYPE);
+        builder.add_int_value(dataSource.dbType);
+
+        builder.set_member_name(Constant.NAME);
+        builder.add_string_value(dataSource.name);
+
+        builder.set_member_name(Constant.COMMENT);
+        builder.add_string_value(dataSource.comment);
+
+        builder.set_member_name(Constant.DATABASE);
+        builder.add_string_value(dataSource.database);
+
+        builder.set_member_name(Constant.AUTH_MODEL);
+        builder.add_int_value(dataSource.authModel);
+
+        builder.set_member_name(Constant.HOST);
+        builder.add_string_value(dataSource.host);
+
+        builder.set_member_name(Constant.PORT);
+        builder.add_int_value(dataSource.port);
+
+        builder.set_member_name(Constant.SAVE_MODEL);
+        builder.add_int_value(dataSource.saveModel);
+
+        builder.end_object();
+
+        return builder.get_root().get_object();
+    }
 }

@@ -184,7 +184,7 @@ public class Application : Gtk.Application
     **/
     public void newConnect()
     {
-        new ConnectDialog();
+       new ConnectDialog();
     }
 
     /**

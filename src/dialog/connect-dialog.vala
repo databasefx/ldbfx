@@ -27,6 +27,8 @@ private class FeatureListItem : Box
   }
 }
 
+public delegate void DFunction(DataSource dataSource);
+
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
   [GtkChild]
@@ -61,6 +63,8 @@ public class ConnectDialog : Gtk.Dialog {
   private unowned FlowBox flowBox;
   [GtkChild]
   private unowned Entry database;
+
+  public DFunction callback;
 
   private string uuid;
     
@@ -301,70 +305,51 @@ public class ConnectDialog : Gtk.Dialog {
         uuid = Uuid.string_random();
     }
 
-    var builder = new Json.Builder();
+    var dataSource = new DataSource(this.feature.dbType);
 
-    builder.begin_object();
-
-    builder.set_member_name(Constant.UUID);
-    builder.add_string_value(uuid);
-
-    builder.set_member_name(Constant.TYPE);
-    builder.add_int_value(this.feature.dbType);
-
-    builder.set_member_name(Constant.NAME);
-    builder.add_string_value(this.name.text);
-
-    builder.set_member_name(Constant.COMMENT);
-    builder.add_string_value(this.comment.text);
-
-    builder.set_member_name(Constant.DATABASE);
-    builder.add_string_value(this.database.text);
-
-    builder.set_member_name(Constant.AUTH_MODEL);
-    builder.add_int_value(this.authRequire());
-
-    builder.set_member_name(Constant.HOST);
-    builder.add_string_value(this.host.text);
-
-    builder.set_member_name(Constant.PORT);
-    builder.add_int_value(int.parse(this.port.text));
+    dataSource.uuid = uuid;
+    dataSource.host = this.host.text;
+    dataSource.comment = this.comment.text;
+    dataSource.database = this.database.text;
+    dataSource.authModel = this.authBox.active;
+    dataSource.saveModel = this.saveBox.active;
+    dataSource.port = int.parse(this.port.text);
 
     if(this.authRequire() == AuthModel.USER_PASSWORD)
     {
-        builder.set_member_name(Constant.USER);
-        builder.add_string_value(this.user.text);
-
-        builder.set_member_name(Constant.PASSWORD);
-        builder.add_string_value(this.password.text);
+      dataSource.user = this.user.text;
+      dataSource.password = this.password.text;
     }
-
-    builder.end_object();
-
-    //持久化到文件
-    if(this.saveBox.active == 0)
+    else
     {
-        FXError error = null;
-        SourceFunc callback = save.callback;
-        var work = AsyncWork.create(()=>{
-            try{
-                AppConfig.addDataSource(uuid,builder.get_root(),update);
-            }catch(FXError e){
-                error = e;
-                var errmsg = error.message;
-                warning(@"Write config file fail:$errmsg");
-            }
-            Idle.add(callback);
-        });
+      dataSource.user = "";
+      dataSource.password = "";
+    }
+    
+    FXError error = null;
+    SourceFunc callback = save.callback;
+    var work = AsyncWork.create(()=>{
+      try
+      {
+        AppConfig.addDataSource(dataSource,update);
+      }
+      catch(FXError e)
+      {
+        error = e;
+        var errmsg = error.message;
+        warning(@"Write config file fail:$errmsg");
+      }
+      Idle.add(callback);
+    });
 
-        work.execute();
+    work.execute();
 
-        yield;
+    yield;
 
-        if(error != null)
-        {
-            UIUtil.textNotification(_("Save config fail"));
-            return;
-        }
+    if(error != null)
+    {
+      UIUtil.textNotification(_("Save config fail"));
+      return;
     }
   }
 
