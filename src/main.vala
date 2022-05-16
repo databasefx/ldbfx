@@ -184,7 +184,10 @@ public class Application : Gtk.Application
     **/
     public void newConnect()
     {
-       new ConnectDialog();
+       var dialog = new ConnectDialog();
+       dialog.callback.connect((dataSource)=>{
+           this.controller.auDataSource(dataSource,false);
+       });
     }
 
     /**

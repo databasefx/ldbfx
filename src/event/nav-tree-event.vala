@@ -49,14 +49,15 @@ public class NavTreeEvent
         NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Open"),NAV_OPEN),
         NTRowMMeta.create(NavTRowStatus.ACTIVED , _("Break off"),NAV_BREAK_OFF),
         NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Edit"),NAV_EDIT),
-        NTRowMMeta.create(NavTRowStatus.ANY , _("Delete"),NAV_DEL)
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Delete"),NAV_DEL)
     };
 
     private const GLib.ActionEntry[] actionEntries =
     {
         { NAV_OPEN,         open        },
         { NAV_BREAK_OFF,    breakOff    },
-        { NAV_EDIT,         navEdit     }
+        { NAV_EDIT,         navEdit     },
+        { NAV_DEL,          navDel      }
     };
 
     private GestureClick rGesture;
@@ -116,6 +117,33 @@ public class NavTreeEvent
         {
             this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
             new ConnectDialog.fromEdit(val.get_string());
+        }
+    }
+    /**
+     *
+     * 删除数据源
+     *
+     */
+    private void navDel()
+    {
+        var iter = this.getSelectIter();
+        if(iter == null){
+            return;
+        }
+
+        //
+        // 获取行类别
+        //
+        Value val;
+        this.treeModel.get_value(iter,NavTreeCol.NT_ROW,out val);
+        var at = (NTRow)val.get_int();
+        if(at == NTRow.ROOT)
+        {
+            this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
+            //删除缓存
+            AppConfig.deleteById(val.get_string(),true);
+            //移除当前行
+            this.treeStore().remove(ref iter);
         }
     }
     /**
@@ -409,7 +437,7 @@ public class NavTreeEvent
                 }
 
                 //清除连接池
-                if( error == null )
+                if( error != null )
                 {
                     Application.ctx.removePool(uuid);
                 }

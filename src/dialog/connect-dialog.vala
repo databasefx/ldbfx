@@ -27,8 +27,6 @@ private class FeatureListItem : Box
   }
 }
 
-public delegate void DFunction(DataSource dataSource);
-
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
   [GtkChild]
@@ -64,7 +62,7 @@ public class ConnectDialog : Gtk.Dialog {
   [GtkChild]
   private unowned Entry database;
 
-  public DFunction callback;
+  public signal void callback(DataSource dataSource);
 
   private string uuid;
     
@@ -308,6 +306,7 @@ public class ConnectDialog : Gtk.Dialog {
     var dataSource = new DataSource(this.feature.dbType);
 
     dataSource.uuid = uuid;
+    dataSource.name = this.name.text;
     dataSource.host = this.host.text;
     dataSource.comment = this.comment.text;
     dataSource.database = this.database.text;
@@ -351,6 +350,10 @@ public class ConnectDialog : Gtk.Dialog {
       UIUtil.textNotification(_("Save config fail"));
       return;
     }
+
+    this.callback(dataSource);
+
+    this.close();
   }
 
 }

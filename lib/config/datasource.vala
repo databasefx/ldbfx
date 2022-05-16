@@ -28,6 +28,30 @@ public enum AuthModel
 
 /**
  *
+ * 数据源保存方式
+ *
+ */
+public enum SaveModel
+{
+    /**
+     *
+     *
+     * 持久化保存
+     *
+     **/
+    FOREVER,
+    /**
+     *
+     *
+     * 不持久化保存
+     *
+     *
+     **/
+    NEVER
+}
+
+/**
+ *
  * 数据源配置
  *
  */
@@ -126,7 +150,7 @@ public class DataSource
      * 保存模式
      *   
      **/
-    public int saveModel;
+    public SaveModel saveModel;
 
     /**
      *

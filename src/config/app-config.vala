@@ -76,36 +76,97 @@ public class AppConfig
      */
     public static void addDataSource(DataSource dataSource,bool update) throws FXError
     {
+        var array = node.get_array();
+        var persistence = (dataSource.saveModel == SaveModel.FOREVER);
+        if(persistence)
+        {
+            if(update)
+            {
+                foreach(var node in array.get_elements())
+                {
+                    var obj = node.get_object();
+                    var uuid = obj.get_string_member(Constant.UUID);
+                    if(uuid == dataSource.uuid)
+                    {
+                        node.set_object(toJson(dataSource));
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                array.add_object_element(toJson(dataSource));
+            }
+            flush2Disk();
+        }else
+        {
+            deleteById(dataSource.uuid,false);
+        }
+        dataSources.add(dataSource);
+    }
+
+    /**
+     *
+     *
+     * 删除数据源根据id
+     *
+     *
+     **/
+    public static void deleteById(string uuid,bool all)
+    {
+        var j = 0;
+        var i = -1;
+        var array = node.get_array();
+        foreach(var node in array.get_elements())
+        {
+            var obj = node.get_object();
+            if(obj.get_string_member(Constant.UUID) == uuid){
+                i = j;
+                break;
+            }
+            ++j;
+        }
+        if(i != -1)
+        {
+            array.remove_element(i);
+        }
+        if(all)
+        {
+            i = j = 0;
+            foreach(var item in dataSources)
+            {
+                if(item.uuid == uuid)
+                {
+                    i = j;
+                    break;
+                }
+                j++;
+            }
+            dataSources.remove_at(i);
+        }
+        flush2Disk();
+    }
+
+    /**
+     *
+     *
+     * 刷新配置到文件中
+     *
+     *
+     **/
+    private static void flush2Disk()
+    {
         var filename = "%s%s".printf(appDataFolder,dbPreference);
-
+        
         var file = File.new_for_path(filename);
-
         var exists = file.query_exists();
+
         //文件不存在->创建文件
         if(!exists)
         {
             createAppFolder();
             file.create(FileCreateFlags.NONE);
         }
-        var array = node.get_array();
-        if(update)
-        {
-            foreach(var node in array.get_elements())
-            {
-                var obj = node.get_object();
-                var uuid = obj.get_string_member(Constant.UUID);
-                if(uuid == dataSource.uuid)
-                {
-                    node.set_object(toJson(dataSource));
-                    break;
-                }
-            }
-        }
-        else
-        {
-            array.add_object_element(toJson(dataSource));
-        }
-
         var jsonStr = JsonUtil.jsonStr(node);
         var output = file.replace(null,false,FileCreateFlags.NONE);
         output.write(jsonStr.data);
@@ -119,15 +180,14 @@ public class AppConfig
      **/
     public static  DataSource? getDataSource(string uuid)
     {
-        var array = node.get_array();
-        foreach(var node in array.get_elements())
+        foreach(var dataSource in dataSources)
         {
-            var obj = node.get_object();
-            var uid = obj.get_string_member(Constant.UUID);
-            if( uid == uuid){
-                return create(obj);
+            if(dataSource.uuid == uuid)
+            {
+                return dataSource;
             }
         }
+        warning("Cant' find any dataSource for [%s]".printf(uuid));
         return null;
     }
 
@@ -214,6 +274,12 @@ public class AppConfig
 
         builder.set_member_name(Constant.SAVE_MODEL);
         builder.add_int_value(dataSource.saveModel);
+
+        builder.set_member_name(Constant.USER);
+        builder.add_string_value(dataSource.user);
+
+        builder.set_member_name(Constant.PASSWORD);
+        builder.add_string_value(dataSource.password);
 
         builder.end_object();
 

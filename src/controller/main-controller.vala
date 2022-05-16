@@ -41,22 +41,7 @@ public class MainController : Gtk.ApplicationWindow {
 
         var dataSources = AppConfig.fetchDataSource();
         foreach(var dataSource in dataSources){
-            
-            var feature = DatabaseFeature.getFeature(dataSource.dbType);
-
-            var iter = new TreeIter();
-            this.treeModel.append(out iter,null);
-
-
-            this.treeModel.set
-            (
-                iter                                ,
-                NavTreeCol.ICON     ,   feature.icon,
-                NavTreeCol.NAME     ,   dataSource.name,
-                NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
-                NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
-                NavTreeCol.UUID     ,   dataSource.uuid
-            );
+            this.createNavRoot(dataSource);
         }
 
         this.navTree.model = this.treeModel;
@@ -69,5 +54,32 @@ public class MainController : Gtk.ApplicationWindow {
     {
         var size = this.notebook.get_n_pages();
         this.stack.set_visible_child_name(size > 0 ? "page1" : "page0");
+    }
+
+    public void auDataSource(DataSource dataSource,bool update)
+    {
+        if(!update)
+        {
+            this.createNavRoot(dataSource);
+        }
+    }
+
+    private void createNavRoot(DataSource dataSource)
+    {
+        var feature = DatabaseFeature.getFeature(dataSource.dbType);
+
+        var iter = new TreeIter();
+        this.treeModel.append(out iter,null);
+
+
+        this.treeModel.set
+        (
+            iter                                ,
+            NavTreeCol.ICON     ,   feature.icon,
+            NavTreeCol.NAME     ,   dataSource.name,
+            NavTreeCol.NT_ROW   ,   NTRow.ROOT  ,
+            NavTreeCol.STATUS   ,   NavTRowStatus.INACTIVE,
+            NavTreeCol.UUID     ,   dataSource.uuid
+        );
     }
 }
