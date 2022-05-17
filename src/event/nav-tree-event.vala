@@ -454,7 +454,7 @@ public class NavTreeEvent
 
         if( error != null )
         {
-            
+            new FXAlert(AlertType.WARNING,error.message);
             return;
         }
         foreach(var schema in list)
