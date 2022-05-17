@@ -21,7 +21,9 @@ public class NotebookTable : Box, TabService
     private SignalListItemFactory factory;
     
     [GtkChild]
-    private unowned Gtk.ColumnView tableView;
+    private unowned Label rowNLum;
+    [GtkChild]
+    private unowned ColumnView tableView;
 
 
     public NotebookTable(string path,string pathVal,bool view)
@@ -61,12 +63,15 @@ public class NotebookTable : Box, TabService
         Gee.List<TableColumnMeta> columns = null;
         SourceFunc callback = loadTableData.callback;
 
+        int64 total = 0;
+
         var work = AsyncWork.create(()=>{
             var connect = Application.getConnection(uuid);
             try
             {
                 data = connect.pageQuery(schema,table,this.page,this.size);
                 columns = connect.tableColumns(schema,table);
+                total = connect.count(schema,table);
             }
             catch(FXError e)
             {
@@ -82,6 +87,8 @@ public class NotebookTable : Box, TabService
         work.execute();
         
         yield;
+
+        this.rowNLum.label = "%s %s".printf(total.to_string(),_("_Rows"));
 
         if(error != null)
         {

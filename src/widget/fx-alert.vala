@@ -19,7 +19,13 @@ public enum AlertType
      * 错误信息
      *
      */
-    ERROR
+    ERROR,
+    /**
+     *
+     * 确认框
+     *
+     */
+     CONFIRMATION
 }
 /**
  *
@@ -33,10 +39,16 @@ public class FXAlert : Window
     private unowned Image icon;
     [GtkChild]
     private unowned Label label;
+    [GtkChild]
+    private unowned Button cancel;
+    [GtkChild]
+    private unowned Button ok;
 
     private AlertType type;
 
-    public FXAlert(AlertType type,string text)
+    public signal void response(bool ok);
+
+    private FXAlert(AlertType type,string text)
     {
         this.type = type;
         string iconName;
@@ -48,6 +60,10 @@ public class FXAlert : Window
         {
             iconName = "dbfx-alert-warn";
         }
+        else if(type == AlertType.CONFIRMATION)
+        {
+            iconName = "dbfx-alert-help";
+        }
         else
         {
             iconName = "dbfx-alert-error";
@@ -56,6 +72,23 @@ public class FXAlert : Window
         this.label.label = text;
         this.icon.icon_name = iconName;
 
+        this.ok.clicked.connect(()=>this.manualClose(true));
+        this.cancel.clicked.connect(()=>this.manualClose(false));
+
+        this.cancel.visible = (type == AlertType.CONFIRMATION);
+
         this.visible = true;
+
+    }
+
+    private void manualClose(bool ok)
+    {
+        this.response(ok);
+        this.close();
+    }
+
+    public static FXAlert create(AlertType type,string text)
+    {
+        return new FXAlert(type,text);
     }
 }

@@ -213,7 +213,19 @@ public class MysqlConnection : SqlConnection
      */
     public override int64 count(string schema,string table) throws FXError
     {
-        return 0l;
+        this.connect();
+        var sql = @"SELECT COUNT(*) FROM $schema.$table";
+        if(this.database.query(sql) != 0)
+        {
+            throw new FXError.ERROR(this.database.error());
+        }
+        var rs = this.database.use_result();
+        var rows = rs.fetch_row();
+        if(rows.length == 0)
+        {
+            return 0;
+        }
+        return int64.parse(rows[0]);
     }
 
     public override void shutdown()

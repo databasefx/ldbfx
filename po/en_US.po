@@ -70,6 +70,9 @@ msgstr "Ok"
 msgid "_Next"
 msgstr "Next"
 
+msgid "_Cancel"
+msgstr "Cancel"
+
 msgid "_Test Connection"
 msgstr "Test Connection"
 
@@ -81,3 +84,10 @@ msgstr "New Connection"
 
 msgid "_Back"
 msgstr "Back"
+
+
+msgid "_Delete db"
+msgstr "Are you sure delete current data source?"
+
+msgid "_Rows"
+msgstr "rows"

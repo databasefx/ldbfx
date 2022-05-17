@@ -139,11 +139,18 @@ public class NavTreeEvent
         var at = (NTRow)val.get_int();
         if(at == NTRow.ROOT)
         {
-            this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
-            //删除缓存
-            AppConfig.deleteById(val.get_string(),true);
-            //移除当前行
-            this.treeStore().remove(ref iter);
+            var alert = FXAlert.create(AlertType.CONFIRMATION,_("_Delete db"));
+            alert.response.connect((ok)=>{
+                if(!ok)
+                {
+                    return;
+                }
+                this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
+                //删除缓存
+                AppConfig.deleteById(val.get_string(),true);
+                //移除当前行
+                this.treeStore().remove(ref iter);
+            });
         }
     }
     /**
@@ -454,7 +461,7 @@ public class NavTreeEvent
 
         if( error != null )
         {
-            new FXAlert(AlertType.WARNING,error.message);
+            FXAlert.create(AlertType.WARNING,error.message);
             return;
         }
         foreach(var schema in list)
