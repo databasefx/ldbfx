@@ -45,3 +45,14 @@ menubar,
 .connect-dialog .action-item {
   margin: 5px;
 }
+
+.connect-dialog .flow-box {
+  padding: 5px;
+}
+
+.connect-dialog .flow-box .feature-list-item {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #2b2b2b;
+  padding: 5px;
+}

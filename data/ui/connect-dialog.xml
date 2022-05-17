@@ -18,8 +18,13 @@
                                     <object class="GtkFlowBox" id="flowBox">
                                         <property name="halign">1</property>
                                         <property name="valign">1</property>
+                                        <property name="row_spacing">10</property>
+                                        <property name="column_spacing">10</property>
                                         <property name="orientation">vertical</property>
                                         <signal name="child_activated" handler="flowBoxChildActive"/>
+                                        <style>
+                                            <class name="flow-box"/>
+                                        </style>
                                     </object>
                                 </property>
                             </object>

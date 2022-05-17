@@ -1,8 +1,10 @@
 using Gtk;
 
+
 private class FeatureListItem : Box
 {
-  
+  private const string DEFAULT_CLASS_NAME = "feature-list-item";
+
   public unowned DatabaseFeature feature{
     private set;
     get;
@@ -19,11 +21,12 @@ private class FeatureListItem : Box
     var label = new Label(feature.name);
     var image = new Image.from_icon_name(feature.icon);
 
-    image.icon_size = IconSize.LARGE;
+    image.pixel_size = 100;
 
     this.append(image);
     this.append(label);
 
+    this.add_css_class(DEFAULT_CLASS_NAME);
   }
 }
 
