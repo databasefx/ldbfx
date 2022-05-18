@@ -93,3 +93,6 @@ msgstr "你确定删除当前数据源?"
 
 msgid "_Rows"
 msgstr "行"
+
+msgid "_File"
+msgstr "文件"

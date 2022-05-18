@@ -32,80 +32,63 @@ private class FeatureListItem : Box
 
 [GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
+
+
+  public signal void callback(DataSource dataSource);
+
   [GtkChild]
   private unowned Entry name;
   [GtkChild]
-  private unowned Entry comment;
-  [GtkChild]
-  private unowned Entry user;
-  [GtkChild]
-  private unowned PasswordEntry password;
-  [GtkChild]
-  private unowned ComboBox authBox;
-  [GtkChild]
-  private unowned ComboBox saveBox;
-  [GtkChild]
-  private unowned Entry host;
-  [GtkChild]
-  private unowned Entry port;
-  [GtkChild]
-  private unowned Spinner spinner;
-  [GtkChild]
-  private unowned Label tText;
-  [GtkChild]
-  private unowned Button apply;
+  private unowned Entry comment;  
   [GtkChild]
   private unowned Button cancel;
   [GtkChild]
   private unowned Stack stack;
   [GtkChild]
+  private unowned Label tText;
+  [GtkChild]
+  private unowned Button apply;
+  [GtkChild]
   private unowned Button stepBtn;
   [GtkChild]
-  private unowned FlowBox flowBox;
+  private unowned Box compactBox;
   [GtkChild]
-  private unowned Entry database;
+  private unowned Spinner spinner;
+  [GtkChild]
+  private unowned FlowBox flowBox;
 
-  public signal void callback(DataSource dataSource);
 
   private string uuid;
-    
+
+  private DataSourceConpact compact;
+
   //当前数据库配置信息
   private unowned DatabaseFeature feature;
 
   public ConnectDialog()
   {
-    this.createListItem();
-    this.saveBox.active = 0;
-    this.authBox.active = 0;
+    this.compact = null;
     this.visible = true;
+    this.createListItem();
   }
 
   public ConnectDialog.fromEdit(string uuid)
   {
-    this.uuid = uuid;
-    this.initDialog();
-    this.visible = true;
-  }
+    var dataSource = AppConfig.getDataSource(this.uuid=uuid);
 
+    this.feature = DatabaseFeature.getFeature(dataSource.dbType);
 
-  private void initDialog()
-  {
     this.nextOrSave();
+
+    this.visible = true;
     this.stepBtn.visible = false;
 
-    //更新编辑属性
-    var dataSource = AppConfig.getDataSource(this.uuid);
-    if(dataSource != null)
-    {
-      this.host.text = dataSource.host;
-      this.user.text = dataSource.user;
-      this.name.text = dataSource.name;
-      this.comment.text = dataSource.comment;
-      this.password.text = dataSource.password;
-      this.authBox.active = dataSource.authModel;
-      this.port.text = dataSource.port.to_string();
-    }
+    compact.initCompact(dataSource);
+
+    this.name.text = dataSource.name;
+    this.comment.text = dataSource.comment;
   }
+
 
   /**
    *
@@ -142,11 +125,28 @@ public class ConnectDialog : Gtk.Dialog {
     {
       this.apply.label = _("_Ok");
       this.stepBtn.visible = true;
+      if(this.compact != null)
+      {
+        this.name.text = "";
+        this.comment.text = "";
+        this.compactBox.remove(this.compact.content());
+      }
+      if(this.feature.dbType == DatabaseType.SQLITE)
+      {
+        this.compact = new SqliteCompact(this);
+      }
+      else
+      {
+        this.compact = new CommonDataSourceCompact();
+      }
+      this.compactBox.append(this.compact.content());
       this.stack.set_visible_child_name("page1");
-      return;
     }
-    //执行保存
-    this.save();
+    else
+    {
+      //执行保存
+      this.save();
+    }
   }
 
   [GtkCallback]
@@ -173,34 +173,14 @@ public class ConnectDialog : Gtk.Dialog {
    *
    */
   [GtkCallback]
-  public async void testConnect(Gtk.Button btn){
-    if(!this.feature.impl)
-    {
-        debug("Current database not support!");
-        return;
-    }
-
-    if(!this.formValid())
-    {
-        debug("Connect info miss!");
-        return;
-    }
-
+  public async void testConnect(Gtk.Button btn)
+  {
     var dataSource = new DataSource(this.feature.dbType);
-
-    dataSource.host = this.host.text;
-    dataSource.port = int.parse(this.port.text);
-
-    if(authRequire()== AuthModel.USER_PASSWORD)
+    var success = this.compact.toDataSource(dataSource);
+    if(!success)
     {
-        dataSource.user = this.user.text;
-        dataSource.password = this.password.text;
-        dataSource.authModel = AuthModel.USER_PASSWORD;
-    }else
-    {
-        dataSource.authModel = AuthModel.NONE;
+      return;
     }
-
     this.spinner.start();
 
     string errmsg = null;
@@ -233,56 +213,6 @@ public class ConnectDialog : Gtk.Dialog {
     this.spinner.stop();
   }
 
-  /**
-   *
-   * 验证当前表单是否完整
-   *
-   */
-  private bool formValid()
-  {
-
-    var host = this.host.text.strip();
-    var port = this.port.text.strip();
-    var user = this.user.text.strip();
-    var name = this.name.text.strip();
-
-    var require  = (authRequire()==AuthModel.USER_PASSWORD);
-
-    var password = this.password.text.strip();
-
-
-    var a =  UIUtil.formValid(this.host,()=>host!="");
-    var b =  UIUtil.formValid(this.name,()=>name!="");
-    var c =  UIUtil.formValid(this.port,()=>port!="");
-    var d =  UIUtil.formValid(this.user,()=>(!require || user!=""));
-    var e =  UIUtil.formValid(this.password,()=>(!require ||password!=""));
-
-    return a && b && c && d && e;
-  }
-
-  private AuthModel authRequire()
-  {
-      return (AuthModel)this.authBox.get_active();
-  }
-
-  /**
-   *
-   * 认证方式改变
-   *
-   */
-  [GtkCallback]
-  public void authChange(){
-
-    var index = this.authBox.get_active();
-
-    //如果认证方式为`NONE`则禁用认证模块
-    var disable = (index == AuthModel.USER_PASSWORD);
-    
-    this.user.sensitive = disable;
-    this.saveBox.sensitive = disable;
-    this.password.sensitive = disable;
-  }
-
   [GtkCallback]
   public void dialogClose()
   {
@@ -292,42 +222,21 @@ public class ConnectDialog : Gtk.Dialog {
   private async void save()
   {
 
-    var valid = this.formValid();
-
-    if(!valid){
-        return;
+    var dataSource = new DataSource(this.feature.dbType);
+    var success = this.compact.toDataSource(dataSource);
+    if(!success || !basicValid(dataSource))
+    {
+      return;
     }
-
     var update = false;
     var uuid = this.uuid;
 
     if(!(update = !(uuid == null)))
     {
         uuid = Uuid.string_random();
-    }
-
-    var dataSource = new DataSource(this.feature.dbType);
-
+    }    
     dataSource.uuid = uuid;
-    dataSource.name = this.name.text;
-    dataSource.host = this.host.text;
-    dataSource.comment = this.comment.text;
-    dataSource.database = this.database.text;
-    dataSource.authModel = this.authBox.active;
-    dataSource.saveModel = this.saveBox.active;
-    dataSource.port = int.parse(this.port.text);
 
-    if(this.authRequire() == AuthModel.USER_PASSWORD)
-    {
-      dataSource.user = this.user.text;
-      dataSource.password = this.password.text;
-    }
-    else
-    {
-      dataSource.user = "";
-      dataSource.password = "";
-    }
-    
     FXError error = null;
     SourceFunc callback = save.callback;
     var work = AsyncWork.create(()=>{
@@ -359,4 +268,47 @@ public class ConnectDialog : Gtk.Dialog {
     this.close();
   }
 
+  private bool basicValid(DataSource? dataSource)
+  {
+    var name = this.name.text.strip();
+    var b =  UIUtil.formValid(this.name,()=>name!="");
+    if(b && dataSource != null)
+    {
+      dataSource.name= name;
+      dataSource.comment = this.comment.text;
+    }
+    return b;
+  }
+
+}
+
+public interface DataSourceConpact:Object
+{
+    /**
+     *
+     * 表单验证
+     *
+     **/
+    public abstract bool formValid();
+
+    /**
+     *
+     * 初始化组建
+     *
+     */
+    public abstract void initCompact(DataSource dataSource);
+
+    /**
+     *
+     * 将当前表单内容转换为 DataSource 模型
+     *
+     **/
+    public abstract bool toDataSource(DataSource dataSource);
+
+    /**
+     *
+     * 获取当前ui组件
+     *
+     */
+    public abstract Widget content();
 }

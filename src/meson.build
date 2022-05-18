@@ -9,6 +9,8 @@ dbfx_vala_sources = [
   'config/nav-tree.vala',
   'config/app-config.vala',
   'widget/fx-alert.vala',
+  'widget/sqlite-compact.vala',
+  'widget/data-source-compact.vala',
   'widget/notebook-tab.vala',
   'widget/notebook-table.vala',
   'model/table-row-meta.vala',

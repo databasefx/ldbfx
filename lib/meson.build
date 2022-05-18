@@ -22,7 +22,8 @@ libdbfx_deps = [
   glib,
   gio,
   libgee,
-  mysql
+  mysql,
+  sqlite3
 ]
 
 #静态链接

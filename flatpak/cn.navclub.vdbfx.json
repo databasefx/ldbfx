@@ -35,6 +35,22 @@
             ]
         },
         {
+            "name" : "sqlite",
+            "buildsystem" : "simple",
+            "build-commands" : [
+                "./configure --prefix=/app",
+                "make",
+                "make install"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://www.sqlite.org/snapshot/sqlite-snapshot-202205171511.tar.gz",
+                    "sha1" : "90d18bd735f96111df61c4dc78c1f011ac95ad1b"
+                }
+            ]
+        },
+        {
             "name" : "flatpak_mysql",
             "no-autogen" : true,
             "buildsystem" : "cmake",

@@ -91,3 +91,6 @@ msgstr "Are you sure delete current data source?"
 
 msgid "_Rows"
 msgstr "rows"
+
+msgid "_File"
+msgstr "File"

@@ -24,8 +24,8 @@ add_project_arguments(
 
 min_glib_version = '2.50'
 
-
 libgee = dependency('gee-0.8')
+sqlite3 = dependency('sqlite3')
 libxml = dependency('libxml-2.0')
 mysql =  dependency('flatpak_mysql')
 libjson = dependency('json-glib-1.0')
