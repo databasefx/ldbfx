@@ -127,6 +127,7 @@
                                     <object class="GtkNotebook" id="notebook">
                                         <property name="enable_popup">True</property>
                                         <property name="scrollable">True</property>
+                                        <property name="show_border">0</property>
                                         <signal name="page_added" handler="noteChildChange" swapped="no"/>
                                         <signal name="page_removed" handler="noteChildChange" swapped="no"/>
                                         <style>

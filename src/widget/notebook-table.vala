@@ -54,6 +54,15 @@ public class NotebookTable : Box, TabService
 
     private async void loadTableData()
     {
+        var tab = this.tab();
+        
+        if(tab.loading)
+        {
+            return;
+        }
+
+        tab.loadStatus(true);
+
         var uuid = this.getPosVal(this.path,0);
         var table = this.getPosVal(this.pathVal,-1);
         var schema = this.getPosVal(this.pathVal,-3);
@@ -88,6 +97,8 @@ public class NotebookTable : Box, TabService
         
         yield;
 
+        tab.loadStatus(false);
+        
         this.rowNLum.label = "%s %s".printf(total.to_string(),_("_Rows"));
 
         if(error != null)
