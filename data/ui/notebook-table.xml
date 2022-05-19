@@ -52,6 +52,17 @@
                         </child>
                     </object>
                 </child>
+                <child>
+                    <object class="GtkSeparator">
+                        <property name="orientation">vertical</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <property name="icon_name">dbfx-refresh</property>
+                        <signal name="clicked" handler="refresh"/>
+                    </object>
+                </child>
                 <style>
                     <class name="table-toolbar"/>
                 </style>

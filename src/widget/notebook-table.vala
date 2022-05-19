@@ -70,6 +70,12 @@ public class NotebookTable : Box, TabService
         this.loadTableData(-1);
     }
 
+    [GtkCallback]
+    private void refresh()
+    {
+        this.loadTableData(0);
+    }
+
     private async void loadTableData(int offset)
     {
         var tab = this.tab();
@@ -81,14 +87,7 @@ public class NotebookTable : Box, TabService
 
         var temp = (this.page + offset);
 
-        temp = (temp <= 0 ? 1 : temp);
-
-        if(temp == this.page)
-        {
-            return;
-        }
-
-        this.page = temp;
+        this.page = (temp <= 0 ? 1 : temp);
 
         //清除先前数据
         this.listStore.remove_all();
