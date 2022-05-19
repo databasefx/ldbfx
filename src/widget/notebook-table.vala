@@ -1,4 +1,5 @@
 using Gtk;
+using Gee;
 
 /*
  *
@@ -19,6 +20,10 @@ public class NotebookTable : Box, TabService
     private MultiSelection selection;
     private GLib.ListStore listStore;
     private SignalListItemFactory factory;
+
+    private Gee.List<string> list = null;
+    //缓存当前列属性
+    private Gee.List<ColumnViewColumn> columns;
     
     [GtkChild]
     private unowned Label rowNLum;
@@ -28,12 +33,14 @@ public class NotebookTable : Box, TabService
 
     public NotebookTable(string path,string pathVal,bool view)
     {
-        this.page = 1;
+        this.page = 0;
         this.size = 100;
         this.view = view;
         this.path = path;
         this.pathVal = pathVal;
+        this.list = new ArrayList<string>();
         this.factory = new SignalListItemFactory();
+        this.columns = new ArrayList<ColumnViewColumn>();
         this.listStore = new GLib.ListStore(typeof(TableRowMeta));
         this.selection = new MultiSelection(this.listStore);
         this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
@@ -48,11 +55,22 @@ public class NotebookTable : Box, TabService
 
         this.tableView.model = this.selection;
 
-        this.loadTableData();
+        this.loadTableData(1);
     }
 
+    [GtkCallback]
+    private void nextPage()
+    {
+        this.loadTableData(1);
+    }
 
-    private async void loadTableData()
+    [GtkCallback]
+    private void prePage()
+    {
+        this.loadTableData(-1);
+    }
+
+    private async void loadTableData(int offset)
     {
         var tab = this.tab();
         
@@ -61,6 +79,20 @@ public class NotebookTable : Box, TabService
             return;
         }
 
+        var temp = (this.page + offset);
+
+        temp = (temp <= 0 ? 1 : temp);
+
+        if(temp == this.page)
+        {
+            return;
+        }
+
+        this.page = temp;
+
+        //清除先前数据
+        this.listStore.remove_all();
+
         tab.loadStatus(true);
 
         var uuid = this.getPosVal(this.path,0);
@@ -68,7 +100,6 @@ public class NotebookTable : Box, TabService
         var schema = this.getPosVal(this.pathVal,-3);
 
         FXError error = null;
-        Gee.List<string> data = null;
         Gee.List<TableColumnMeta> columns = null;
         SourceFunc callback = loadTableData.callback;
 
@@ -78,7 +109,7 @@ public class NotebookTable : Box, TabService
             var connect = Application.getConnection(uuid);
             try
             {
-                data = connect.pageQuery(schema,table,this.page,this.size);
+                list = connect.pageQuery(schema,table,this.page,this.size);
                 columns = connect.tableColumns(schema,table);
                 total = connect.count(schema,table);
             }
@@ -105,22 +136,24 @@ public class NotebookTable : Box, TabService
         {
             return;
         }
-        
+
         this.diffCol(columns);
-        
-        var dataSize  = data.size;
+
         var colNum    = columns.size;
+        var dataSize  = this.list.size;
         var rowNum    = dataSize / colNum;
         for (int j = 0; j < rowNum; j++)
         {
-            var offset = j * colNum;
+            var _offset = j * colNum;
             var array  = new string[colNum];
-            for (int i = offset; i < offset + colNum; i++)
+            for (int i = _offset; i < _offset + colNum; i++)
             {
-                array[i-offset] = data.get(i);
+                array[i-_offset] = this.list.get(i);
             }
             this.listStore.append(new TableRowMeta(array));
         }
+
+        this.list.clear();
     }
 
     /**
@@ -131,18 +164,39 @@ public class NotebookTable : Box, TabService
      **/
     private void diffCol(Gee.List<TableColumnMeta> list)
     {
+        var index = 0;
+        
+        var newSize = list.size;
+        var size = this.columns.size;
+        
         foreach(var column in list)
         {
             var name = column.name;
-            var ccolumn = new ColumnViewColumn
-            (
-                name,
-                factory
-            );
+            var exist = (size != 0 && size >= newSize);
+            if(exist)
+            {
+                this.columns.get(index).title = name;
+            }
+            else
+            {
+                var ccolumn = new ColumnViewColumn
+                (
+                    name,
+                    factory
+                );
             
-            ccolumn.set_resizable(true);
-            
-            this.tableView.append_column(ccolumn);
+                ccolumn.set_resizable(true);
+                this.columns.add(ccolumn);
+                this.tableView.append_column(ccolumn);
+            }
+            index++;
+        }
+
+        //移除多余列
+        for(var i = (size - 1) ; i >= newSize ; i--)
+        {
+            var column = this.columns.remove_at(i);
+            this.tableView.remove_column(column);
         }
     }
 

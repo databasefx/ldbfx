@@ -23,6 +23,7 @@
                         <child>
                             <object class="GtkButton">
                                 <property name="icon-name">dbfx-ppage</property>
+                                <signal name="clicked" handler="prePage"/>
                             </object>
                         </child>
                     </object>
@@ -37,6 +38,7 @@
                         <child>
                             <object class="GtkButton">
                                 <property name="icon-name">dbfx-npage</property>
+                                <signal name="clicked" handler="nextPage"/>
                             </object>
                         </child>
                     </object>
