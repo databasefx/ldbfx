@@ -13,7 +13,7 @@ public class MysqlConnection : SqlConnection
         this.database = new Database();
     }
 
-    public MysqlConnection.whitout(DataSource dataSource)
+    public MysqlConnection.without(DataSource dataSource)
     {
         this(dataSource,null);
     }

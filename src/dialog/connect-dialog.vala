@@ -191,7 +191,15 @@ public class ConnectDialog : Gtk.Dialog {
 
     WorkDetail work = ()=>{
         try{
-            var con = new MysqlConnection.whitout(dataSource);
+            SqlConnection con;
+            if(this.feature.dbType == DatabaseType.SQLITE)
+            {
+              con = new SqliteConnection.without(dataSource);
+            }
+            else
+            {
+              con = new MysqlConnection.without(dataSource);
+            }
             con.connect();
             info = con.serverInfo();
         }catch(FXError e){
@@ -228,7 +236,7 @@ public class ConnectDialog : Gtk.Dialog {
     {
       return;
     }
-    
+
     var update = false;
 
     if((update = (uuid != null)))

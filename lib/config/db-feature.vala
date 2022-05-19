@@ -64,7 +64,7 @@ public class DatabaseFeature : Object {
             features =
             {
                 new DatabaseFeature("MySQL","dbfx-mysql",DatabaseType.MYSQL,true),
-                new DatabaseFeature("SQLite","dbfx-sqlite",DatabaseType.SQLITE,false)
+                new DatabaseFeature("SQLite","dbfx-sqlite",DatabaseType.SQLITE,true)
             };
         }
         return features;

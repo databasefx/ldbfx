@@ -141,11 +141,19 @@ public class SqlConnectionPool
             var maxSize = this.dataSource.maxSize;
 
             for(var i=0;i<maxSize;i++){
+                SqlConnection con = null;
                 //初始化MYSQL连接
                 if(type == DatabaseType.MYSQL)
                 {
-                    this.freeQueue.add(new MysqlConnection(this.dataSource,this));
+                    con = new MysqlConnection(this.dataSource,this);
                 }
+                //初始化Sqlite连接
+                if(type == DatabaseType.SQLITE)
+                {
+                    con = new SqliteConnection(this.dataSource,this);
+                }
+
+                this.freeQueue.add(con);
             }
 
             this.initCapacity = true;

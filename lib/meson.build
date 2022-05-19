@@ -11,6 +11,7 @@ libdbfx_sources = [
   'model/table-column.vala',
   'model/database-schema.vala',
   'impl/mysql-connection.vala',
+  'impl/sqlite-connection.vala',
   'config/table-column-type.vala'
 ]
 
