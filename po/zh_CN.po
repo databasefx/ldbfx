@@ -96,3 +96,9 @@ msgstr "行"
 
 msgid "_File"
 msgstr "文件"
+
+msgid "_View"
+msgstr "视图"
+
+msgid "_Full Screen"
+msgstr "全屏"

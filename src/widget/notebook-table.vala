@@ -34,7 +34,7 @@ public class NotebookTable : Box, TabService
     public NotebookTable(string path,string pathVal,bool view)
     {
         this.page = 0;
-        this.size = 100;
+        this.size = 200;
         this.view = view;
         this.path = path;
         this.pathVal = pathVal;
@@ -109,9 +109,9 @@ public class NotebookTable : Box, TabService
             var connect = Application.getConnection(uuid);
             try
             {
-                list = connect.pageQuery(schema,table,this.page,this.size);
-                columns = connect.tableColumns(schema,table);
                 total = connect.count(schema,table);
+                columns = connect.tableColumns(schema,table);
+                list = connect.pageQuery(schema,table,this.page,this.size);
             }
             catch(FXError e)
             {
@@ -127,8 +127,6 @@ public class NotebookTable : Box, TabService
         work.execute();
         
         yield;
-
-        tab.loadStatus(false);
         
         this.rowNLum.label = "%s %s".printf(total.to_string(),_("_Rows"));
 
@@ -149,9 +147,18 @@ public class NotebookTable : Box, TabService
             for (int i = _offset; i < _offset + colNum; i++)
             {
                 array[i-_offset] = this.list.get(i);
+                //一次性加载10条数据
+                if(j % 10 == 0)
+                {
+                    Idle.add(callback);
+                    yield;
+                }
             }
             this.listStore.append(new TableRowMeta(array));
+
         }
+
+        tab.loadStatus(false);
 
         this.list.clear();
     }

@@ -2,11 +2,11 @@
 <interface>
     <menu id='menubar'>
         <submenu>
-            <attribute name='label' translatable='yes'>File</attribute>
+            <attribute name='label' translatable='yes'>_File</attribute>
             <attribute name="icon">dbfx-mysql</attribute>
             <section>
                 <item>
-                    <attribute name='label' translatable='yes'>New Connection</attribute>
+                    <attribute name='label' translatable='yes'>_New Connection</attribute>
                     <attribute name="action">app.new</attribute>
                 </item>
             </section>

@@ -94,3 +94,9 @@ msgstr "rows"
 
 msgid "_File"
 msgstr "File"
+
+msgid "_View"
+msgstr "View"
+
+msgid "_Full Screen"
+msgstr "Full Screen"
