@@ -300,6 +300,7 @@ public class NavTreeEvent
         //移除连接池
         Application.ctx.removePool(uuid);
         this.treeStore().set_value( iter , NavTreeCol.STATUS , NavTRowStatus.INACTIVE );
+        this.navTree.columns_autosize();
     }
 
     /**
@@ -496,6 +497,8 @@ public class NavTreeEvent
         {
             this.navTree.expand_row(treePath,false);    
         }
+
+        this.navTree.columns_autosize();
     }
 
     /**

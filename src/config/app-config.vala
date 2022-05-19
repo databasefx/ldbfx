@@ -65,7 +65,7 @@ public class AppConfig
         {
             dataSources.add(create(item.get_object()));
         }
-
+        warning(filename);
         return dataSources;
     }
 
