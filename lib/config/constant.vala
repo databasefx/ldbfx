@@ -11,6 +11,7 @@ namespace Constant
     public const string PASSWORD = "password";
     public const string DATABASE = "database";
     public const string AUTH_MODEL = "authModel";
+    public const string DB_FILE_PATH = "dbFilePath";
     //保存模式
     public const string SAVE_MODEL = "saveModel";
     //空值字符串

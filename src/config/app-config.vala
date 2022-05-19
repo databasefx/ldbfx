@@ -237,6 +237,7 @@ public class AppConfig
         dataSource.comment = obj.get_string_member(Constant.COMMENT);
         dataSource.saveModel = (int)obj.get_int_member(Constant.SAVE_MODEL);
         dataSource.dbType = (DatabaseType)obj.get_int_member(Constant.TYPE);
+        dataSource.dbFilePath = obj.get_string_member(Constant.DB_FILE_PATH);
 
         return dataSource;   
     }
@@ -280,6 +281,9 @@ public class AppConfig
 
         builder.set_member_name(Constant.PASSWORD);
         builder.add_string_value(dataSource.password);
+
+        builder.set_member_name(Constant.DB_FILE_PATH);
+        builder.add_string_value(dataSource.dbFilePath);
 
         builder.end_object();
 

@@ -100,3 +100,6 @@ msgstr "View"
 
 msgid "_Full Screen"
 msgstr "Full Screen"
+
+msgid "_Select"
+msgstr "Select"

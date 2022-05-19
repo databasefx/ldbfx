@@ -102,3 +102,6 @@ msgstr "视图"
 
 msgid "_Full Screen"
 msgstr "全屏"
+
+msgid "_Select"
+msgstr "选择"

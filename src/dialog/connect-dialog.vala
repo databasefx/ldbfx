@@ -222,20 +222,19 @@ public class ConnectDialog : Gtk.Dialog {
   private async void save()
   {
 
-    var dataSource = new DataSource(this.feature.dbType);
+    var dataSource = DataSource.default(this.feature.dbType);
     var success = this.compact.toDataSource(dataSource);
     if(!success || !basicValid(dataSource))
     {
       return;
     }
+    
     var update = false;
-    var uuid = this.uuid;
 
-    if(!(update = !(uuid == null)))
+    if((update = (uuid != null)))
     {
-        uuid = Uuid.string_random();
+      dataSource.uuid = this.uuid;
     }    
-    dataSource.uuid = uuid;
 
     FXError error = null;
     SourceFunc callback = save.callback;

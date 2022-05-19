@@ -159,6 +159,14 @@ public class DataSource
      */
     public DatabaseType dbType;
 
+    /**
+     *
+     *
+     * 数据库文件路径
+     *
+     */
+    public string dbFilePath;
+
     public DataSource(DatabaseType type){
         this.dbType = type;
     }
@@ -172,5 +180,24 @@ public class DataSource
             "password":"%s"
         }
         """.printf(host,port,user,password);
+    }
+
+    public static DataSource default(DatabaseType type)
+    {
+        var dataSource = new DataSource(type);
+        
+        dataSource.port = 80;
+        dataSource.name = "";
+        dataSource.user = "";
+        dataSource.comment = "";
+        dataSource.database = "";
+        dataSource.password = "";
+        dataSource.dbFilePath = "";
+        dataSource.host = "0.0.0.0";
+        dataSource.authModel = AuthModel.NONE;
+        dataSource.uuid = Uuid.string_random();
+        dataSource.saveModel = SaveModel.FOREVER;
+
+        return dataSource;
     }
 }
