@@ -36,40 +36,48 @@ public enum AlertType
 public class FXAlert : Window
 {
     [GtkChild]
-    private unowned Image icon;
+    private unowned Button ok;
     [GtkChild]
-    private unowned Label label;
+    private unowned Image icon;
     [GtkChild]
     private unowned Button cancel;
     [GtkChild]
-    private unowned Button ok;
+    private unowned Label subTitle;
+    [GtkChild]
+    private unowned Label textView;
 
     private AlertType type;
 
     public signal void response(bool ok);
 
-    private FXAlert(AlertType type,string text)
+    private FXAlert(AlertType type,string subTitle,string content)
     {
         this.type = type;
         string iconName;
         if(this.type == AlertType.INFOMATION)
         {
             iconName = "dbfx-alert-info";
+            this.title = _("_Information");
         }
         else if(type == AlertType.WARNING)
         {
             iconName = "dbfx-alert-warn";
+            this.title = _("_Warn");
         }
         else if(type == AlertType.CONFIRMATION)
         {
             iconName = "dbfx-alert-help";
+            this.title = _("_Confirmation");
         }
         else
         {
+            this.title = _("_Error");
             iconName = "dbfx-alert-error";
         }
 
-        this.label.label = text;
+        this.textView.label = content;
+        this.subTitle.label = subTitle;
+
         this.icon.icon_name = iconName;
 
         this.ok.clicked.connect(()=>this.manualClose(true));
@@ -87,8 +95,23 @@ public class FXAlert : Window
         this.close();
     }
 
-    public static FXAlert create(AlertType type,string text)
+    public static FXAlert info(string subTitle,string content)
     {
-        return new FXAlert(type,text);
+        return new FXAlert(AlertType.INFOMATION,subTitle,content);
+    }
+
+    public static FXAlert warn(string subTitle,string content)
+    {
+        return new FXAlert(AlertType.WARNING,subTitle,content);
+    }
+
+    public static FXAlert confirm(string subTitle,string content)
+    {
+        return new FXAlert(AlertType.CONFIRMATION,subTitle,content);
+    }
+
+    public static FXAlert error(string subTitle,string content)
+    {
+        return new FXAlert(AlertType.ERROR,subTitle,content);
     }
 }

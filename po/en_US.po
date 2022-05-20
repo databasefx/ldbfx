@@ -85,6 +85,8 @@ msgstr "New Connection"
 msgid "_Back"
 msgstr "Back"
 
+msgid "_Delete warn"
+msgstr "Delete warn"
 
 msgid "_Delete db"
 msgstr "Are you sure delete current data source?"
@@ -103,3 +105,19 @@ msgstr "Full Screen"
 
 msgid "_Select"
 msgstr "Select"
+
+msgid "_Open data source fail"
+msgstr "Open data source failed!"
+
+msgid "_Warn"
+msgstr "Wan"
+
+msgid "_Error"
+msgstr "Error"
+
+msgid "_Confirmation"
+msgstr "Confirmation"
+
+msgid "_Information"
+msgstr "Information"
+

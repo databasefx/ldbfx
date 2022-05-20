@@ -87,6 +87,8 @@ msgstr "返回"
 msgid "_Cancel"
 msgstr "取消"
 
+msgid "_Delete warn"
+msgstr "删除警告"
 
 msgid "_Delete db"
 msgstr "你确定删除当前数据源?"
@@ -105,3 +107,19 @@ msgstr "全屏"
 
 msgid "_Select"
 msgstr "选择"
+
+msgid "_Open data source fail"
+msgstr "无法打开目标数据源头!"
+
+
+msgid "_Warn"
+msgstr "警告"
+
+msgid "_Error"
+msgstr "错误"
+
+msgid "_Confirmation"
+msgstr "确认"
+
+msgid "_Information"
+msgstr "信息"

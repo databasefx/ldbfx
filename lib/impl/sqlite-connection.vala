@@ -137,7 +137,46 @@ public class SqliteConnection : SqlConnection
      **/
     public override Gee.List<TableColumnMeta> tableColumns(string schema,string name) throws FXError
     {
-        return new Gee.ArrayList<TableColumnMeta>();
+        
+        this.connect();
+
+        var sql = @"PRAGMA table_info($name)";
+        Statement stmt;
+        var code = this.database.prepare_v2(sql,sql.length,out stmt);
+        if(code != OK)
+        {
+            warning("Query sqlite table struct fail:%s".printf(this.database.errmsg()));
+            throw new FXError.ERROR(this.database.errmsg());
+        }
+        var cols = stmt.column_count();
+        
+        var list = new Gee.ArrayList<TableColumnMeta>();
+
+        while(stmt.step() == Sqlite.ROW)
+        {
+            var columnMeta = new TableColumnMeta();
+
+            for (int i = 0; i < cols; i++)
+            {
+                var column = stmt.column_name(i);
+                if(column == "name")
+                {
+                    columnMeta.name = stmt.column_text(i)??Constant.NULL_SYMBOL;
+                }
+                if(column == "notnull")
+                {
+                    columnMeta.isNull = (stmt.column_int(i) == 1);
+                }
+                if(column == "type")
+                {
+                    columnMeta.originType = stmt.column_text(i);
+                }
+            }
+
+            list.add(columnMeta);
+        }
+
+        return list;
     }
 
     /**

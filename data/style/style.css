@@ -9,7 +9,8 @@
 
 menubar,
 .main-tool-bar button:hover,
-.table-toolbar button:hover {
+.table-toolbar button:hover,
+.fx-alert .fx-alert-content {
   background-color: #2d2d2d;
 }
 
@@ -58,8 +59,8 @@ menubar,
   padding: 5px;
 }
 
-.fx-alert {
-  padding: 10px;
+.fx-alert>box {
+  padding: 7px;
 }
 
 .table-toolbar {
@@ -68,8 +69,8 @@ menubar,
 }
 
 .table-toolbar button {
-  background-image: none;
   padding: 0;
   border-width: 0;
+  background-image: none;
   background-color: transparent;
 }

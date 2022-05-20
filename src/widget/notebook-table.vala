@@ -15,6 +15,7 @@ public class NotebookTable : Box, TabService
     private int size;
     private bool view;
     public string path;
+    private int64 total;
     private string pathVal;
     private NotebookTab notebookTab;
     private MultiSelection selection;
@@ -34,6 +35,7 @@ public class NotebookTable : Box, TabService
     public NotebookTable(string path,string pathVal,bool view)
     {
         this.page = 0;
+        this.total = 0;
         this.size = 200;
         this.view = view;
         this.path = path;
@@ -114,7 +116,6 @@ public class NotebookTable : Box, TabService
             }
             catch(FXError e)
             {
-                warning("Query table data fail:%s".printf(e.message));
                 error = e;
             }
             finally
@@ -129,33 +130,40 @@ public class NotebookTable : Box, TabService
         
         this.rowNLum.label = "%s %s".printf(total.to_string(),_("_Rows"));
 
-        if(error != null)
+        if(error == null)
         {
-            return;
-        }
+            var colNum = columns.size;
 
-        this.diffCol(columns);
-
-        var colNum    = columns.size;
-        var dataSize  = this.list.size;
-        var rowNum    = dataSize / colNum;
-        for (int j = 0; j < rowNum; j++)
-        {
-            var _offset = j * colNum;
-            var array  = new string[colNum];
-            for (int i = _offset; i < _offset + colNum; i++)
+            if(colNum > 0)
             {
-                array[i-_offset] = this.list.get(i);
-                //一次性加载10条数据
-                if(j % 10 == 0)
+                this.diffCol(columns);
+
+                var dataSize  = this.list.size;
+                var rowNum    = dataSize / colNum;
+                for (int j = 0; j < rowNum; j++)
                 {
-                    Idle.add(callback);
-                    yield;
+                    var _offset = j * colNum;
+                    var array  = new string[colNum];
+                    for (int i = _offset; i < _offset + colNum; i++)
+                    {
+                        array[i-_offset] = this.list.get(i);
+                        //一次性加载10条数据
+                        if(j % 10 == 0)
+                        {
+                            Idle.add(callback);
+                            yield;
+                        }
+                    }
+                    this.listStore.append(new TableRowMeta(array));
                 }
             }
-            this.listStore.append(new TableRowMeta(array));
-
         }
+        else
+        {
+            
+        }
+
+        this.total = total;
 
         tab.loadStatus(false);
 

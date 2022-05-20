@@ -139,7 +139,7 @@ public class NavTreeEvent
         var at = (NTRow)val.get_int();
         if(at == NTRow.ROOT)
         {
-            var alert = FXAlert.create(AlertType.CONFIRMATION,_("_Delete db"));
+            var alert = FXAlert.confirm(_("_Delete warn"),_("_Delete db"));
             alert.response.connect((ok)=>{
                 if(!ok)
                 {
@@ -462,7 +462,7 @@ public class NavTreeEvent
 
         if( error != null )
         {
-            FXAlert.create(AlertType.WARNING,error.message);
+            FXAlert.warn(_("_Open data source fail"),error.message);
             return;
         }
         foreach(var schema in list)
