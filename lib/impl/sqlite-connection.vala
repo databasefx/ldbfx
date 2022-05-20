@@ -105,21 +105,28 @@ public class SqliteConnection : SqlConnection
         smt.bind_text(index,"table");
 
         var cols = smt.column_count();
+       
+        var list = new Gee.ArrayList<TableInfo>();
 
         while(smt.step() == Sqlite.ROW)
         {
+            var table = new TableInfo();
+
             for (int i = 0; i < cols; i++) 
             {
 			    var col_name = smt.column_name (i) ?? "<none>";
 			    var val = smt.column_text (i) ?? "<none>";
 			    var type_id = smt.column_type (i);
 
-			    print ("column: %s\n", col_name);
-			    print ("value: %s\n", val);
-			    print ("type: %d\n", type_id);
+                if(col_name == "name")
+                {
+                    table.name = val;
+                }
+
 		    }
+            list.add(table);
         }
-        return new Gee.ArrayList<TableInfo>();
+        return list;
     }
 
     /**
