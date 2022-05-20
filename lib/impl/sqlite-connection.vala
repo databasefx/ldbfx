@@ -101,8 +101,9 @@ public class SqliteConnection : SqlConnection
 
         //预编译
         var index =smt.bind_parameter_index("$table");
+        
         //绑定参数
-        smt.bind_text(index,"table");
+        smt.bind_text(index,view ? "view" : "table");
 
         var cols = smt.column_count();
        
