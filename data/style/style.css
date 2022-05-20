@@ -74,3 +74,7 @@ menubar,
   background-image: none;
   background-color: transparent;
 }
+
+.accel-box label {
+  color: red;
+}

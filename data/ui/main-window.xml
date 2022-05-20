@@ -96,6 +96,7 @@
                                 <property name="name">page0</property>
                                 <property name="child">
                                     <object class="GtkBox">
+                                        <property name="spacing">10</property>
                                         <property name="valign">center</property>
                                         <property name="orientation">vertical</property>
                                         <child>
@@ -104,6 +105,75 @@
                                                 <property name="can-focus">False</property>
                                                 <property name="pixel-size">200</property>
                                                 <property name="icon-name">cn.navclub.dbfx-symbolic</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="halign">3</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">0</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">_Exit</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">1</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">Control+E</property>
+                                                    </object>
+                                                </child>
+                                                <style>
+                                                    <class name="accel-box"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="halign">3</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">0</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">_New Connection</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">1</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">Control+N</property>
+                                                    </object>
+                                                </child>
+                                                <style>
+                                                    <class name="accel-box"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="halign">3</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">0</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">_Full Screen</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkLabel">
+                                                        <property name="xalign">1</property>
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">Control+Shift+F</property>
+                                                    </object>
+                                                </child>
+                                                <style>
+                                                    <class name="accel-box"/>
+                                                </style>
                                             </object>
                                         </child>
                                         <child>
@@ -123,14 +193,6 @@
                                                     </object>
                                                 </child>
                                             </object>
-                                            <!-- <object class="GtkLabel">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">slogan</property>
-                                                <style>
-                                                    <class name="slogan"/>
-                                                </style>
-                                            </object> -->
                                         </child>
                                     </object>
                                 </property>
