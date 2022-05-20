@@ -121,3 +121,8 @@ msgstr "Confirmation"
 msgid "_Information"
 msgstr "Information"
 
+msgid "_Open File"
+msgstr "Open File"
+
+msgid "_New Terminal"
+msgstr "New Terminal"

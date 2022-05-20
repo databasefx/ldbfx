@@ -123,3 +123,10 @@ msgstr "确认"
 
 msgid "_Information"
 msgstr "信息"
+
+msgid "_Open File"
+msgstr "打开文件"
+
+msgid "_New Terminal"
+msgstr "新建终端"
+

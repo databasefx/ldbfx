@@ -103,18 +103,34 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="pixel-size">200</property>
-                                                <property name="icon-name">v-dbfx</property>
+                                                <property name="icon-name">cn.navclub.dbfx-symbolic</property>
                                             </object>
                                         </child>
                                         <child>
-                                            <object class="GtkLabel">
+                                            <object class="GtkBox">
+                                                <property name="halign">3</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">_Open File</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton">
+                                                        <property name="width_request">150</property>
+                                                        <property name="label" translatable="yes">_New Terminal</property>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                            <!-- <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">slogan</property>
                                                 <style>
                                                     <class name="slogan"/>
                                                 </style>
-                                            </object>
+                                            </object> -->
                                         </child>
                                     </object>
                                 </property>
