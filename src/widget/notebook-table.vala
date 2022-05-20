@@ -160,7 +160,7 @@ public class NotebookTable : Box, TabService
         }
         else
         {
-            
+            FXAlert.error(_("_Loading fail"),error.message);
         }
 
         this.total = total;

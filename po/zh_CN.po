@@ -130,3 +130,6 @@ msgstr "打开文件"
 msgid "_New Terminal"
 msgstr "新建终端"
 
+msgid "_Loading fail"
+msgstr "数据加载失败!"
+

@@ -186,7 +186,39 @@ public class SqliteConnection : SqlConnection
      **/
     public override Gee.List<string> pageQuery(string schema,string table,int page,int size) throws FXError
     {
-        return new Gee.ArrayList<string>();
+        this.connect();
+
+        Statement stmt;
+        var offset = (page - 1) * size;
+
+        var sql = "SELECT * FROM %s LIMIT $size offset $offset".printf(table);
+
+        var code = this.database.prepare_v2(sql,sql.length,out stmt);
+
+        if(code != OK)
+        {
+            warning("Page query sqlite3 data fail:%s".printf(this.database.errmsg()));
+            throw new FXError.ERROR(this.database.errmsg());
+        }
+
+        var j = stmt.bind_parameter_index("$size");
+        var k = stmt.bind_parameter_index("$offset");
+        
+        stmt.bind_int(j,size);
+        stmt.bind_int(k,offset);
+
+        var cols = stmt.column_count();
+        var list  = new Gee.ArrayList<string>();
+
+        while(stmt.step() == ROW)
+        {
+            for(var l = 0;l < cols ; l++)
+            {
+                list.add(stmt.column_text(l));
+            }
+        }
+
+        return list;
     }
 
     /**

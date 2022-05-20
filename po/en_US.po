@@ -126,3 +126,6 @@ msgstr "Open File"
 
 msgid "_New Terminal"
 msgstr "New Terminal"
+
+msgid "_Loading fail"
+msgstr "Loading data failed!"
