@@ -228,7 +228,27 @@ public class SqliteConnection : SqlConnection
      */
     public override int64 count(string schema,string table) throws FXError
     {
-        return 0;
+        this.connect();
+        
+        Statement stmt;
+        
+        var sql = "SELECT COUNT(*) FROM %s".printf(table);
+
+        var code = this.database.prepare_v2(sql,sql.length,out stmt);
+
+        if(code != OK)
+        {
+            warning("Sqlite count table row number fail:%s".printf(this.database.errmsg()));
+            throw new FXError.ERROR(this.database.errmsg());
+        }
+
+        int64 count = 0;
+        if(stmt.step() == ROW)
+        {
+            count = stmt.column_int(0);
+        }
+
+        return count;
     }
 
     /**
