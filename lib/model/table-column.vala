@@ -19,4 +19,16 @@ public class TableColumnMeta
      *
      **/
     public string originType;
+
+
+    /**
+     *
+     * 创建空列
+     *
+     */
+    public TableColumnMeta.empty()
+    {
+        this.name = "";
+        this.isNull = false;
+    }
 }

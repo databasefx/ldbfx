@@ -13,12 +13,23 @@ public class TableRowMeta : Object
      **/
     public int index{
         private set;
-        private get;
+        get;
     }
 
     public string[] value{
         private set;
         private get;
+    }
+
+
+    /**
+     *
+     * 判断当前值是否为空
+     *
+     */
+    public bool isNull{
+        private set;
+        get;
     }
 
     public TableRowMeta(string[] value)
@@ -33,6 +44,6 @@ public class TableRowMeta : Object
             index = 0;
         }
         var str =  this.value[index++];
-        return str == Constant.NULL_SYMBOL ? "null" : str;
+        return (this.isNull = (str == Constant.NULL_SYMBOL)) ? "<null>" : str;
     }
 }

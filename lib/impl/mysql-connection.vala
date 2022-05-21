@@ -150,7 +150,10 @@ public class MysqlConnection : SqlConnection
                     WHERE
                         `TABLE_SCHEMA`='%s' 
                     AND 
-                        `TABLE_NAME`='%s'""";
+                        `TABLE_NAME`='%s' 
+                    ORDER BY
+                        `ORDINAL_POSITION` 
+                    ASC""";
         sql = sql.printf(schema,name);
         if( this.database.query(sql) != 0 )
         {
@@ -164,6 +167,7 @@ public class MysqlConnection : SqlConnection
         {
             
             var meta = new TableColumnMeta();
+
             meta.name = rows[0];
             meta.isNull = rows[1]=="YES";
             meta.originType = rows[2];
@@ -185,7 +189,8 @@ public class MysqlConnection : SqlConnection
         this.connect();
 
         var offset = (page - 1) * size;
-        var sql = @"SELECT * FROM $schema.$table LIMIT  $offset,$size";
+
+        var sql = @"SELECT * FROM $schema.$table LIMIT $offset,$size";
         
         if(this.database.query(sql) != 0)
         {

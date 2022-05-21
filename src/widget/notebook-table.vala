@@ -49,8 +49,18 @@ public class NotebookTable : Box, TabService
 
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
-            (listItem.child as Label).label = item.getStrValue();
+            var label = listItem.child as Label;
+            label.label = item.getStrValue();
+            if(item.isNull || item.index-1 == 0)
+            {
+                label.add_css_class("high-light");
+            }
+            else
+            {
+                label.remove_css_class("high-light");
+            }
         });
+
         this.factory.setup.connect((listItem)=>{
             listItem.child = new Label("");
         });
@@ -134,27 +144,32 @@ public class NotebookTable : Box, TabService
         {
             var colNum = columns.size;
 
-            if(colNum > 0)
-            {
-                this.diffCol(columns);
+            this.diffCol(columns);
 
-                var dataSize  = this.list.size;
-                var rowNum    = dataSize / colNum;
-                for (int j = 0; j < rowNum; j++)
+            var dSize  = this.list.size;
+            var rowNum    = dSize / colNum;
+            for (int j = 0; j < rowNum; j++)
+            {
+                //重置偏移量
+                offset = j * colNum;
+                
+                var array  = new string[colNum+1];
+
+                //添加序号列
+                array[0] = (j + 1).to_string();
+                
+                for (int i = offset; i < offset + colNum; i++)
                 {
-                    var _offset = j * colNum;
-                    var array  = new string[colNum];
-                    for (int i = _offset; i < _offset + colNum; i++)
-                    {
-                        array[i-_offset] = this.list.get(i);
-                        //一次性加载10条数据
-                        if(j % 10 == 0)
-                        {
-                            Idle.add(callback);
-                            yield;
-                        }
-                    }
-                    this.listStore.append(new TableRowMeta(array));
+                    array[i - offset + 1] = this.list.get(i);
+                }
+
+                this.listStore.append(new TableRowMeta(array));
+                
+                //一次性加载10条数据
+                if(j % 10 == 0)
+                {
+                    Idle.add(callback);
+                    yield;
                 }
             }
         }
@@ -178,18 +193,30 @@ public class NotebookTable : Box, TabService
      **/
     private void diffCol(Gee.List<TableColumnMeta> list)
     {
+        //创建索引列
+        if(this.columns.size == 0)
+        {
+            var ccolumn = new ColumnViewColumn
+            (
+                "",
+                factory
+            );
+            ccolumn.set_resizable(false);
+            this.columns.add(ccolumn);
+            this.tableView.append_column(ccolumn);
+        }
+
         var index = 0;
-        
         var newSize = list.size;
         var size = this.columns.size;
-        
+
         foreach(var column in list)
         {
             var name = column.name;
-            var exist = (size != 0 && size >= newSize);
-            if(exist)
+            
+            if(index > newSize)
             {
-                this.columns.get(index).title = name;
+                this.columns.get(index+1).title = name;
             }
             else
             {
@@ -207,7 +234,7 @@ public class NotebookTable : Box, TabService
         }
 
         //移除多余列
-        for(var i = (size - 1) ; i >= newSize ; i--)
+        for(var i = (size - 1) ; i >= newSize + 1 ; i--)
         {
             var column = this.columns.remove_at(i);
             this.tableView.remove_column(column);
