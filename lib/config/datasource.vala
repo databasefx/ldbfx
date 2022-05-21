@@ -96,12 +96,6 @@ public class DataSource
 
     /**
      *
-     * 连接池初始化尺寸
-     *
-     */
-    public int initSize;
-    /**
-     *
      * 连接池最大尺寸
      *
      */

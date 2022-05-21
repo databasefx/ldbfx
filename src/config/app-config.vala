@@ -229,12 +229,14 @@ public class AppConfig
         dataSource.host = obj.get_string_member(Constant.HOST);
         dataSource.uuid = obj.get_string_member(Constant.UUID);
         dataSource.port = (int)obj.get_int_member(Constant.PORT);
-        dataSource.password = obj.get_string_member(Constant.PASSWORD);
-        dataSource.authModel = obj.get_int_member(Constant.AUTH_MODEL);
+        dataSource.maxWait = (int)obj.get_int_member(Constant.MAX_WAIT);
+        dataSource.maxSize = (int)obj.get_int_member(Constant.MAX_SIZE);
         dataSource.comment = obj.get_string_member(Constant.COMMENT);
-        dataSource.saveModel = (int)obj.get_int_member(Constant.SAVE_MODEL);
+        dataSource.password = obj.get_string_member(Constant.PASSWORD);
         dataSource.dbType = (DatabaseType)obj.get_int_member(Constant.TYPE);
         dataSource.dbFilePath = obj.get_string_member(Constant.DB_FILE_PATH);
+        dataSource.saveModel = (SaveModel)obj.get_int_member(Constant.SAVE_MODEL);
+        dataSource.authModel = (AuthModel)obj.get_int_member(Constant.AUTH_MODEL);
 
         return dataSource;   
     }
@@ -281,6 +283,12 @@ public class AppConfig
 
         builder.set_member_name(Constant.DB_FILE_PATH);
         builder.add_string_value(dataSource.dbFilePath);
+
+        builder.set_member_name(Constant.MAX_SIZE);
+        builder.add_int_value(dataSource.maxSize);
+
+        builder.set_member_name(Constant.MAX_WAIT);
+        builder.add_int_value(dataSource.maxWait);
 
         builder.end_object();
 

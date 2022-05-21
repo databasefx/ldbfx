@@ -8,6 +8,8 @@ namespace Constant
     public const string HOST = "host";
     public const string PORT = "port";
     public const string COMMENT ="comment";
+    public const string MAX_WAIT = "maxWait";
+    public const string MAX_SIZE = "maxSize";
     public const string PASSWORD = "password";
     public const string DATABASE = "database";
     public const string AUTH_MODEL = "authModel";
