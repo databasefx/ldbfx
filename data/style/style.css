@@ -75,13 +75,10 @@ menubar,
   background-color: transparent;
 }
 
-.high-light {
-  color: #7d6b51;
-}
-
 .notebook-table columnview,
 .notebook-table columnview listview,
-.notebook-table .filter-box entry {
+.notebook-table .filter-box entry,
+.welcome-page {
   background-color: #1e1e1e;
 }
 

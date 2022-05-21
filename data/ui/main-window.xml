@@ -96,104 +96,116 @@
                                 <property name="name">page0</property>
                                 <property name="child">
                                     <object class="GtkBox">
-                                        <property name="spacing">10</property>
-                                        <property name="valign">center</property>
+                                        <property name="valign">0</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                            <object class="GtkImage">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="pixel-size">200</property>
-                                                <property name="icon-name">cn.navclub.dbfx-symbolic</property>
-                                            </object>
-                                        </child>
-                                        <child>
                                             <object class="GtkBox">
-                                                <property name="halign">3</property>
+                                                <property name="vexpand">1</property>
+                                                <property name="valign">3</property>
                                                 <property name="spacing">10</property>
+                                                <property name="orientation">vertical</property>
                                                 <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">0</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">_Exit</property>
+                                                    <object class="GtkImage">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="pixel-size">200</property>
+                                                        <property name="icon-name">cn.navclub.dbfx-symbolic</property>
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">1</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">Control+E</property>
+                                                    <object class="GtkBox">
+                                                        <property name="halign">3</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">0</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">_Exit
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">1</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">Control+E
+                                                                </property>
+                                                            </object>
+                                                        </child>
                                                     </object>
                                                 </child>
-                                                <style>
-                                                    <class name="high-light"/>
-                                                </style>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="halign">3</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">0</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">_New
+                                                                    Connection
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">1</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">Control+N
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="halign">3</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">0</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">_Full Screen
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel">
+                                                                <property name="xalign">1</property>
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">
+                                                                    Control+Shift+F
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="halign">3</property>
+                                                        <property name="spacing">10</property>
+                                                        <child>
+                                                            <object class="GtkButton">
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">_Open File
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkButton">
+                                                                <property name="width_request">150</property>
+                                                                <property name="label" translatable="yes">_New
+                                                                    Terminal
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
                                             </object>
                                         </child>
-                                        <child>
-                                            <object class="GtkBox">
-                                                <property name="halign">3</property>
-                                                <property name="spacing">10</property>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">0</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">_New Connection</property>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">1</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">Control+N</property>
-                                                    </object>
-                                                </child>
-                                                <style>
-                                                    <class name="high-light"/>
-                                                </style>
-                                            </object>
-                                        </child>
-                                        <child>
-                                            <object class="GtkBox">
-                                                <property name="halign">3</property>
-                                                <property name="spacing">10</property>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">0</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">_Full Screen</property>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkLabel">
-                                                        <property name="xalign">1</property>
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">Control+Shift+F</property>
-                                                    </object>
-                                                </child>
-                                                <style>
-                                                    <class name="high-light"/>
-                                                </style>
-                                            </object>
-                                        </child>
-                                        <child>
-                                            <object class="GtkBox">
-                                                <property name="halign">3</property>
-                                                <property name="spacing">10</property>
-                                                <child>
-                                                    <object class="GtkButton">
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">_Open File</property>
-                                                    </object>
-                                                </child>
-                                                <child>
-                                                    <object class="GtkButton">
-                                                        <property name="width_request">150</property>
-                                                        <property name="label" translatable="yes">_New Terminal</property>
-                                                    </object>
-                                                </child>
-                                            </object>
-                                        </child>
+                                        <style>
+                                            <class name="welcome-page"/>
+                                        </style>
                                     </object>
                                 </property>
                             </object>
