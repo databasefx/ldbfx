@@ -183,14 +183,15 @@ public class ConnectDialog : Gtk.Dialog {
     }
     this.spinner.start();
 
-    string errmsg = null;
+    FXError error = null;
 
     DatabaseInfo info = null;
 
     SourceFunc callback = testConnect.callback;
 
     WorkDetail work = ()=>{
-        try{
+        try
+        {
             SqlConnection con;
             if(this.feature.dbType == DatabaseType.SQLITE)
             {
@@ -202,8 +203,10 @@ public class ConnectDialog : Gtk.Dialog {
             }
             con.connect();
             info = con.serverInfo();
-        }catch(FXError e){
-            errmsg = e.message;
+        }
+        catch(FXError e)
+        {
+          error = e;
         }
         Idle.add(callback);
     };
@@ -212,9 +215,12 @@ public class ConnectDialog : Gtk.Dialog {
 
     yield;
 
-    if(errmsg != null){
-        this.tText.label = errmsg;
-    }else{
+    if(error != null)
+    {
+        this.tText.label = error.message;
+    }
+    else
+    {
         this.tText.label = "%s(%s)".printf(info.name,info.version);
     }
 
@@ -242,7 +248,12 @@ public class ConnectDialog : Gtk.Dialog {
     if((update = (uuid != null)))
     {
       dataSource.uuid = this.uuid;
-    }    
+    }
+    else
+    {
+        dataSource.maxWait = 3;
+        dataSource.maxSize = 10;
+    }
 
     FXError error = null;
     SourceFunc callback = save.callback;

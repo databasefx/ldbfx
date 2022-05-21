@@ -64,8 +64,9 @@ public class SqlConnectionPool
         SqlConnection con = null;
         var thread = Thread.self<bool>();
         var startTime = get_real_time();
-        var maxWait =get_real_time() + this.dataSource.maxWait*1000;
-        while(true){
+        var maxWait =get_real_time() + this.dataSource.maxWait * 1000;
+        while(true)
+        {
             con = this.getConnection0();
             //判断是否已经获取连接或者连接超时
             if(con != null || ( get_real_time() > maxWait)){
@@ -125,10 +126,8 @@ public class SqlConnectionPool
 
     private SqlConnectionPool capacity() throws FXError
     {
-
         if(!this.initCapacity)
         {
-
             var type = this.dataSource.dbType;
 
             unowned var instance = DatabaseFeature.getFeature(type);
@@ -140,13 +139,15 @@ public class SqlConnectionPool
 
             var maxSize = this.dataSource.maxSize;
 
-            for(var i=0;i<maxSize;i++){
+            for(var i= 0 ; i < maxSize ; i++){
                 SqlConnection con = null;
+                
                 //初始化MYSQL连接
                 if(type == DatabaseType.MYSQL)
                 {
                     con = new MysqlConnection(this.dataSource,this);
                 }
+
                 //初始化Sqlite连接
                 if(type == DatabaseType.SQLITE)
                 {

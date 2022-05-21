@@ -91,7 +91,7 @@ public class Application : Gtk.Application
                 return pool;
             }
 
-            var dataSource = AppConfig.getDataSource(uuid);
+            var dataSource = AppConfig.getDataSource(uuid);            
             pool = new SqlConnectionPool(dataSource);
             this.pools.set(uuid,pool);
 

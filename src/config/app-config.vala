@@ -224,9 +224,6 @@ public class AppConfig
     {
         var dataSource = new DataSource(obj.get_int_member(Constant.TYPE));
 
-        dataSource.maxWait = 3;
-        dataSource.maxSize = 10;
-
         dataSource.name = obj.get_string_member(Constant.NAME);
         dataSource.user = obj.get_string_member(Constant.USER);
         dataSource.host = obj.get_string_member(Constant.HOST);

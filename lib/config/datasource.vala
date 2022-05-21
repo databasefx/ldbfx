@@ -174,12 +174,13 @@ public class DataSource
     public string toString(){
         return """
         {
+            "type:%d,
             "host":"%s",
             "port":"%d",
             "user":"%s",
             "password":"%s"
         }
-        """.printf(host,port,user,password);
+        """.printf(dbType,host,port,user,password);
     }
 
     public static DataSource default(DatabaseType type)
