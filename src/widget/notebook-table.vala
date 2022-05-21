@@ -134,12 +134,9 @@ public class NotebookTable : Box, TabService
             var connect = Application.getConnection(uuid);
             try
             {
-                var table = this.pageQuery.table;
-                var schema = this.pageQuery.schema;
-                
                 list = connect.pageQuery(this.pageQuery);
                 total = connect.pageCount(this.pageQuery);
-                columns = connect.tableColumns(schema,table);
+                columns = connect.tableColumns(this.pageQuery.schema,this.pageQuery.table);
             }
             catch(FXError e)
             {

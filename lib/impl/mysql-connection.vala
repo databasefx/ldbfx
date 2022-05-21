@@ -190,12 +190,14 @@ public class MysqlConnection : SqlConnection
 
         var size =query.size;
         var page = query.page;
+        var sort = query.sort;
+        var where = query.where;
         var table = query.table;
         var schema = query.schema;
 
         var offset = (page - 1) * size;
 
-        var sql = @"SELECT * FROM $schema.$table %s %s LIMIT $offset,$size".printf(query.where,query.sort);
+        var sql = @"SELECT * FROM $schema.$table $where $sort LIMIT $offset,$size";
 
         GLib.debug("Mysql page query:%s".printf(sql));
         
@@ -203,7 +205,9 @@ public class MysqlConnection : SqlConnection
         {
             throw new FXError.ERROR(this.database.error());
         }
-
+        
+        GLib.debug(where);
+        
         string[] rows;
         var rs = this.database.use_result();
         var list = new Gee.ArrayList<string>();
@@ -215,6 +219,9 @@ public class MysqlConnection : SqlConnection
                 list.add(item == null ? Constant.NULL_SYMBOL : item);
             }    
         }
+        
+        GLib.debug(query.where);
+
         return list;
     }
 

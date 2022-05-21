@@ -1,4 +1,4 @@
-public class PageQuery
+public class PageQuery : Object
 {
     /**
      *
@@ -44,7 +44,7 @@ public class PageQuery
      * 自定义排序方式
      *
      **/
-    public string sort; 
+    public string sort;
 
 
     public PageQuery(string schema,string table)
@@ -58,7 +58,12 @@ public class PageQuery
         this.schema = schema;
     }
 
-
+    /**
+     *
+     *
+     * 检查where和sort字段是否发生改变,如果发生改变将当前页系数重置到1
+     *
+     */
     public bool inspect(int page,string where,string sort)
     {
         var s1 = sort.strip();
@@ -66,11 +71,11 @@ public class PageQuery
 
         var reset = false;
 
-        reset = (this.where != s1);
+        reset = (this.where != s2);
 
         if(!reset)
         {
-            reset = (this.sort != s2);
+            reset = (this.sort != s1);
         }
 
         if(reset)
@@ -82,8 +87,8 @@ public class PageQuery
             this.page = page;
         }
         
-        this.sort = s2;
-        this.where = s1;
+        this.sort = s1;
+        this.where = s2;
 
         return reset;
     }
