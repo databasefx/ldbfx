@@ -159,7 +159,6 @@ public class NotebookTable : Box, TabService
             var colNum = columns.size;
 
             this.diffCol(columns);
-
             var dSize  = this.list.size;
             var rowNum    = dSize / colNum;
             for (int j = 0; j < rowNum; j++)
@@ -228,7 +227,7 @@ public class NotebookTable : Box, TabService
         {
             var name = column.name;
             
-            if(index > newSize)
+            if(index < size-1)
             {
                 this.columns.get(index+1).title = name;
             }
