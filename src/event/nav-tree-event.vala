@@ -92,6 +92,11 @@ public class NavTreeEvent
         this.popoverMenu.set_autohide(true);
         this.popoverMenu.set_parent(this.navTree);
 
+        //调整树形视图缩进
+        this.navTree.row_collapsed.connect((a,b)=>{
+            this.navTree.columns_autosize();
+        });
+
         Application.ctx.add_action_entries(actionEntries,this);
     }
     /*
@@ -300,7 +305,6 @@ public class NavTreeEvent
         //移除连接池
         Application.ctx.removePool(uuid);
         this.treeStore().set_value( iter , NavTreeCol.STATUS , NavTRowStatus.INACTIVE );
-        this.navTree.columns_autosize();
     }
 
     /**
@@ -497,8 +501,6 @@ public class NavTreeEvent
         {
             this.navTree.expand_row(treePath,false);    
         }
-
-        this.navTree.columns_autosize();
     }
 
     /**
