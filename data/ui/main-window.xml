@@ -120,16 +120,14 @@
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">0</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">_Exit
-                                                                </property>
+                                                                <property name="label" translatable="yes">_Exit</property>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">1</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">Control+E
-                                                                </property>
+                                                                <property name="label" translatable="yes">Control+E</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -142,17 +140,14 @@
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">0</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">_New
-                                                                    Connection
-                                                                </property>
+                                                                <property name="label" translatable="yes">_New Connection</property>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">1</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">Control+N
-                                                                </property>
+                                                                <property name="label" translatable="yes">Control+N</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -165,17 +160,14 @@
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">0</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">_Full Screen
-                                                                </property>
+                                                                <property name="label" translatable="yes">_Full Screen</property>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkLabel">
                                                                 <property name="xalign">1</property>
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">
-                                                                    Control+Shift+F
-                                                                </property>
+                                                                <property name="label" translatable="yes">Control+Shift+F</property>
                                                             </object>
                                                         </child>
                                                     </object>
@@ -187,16 +179,13 @@
                                                         <child>
                                                             <object class="GtkButton">
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">_Open File
-                                                                </property>
+                                                                <property name="label" translatable="yes">_Open File</property>
                                                             </object>
                                                         </child>
                                                         <child>
                                                             <object class="GtkButton">
                                                                 <property name="width_request">150</property>
-                                                                <property name="label" translatable="yes">_New
-                                                                    Terminal
-                                                                </property>
+                                                                <property name="label" translatable="yes">_New Terminal</property>
                                                             </object>
                                                         </child>
                                                     </object>
