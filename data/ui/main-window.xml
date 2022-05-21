@@ -126,7 +126,7 @@
                                                     </object>
                                                 </child>
                                                 <style>
-                                                    <class name="accel-box"/>
+                                                    <class name="high-light"/>
                                                 </style>
                                             </object>
                                         </child>
@@ -149,7 +149,7 @@
                                                     </object>
                                                 </child>
                                                 <style>
-                                                    <class name="accel-box"/>
+                                                    <class name="high-light"/>
                                                 </style>
                                             </object>
                                         </child>
@@ -172,7 +172,7 @@
                                                     </object>
                                                 </child>
                                                 <style>
-                                                    <class name="accel-box"/>
+                                                    <class name="high-light"/>
                                                 </style>
                                             </object>
                                         </child>
