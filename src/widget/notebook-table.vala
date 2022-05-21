@@ -11,12 +11,11 @@ using Gee;
  [GtkTemplate (ui="/cn/navclub/dbfx/ui/notebook-table.xml")]
 public class NotebookTable : Box, TabService
 {
-    private int page;
-    private int size;
     private bool view;
     public string path;
     private int64 total;
     private string pathVal;
+    private PageQuery pageQuery;
     private NotebookTab notebookTab;
     private MultiSelection selection;
     private GLib.ListStore listStore;
@@ -26,6 +25,11 @@ public class NotebookTable : Box, TabService
     //缓存当前列属性
     private Gee.List<ColumnViewColumn> columns;
     
+
+    [GtkChild]
+    private unowned Entry sEntry;
+    [GtkChild]
+    private unowned Entry wEntry;
     [GtkChild]
     private unowned Label rowNLum;
     [GtkChild]
@@ -34,19 +38,22 @@ public class NotebookTable : Box, TabService
 
     public NotebookTable(string path,string pathVal,bool view)
     {
-        this.page = 0;
         this.total = 0;
-        this.size = 200;
         this.view = view;
         this.path = path;
         this.pathVal = pathVal;
+        
         this.list = new ArrayList<string>();
         this.factory = new SignalListItemFactory();
         this.columns = new ArrayList<ColumnViewColumn>();
+
         this.listStore = new GLib.ListStore(typeof(TableRowMeta));
         this.selection = new MultiSelection(this.listStore);
+        
+        this.pageQuery = new PageQuery(this.getPosVal(this.pathVal,-3),this.getPosVal(this.pathVal,-1));
+        
         this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
-
+        
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
             var label = listItem.child as Label;
@@ -85,10 +92,10 @@ public class NotebookTable : Box, TabService
     [GtkCallback]
     private void refresh()
     {
-        this.loadTableData(0);
+        this.loadTableData(0,true);
     }
 
-    private async void loadTableData(int offset)
+    private async void loadTableData(int offset,bool flush=false)
     {
         var tab = this.tab();
         
@@ -96,10 +103,17 @@ public class NotebookTable : Box, TabService
         {
             return;
         }
+        
+        var page = this.pageQuery.page;
 
-        var temp = (this.page + offset);
+        var temp = (page + offset);
 
-        this.page = (temp <= 0 ? 1 : temp);
+        temp = (temp <= 0 ? 1 : temp);
+
+        if(!flush && temp == page)
+        {
+            return;
+        }
 
         //清除先前数据
         this.listStore.remove_all();
@@ -107,22 +121,25 @@ public class NotebookTable : Box, TabService
         tab.loadStatus(true);
 
         var uuid = this.getPosVal(this.path,0);
-        var table = this.getPosVal(this.pathVal,-1);
-        var schema = this.getPosVal(this.pathVal,-3);
 
         FXError error = null;
         Gee.List<TableColumnMeta> columns = null;
         SourceFunc callback = loadTableData.callback;
 
         int64 total = 0;
-
+        
+        this.pageQuery.inspect(temp,this.wEntry.text, this.sEntry.text);
+        
         var work = AsyncWork.create(()=>{
             var connect = Application.getConnection(uuid);
             try
             {
-                total = connect.count(schema,table);
+                var table = this.pageQuery.table;
+                var schema = this.pageQuery.schema;
+                
+                list = connect.pageQuery(this.pageQuery);
+                total = connect.pageCount(this.pageQuery);
                 columns = connect.tableColumns(schema,table);
-                list = connect.pageQuery(schema,table,this.page,this.size);
             }
             catch(FXError e)
             {

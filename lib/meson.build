@@ -1,6 +1,7 @@
 libdbfx_sources = [
   'connection-pool.vala',
   'connection.vala',
+  'model/page-query.vala',
   'config/constant.vala',
   'async/async-work.vala',
   'config/datasource.vala',

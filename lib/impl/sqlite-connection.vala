@@ -184,14 +184,16 @@ public class SqliteConnection : SqlConnection
      * 分页查询数据
      *
      **/
-    public override Gee.List<string> pageQuery(string schema,string table,int page,int size) throws FXError
+    public override Gee.List<string> pageQuery(PageQuery query) throws FXError
     {
         this.connect();
 
         Statement stmt;
-        var offset = (page - 1) * size;
 
-        var sql = "SELECT * FROM %s LIMIT $size offset $offset".printf(table);
+        var size = query.size;
+        var offset = (query.page - 1) * size;
+
+        var sql = "SELECT * FROM %s %s %s LIMIT $size offset $offset".printf(query.table,query.where,query.sort);
 
         var code = this.database.prepare_v2(sql,sql.length,out stmt);
 
@@ -226,13 +228,13 @@ public class SqliteConnection : SqlConnection
      * 统计某张表数据条数
      *
      */
-    public override int64 count(string schema,string table) throws FXError
+    public override int64 pageCount(PageQuery query) throws FXError
     {
         this.connect();
         
         Statement stmt;
         
-        var sql = "SELECT COUNT(*) FROM %s".printf(table);
+        var sql = "SELECT COUNT(*) FROM %s %s".printf(query.table,query.where);
 
         var code = this.database.prepare_v2(sql,sql.length,out stmt);
 

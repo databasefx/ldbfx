@@ -75,10 +75,17 @@ menubar,
   background-color: transparent;
 }
 
-/* .accel-box label {
-  color: red;
-} */
-
 .high-light {
   color: #7d6b51;
+}
+
+.notebook-table columnview,
+.notebook-table columnview listview,
+.notebook-table .filter-box entry {
+  background-color: #1e1e1e;
+}
+
+.notebook-table .filter-box entry {
+  border-width: 0;
+  border-radius: 0;
 }

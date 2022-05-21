@@ -184,13 +184,20 @@ public class MysqlConnection : SqlConnection
      * 分页查询数据
      *
      **/
-    public override Gee.List<string> pageQuery(string schema,string table,int page,int size) throws FXError
+    public override Gee.List<string> pageQuery(PageQuery query) throws FXError
     {
         this.connect();
 
+        var size =query.size;
+        var page = query.page;
+        var table = query.table;
+        var schema = query.schema;
+
         var offset = (page - 1) * size;
 
-        var sql = @"SELECT * FROM $schema.$table LIMIT $offset,$size";
+        var sql = @"SELECT * FROM $schema.$table %s %s LIMIT $offset,$size".printf(query.where,query.sort);
+
+        GLib.debug("Mysql page query:%s".printf(sql));
         
         if(this.database.query(sql) != 0)
         {
@@ -216,10 +223,17 @@ public class MysqlConnection : SqlConnection
      * 统计某张表数据条数
      *
      */
-    public override int64 count(string schema,string table) throws FXError
+    public override int64 pageCount(PageQuery query) throws FXError
     {
         this.connect();
-        var sql = @"SELECT COUNT(*) FROM $schema.$table";
+        
+        var table = query.table;
+        var schema = query.schema;
+                
+        var sql = "SELECT COUNT(*) FROM %s.%s %s".printf(query.schema,query.table, query.where);
+        
+        GLib.debug("Mysql page count:%s".printf(sql));
+
         if(this.database.query(sql) != 0)
         {
             throw new FXError.ERROR(this.database.error());
