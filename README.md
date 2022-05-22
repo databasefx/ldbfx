@@ -1,10 +1,20 @@
-# ldbfx
+# v-dbfx
 
-#### 介绍
-dbfx linux定制版
+#### Description
+**v-dbfx** A visual database management tool for Linux
 
-#### 程序快照
-### 程序主界面
-![加载失败](SNAPSHOT/home.png)
-### 数据展示页面
-![加载失败](SNAPSHOT/main.png)
+
+#### Installation
+
+```shell
+    flatpak install cn.navclub.dbfx.flatpak 
+```
+
+### Snapshot
++ Program home
+
+![Load fail](SNAPSHOT/home.png)
+
++ Program data view
+
+![Load fail](SNAPSHOT/main.png)
