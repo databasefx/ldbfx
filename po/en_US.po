@@ -129,3 +129,6 @@ msgstr "New Terminal"
 
 msgid "_Loading fail"
 msgstr "Loading data failed!"
+
+msgid "_DDL query error"
+msgstr "DDL info query fail!"
