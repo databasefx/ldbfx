@@ -76,9 +76,6 @@
                     "branch": "master",
                     "url": "https://github.com/databasefx/v-dbfx.git"
                 }
-            ],
-            "config-opts": [
-                "G_MESSAGES_DEBUG=all"
             ]
         }
     ],
