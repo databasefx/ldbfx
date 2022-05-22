@@ -104,11 +104,12 @@ public class NotebookTable : Box, TabService
         FXError error = null;
         
         var worker = AsyncWork.create(()=>{
+            SqlConnection con = null;
             try
             {
                 var table = this.pageQuery.table;
                 var schema = this.pageQuery.schema;
-                var con  = Application.ctx.getConnection(this.uuid);
+                con  = Application.ctx.getConnection(this.uuid);
                 ddl = con.ddl(schema,table,this.view);
             }
             catch(FXError error)
@@ -117,6 +118,10 @@ public class NotebookTable : Box, TabService
             }
             finally
             {
+                if(con != null)
+                {
+                    con.close();
+                }
                 Idle.add(showDDL.callback);
             }
         });

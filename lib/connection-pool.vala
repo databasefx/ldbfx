@@ -86,7 +86,8 @@ public class SqlConnectionPool
 
     private SqlConnection? getConnection0(){
         lock(mutex){
-            var con = this.freeQueue.poll_head();
+            //从尾部获取连接对象,增加连接复用概率
+            var con = this.freeQueue.poll_tail();
             //成功获取到连接,添加到工作队列中
             if(con != null){
                 this.workQueue.add(con);
