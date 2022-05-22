@@ -31,7 +31,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libgee.git"
+                    "url": "https://gitlab.gnome.org/GNOME/libgee.git",
+                    "commit": "4ed45f6f32dcb8712501d38a44ec754d4937a26e"
                 }
             ]
         },
@@ -53,8 +54,7 @@
         },
         {
             "name": "flatpak_mysql",
-            "no-autogen": true,
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "cleanup": [
                 "lib",
                 "include"
@@ -63,7 +63,8 @@
                 {
                     "type": "git",
                     "branch": "main",
-                    "url": "https://github.com/GZYangKui/flatpak-mysql.git"
+                    "url": "https://github.com/GZYangKui/flatpak-mysql.git",
+                    "commit": "a4d48c6323d4afa3ecf5b999ccab52e55d963881"
                 }
             ]
         },
@@ -74,12 +75,10 @@
                 {
                     "type": "git",
                     "branch": "master",
-                    "url": "https://github.com/databasefx/v-dbfx.git"
+                    "url": "https://github.com/databasefx/v-dbfx.git",
+                    "commit": "28816a7d807a69f2479ba1d424668c54ad2e574a"
                 }
             ]
         }
-    ],
-    "build-options": {
-        "env": {}
-    }
+    ]
 }
