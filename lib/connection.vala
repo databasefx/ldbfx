@@ -84,6 +84,14 @@ public abstract class SqlConnection
      */
     public abstract int64 pageCount(PageQuery query) throws FXError;
 
+
+    /**
+     *
+     * 获取表定义语句
+     *
+     */
+    public abstract string ddl(string schema,string table,bool view) throws FXError;
+
     /**
      *
      * 关闭当前连接(放回连接池中)

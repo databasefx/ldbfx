@@ -61,6 +61,17 @@
                         <signal name="clicked" handler="refresh"/>
                     </object>
                 </child>
+                <child>
+                    <object class="GtkSeparator">
+                        <property name="orientation">vertical</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <property name="label">DDL</property>
+                        <signal name="clicked" handler="showDDL"/>
+                    </object>
+                </child>
                 <style>
                     <class name="table-toolbar"/>
                 </style>

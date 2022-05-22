@@ -133,3 +133,6 @@ msgstr "新建终端"
 msgid "_Loading fail"
 msgstr "数据加载失败!"
 
+msgid "_DDL query error"
+msgstr "设计表信息查询失败!"
+

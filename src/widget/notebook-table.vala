@@ -13,6 +13,7 @@ public class NotebookTable : Box, TabService
 {
     private bool view;
     public string path;
+    private string uuid;
     private int64 total;
     private string pathVal;
     private PageQuery pageQuery;
@@ -42,7 +43,8 @@ public class NotebookTable : Box, TabService
         this.view = view;
         this.path = path;
         this.pathVal = pathVal;
-        
+        this.uuid = this.getPosVal(this.path,0);
+
         this.list = new ArrayList<string>();
         this.factory = new SignalListItemFactory();
         this.columns = new ArrayList<ColumnViewColumn>();
@@ -95,6 +97,42 @@ public class NotebookTable : Box, TabService
         this.loadTableData(0,true);
     }
 
+    [GtkCallback]
+    private async void showDDL()
+    {
+        string ddl  = null;
+        FXError error = null;
+        
+        var worker = AsyncWork.create(()=>{
+            try
+            {
+                var table = this.pageQuery.table;
+                var schema = this.pageQuery.schema;
+                var con  = Application.ctx.getConnection(this.uuid);
+                ddl = con.ddl(schema,table,this.view);
+            }
+            catch(FXError error)
+            {
+                error = error;
+            }
+            finally
+            {
+                Idle.add(showDDL.callback);
+            }
+        });
+        
+        worker.execute();
+        
+        yield;
+        
+        if(error != null)
+        {
+            FXAlert.error(_("_DDL query error"),error.message);
+            return;
+        }
+        stdout.printf("%s\n",ddl);   
+    }
+
     private async void loadTableData(int offset,bool flush=false)
     {
         var tab = this.tab();
@@ -119,8 +157,6 @@ public class NotebookTable : Box, TabService
         this.listStore.remove_all();
 
         tab.loadStatus(true);
-
-        var uuid = this.getPosVal(this.path,0);
 
         FXError error = null;
         Gee.List<TableColumnMeta> columns = null;

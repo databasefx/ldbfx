@@ -87,37 +87,31 @@ public class SqliteConnection : SqlConnection
      **/
     public override Gee.List<TableInfo> tables(string schema,bool view) throws FXError
     {
-        this.connect();
 
-        Statement smt;
 
         var sql = "select name from sqlite_master where type =$table order by name";
-        var code = this.database.prepare_v2(sql,sql.length,out smt); 
-        
-        if(code != OK)
-        {
-            throw new FXError.ERROR(this.database.errmsg());
-        }
+
+        var stmt = this.execute(sql);
 
         //预编译
-        var index =smt.bind_parameter_index("$table");
+        var index =stmt.bind_parameter_index("$table");
         
         //绑定参数
-        smt.bind_text(index,view ? "view" : "table");
+        stmt.bind_text(index,view ? "view" : "table");
 
-        var cols = smt.column_count();
+        var cols = stmt.column_count();
        
         var list = new Gee.ArrayList<TableInfo>();
 
-        while(smt.step() == Sqlite.ROW)
+        while(stmt.step() == Sqlite.ROW)
         {
             var table = new TableInfo();
 
             for (int i = 0; i < cols; i++) 
             {
-			    var col_name = smt.column_name (i) ?? "<none>";
-			    var val = smt.column_text (i) ?? "<none>";
-			    var type_id = smt.column_type (i);
+			    var col_name = stmt.column_name (i) ?? "<none>";
+			    var val = stmt.column_text (i) ?? "<none>";
+			    var type_id = stmt.column_type (i);
 
                 if(col_name == "name")
                 {
@@ -138,16 +132,9 @@ public class SqliteConnection : SqlConnection
     public override Gee.List<TableColumnMeta> tableColumns(string schema,string name) throws FXError
     {
         
-        this.connect();
-
         var sql = @"PRAGMA table_info($name)";
-        Statement stmt;
-        var code = this.database.prepare_v2(sql,sql.length,out stmt);
-        if(code != OK)
-        {
-            warning("Query sqlite table struct fail:%s".printf(this.database.errmsg()));
-            throw new FXError.ERROR(this.database.errmsg());
-        }
+
+        var stmt = this.execute(sql);
         var cols = stmt.column_count();
         
         var list = new Gee.ArrayList<TableColumnMeta>();
@@ -186,22 +173,12 @@ public class SqliteConnection : SqlConnection
      **/
     public override Gee.List<string> pageQuery(PageQuery query) throws FXError
     {
-        this.connect();
-
-        Statement stmt;
-
         var size = query.size;
         var offset = (query.page - 1) * size;
 
         var sql = "SELECT * FROM %s %s %s LIMIT $size offset $offset".printf(query.table,query.where,query.sort);
 
-        var code = this.database.prepare_v2(sql,sql.length,out stmt);
-
-        if(code != OK)
-        {
-            warning("Page query sqlite3 data fail:%s".printf(this.database.errmsg()));
-            throw new FXError.ERROR(this.database.errmsg());
-        }
+        var stmt = this.execute(sql);
 
         var j = stmt.bind_parameter_index("$size");
         var k = stmt.bind_parameter_index("$offset");
@@ -229,21 +206,12 @@ public class SqliteConnection : SqlConnection
      *
      */
     public override int64 pageCount(PageQuery query) throws FXError
-    {
-        this.connect();
-        
-        Statement stmt;
+    {        
         
         var sql = "SELECT COUNT(*) FROM %s %s".printf(query.table,query.where);
 
-        var code = this.database.prepare_v2(sql,sql.length,out stmt);
-
-        if(code != OK)
-        {
-            warning("Sqlite count table row number fail:%s".printf(this.database.errmsg()));
-            throw new FXError.ERROR(this.database.errmsg());
-        }
-
+        var stmt = this.execute(sql);
+ 
         int64 count = 0;
         if(stmt.step() == ROW)
         {
@@ -264,6 +232,55 @@ public class SqliteConnection : SqlConnection
             return;
         }
         this.pool.back(this);
+    }
+
+    public override string ddl(string schema,string table,bool view) throws FXError
+    {
+        var sql = "SELECT sql FROM sqlite_master WHERE type=$type AND tbl_name=$name";
+
+        var stmt = this.execute(sql);
+
+        var i = stmt.bind_parameter_index("$type");
+        var j = stmt.bind_parameter_index("$name");
+
+        stmt.bind_text(j,table);
+        stmt.bind_text(i,view?"view":"table");
+
+        var ddl = "";
+
+        var cols = stmt.column_count();
+
+        if(stmt.step() == ROW)
+        {
+            for(var k = 0 ; k < cols ; k++)
+            {
+                ddl = stmt.column_text(k);
+            }
+        }
+
+        return ddl;
+    }
+
+    private Statement execute(string sql) throws FXError
+    {
+        this.connect();
+        
+        Statement stmt;
+
+        var code = this.database.prepare_v2(sql,sql.length,out stmt);
+        
+        debug("Sqlite:%s".printf(sql));
+
+        if(code == OK)
+        {
+            return stmt;
+        }
+
+        var errmsg = this.database.errmsg();
+
+        warning("Sqlite:Execute sql fail:[%s],errmsg:[%s]".printf(sql,errmsg));
+
+        throw new FXError.ERROR(errmsg);
     }
 
     /**

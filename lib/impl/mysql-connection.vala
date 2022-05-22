@@ -55,12 +55,7 @@ public class MysqlConnection : SqlConnection
 
     public override DatabaseInfo serverInfo() throws FXError
     {
-        var code = database.query("SHOW VARIABLES");
-
-        if( code != 0)
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
+        this.execute("SHOW VARIABLES");
 
         string[] rows;
         var info = new DatabaseInfo();
@@ -81,13 +76,10 @@ public class MysqlConnection : SqlConnection
 
      public override Gee.List<DatabaseSchema> schemas() throws FXError
      {
-        this.connect();
         var sql = "SELECT * FROM information_schema.SCHEMATA";
-        var code = this.database.query(sql);
-        if( code != 0)
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
+
+        this.execute(sql);
+
         string[] rows;
         var rs = this.database.use_result();
         var list = new Gee.ArrayList<DatabaseSchema>();
@@ -103,10 +95,9 @@ public class MysqlConnection : SqlConnection
      }
 
     public override Gee.List<TableInfo> tables(string schema,bool view) throws FXError
-    {
-        this.connect();
-        this.database.select_db("information_schema");
+    {           
         string sql;
+
         if(view)
         {
             sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_SCHEMA = '%s' ORDER BY `TABLE_NAME` ASC";
@@ -115,11 +106,11 @@ public class MysqlConnection : SqlConnection
         {
             sql = "SELECT `TABLE_NAME` FROM information_schema.TABLES WHERE `TABLE_SCHEMA`='%s' ORDER BY `TABLE_NAME` ASC";
         }
-    
-        if( this.database.query(sql.printf(schema)) != 0 )
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
+        
+        sql = sql.printf(schema);
+
+        this.execute(sql);
+
         var rs = this.database.use_result();
         var list = new Gee.ArrayList<TableInfo>();
         
@@ -139,7 +130,6 @@ public class MysqlConnection : SqlConnection
 
     public override Gee.List<TableColumnMeta> tableColumns(string schema,string name) throws FXError
     {
-        this.connect();
         var sql = """SELECT 
                         `COLUMN_NAME`,
                         `IS_NULLABLE`,
@@ -155,10 +145,8 @@ public class MysqlConnection : SqlConnection
                         `ORDINAL_POSITION` 
                     ASC""";
         sql = sql.printf(schema,name);
-        if( this.database.query(sql) != 0 )
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
+
+        this.execute(sql);
 
         string[] rows;
         var rs = this.database.use_result();
@@ -199,14 +187,7 @@ public class MysqlConnection : SqlConnection
 
         var sql = @"SELECT * FROM $schema.$table $where $sort LIMIT $offset,$size";
 
-        GLib.debug("Mysql page query:%s".printf(sql));
-        
-        if(this.database.query(sql) != 0)
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
-        
-        GLib.debug(where);
+        this.execute(sql);
         
         string[] rows;
         var rs = this.database.use_result();
@@ -231,20 +212,14 @@ public class MysqlConnection : SqlConnection
      *
      */
     public override int64 pageCount(PageQuery query) throws FXError
-    {
-        this.connect();
-        
+    {        
         var table = query.table;
         var schema = query.schema;
                 
         var sql = "SELECT COUNT(*) FROM %s.%s %s".printf(query.schema,query.table, query.where);
         
-        GLib.debug("Mysql page count:%s".printf(sql));
+        this.execute(sql);
 
-        if(this.database.query(sql) != 0)
-        {
-            throw new FXError.ERROR(this.database.error());
-        }
         var rs = this.database.use_result();
         var rows = rs.fetch_row();
         if(rows.length == 0)
@@ -254,10 +229,43 @@ public class MysqlConnection : SqlConnection
         return int64.parse(rows[0]);
     }
 
+
+    public override string ddl(string schema,string table,bool view) throws FXError
+    {
+        var sql = @"SHOW CREATE TABLE `$schema`.`$table`";
+
+        this.execute(sql);
+
+        var rs = this.database.use_result();
+
+        var row = rs.fetch_row();
+
+        return row[1];
+    }
+
+
     public override void shutdown()
     {
         //
         // No need manual shutdown connection
         //
+     }
+
+     private void execute(string sql) throws FXError
+     {
+        this.connect();
+
+        GLib.debug("Mysql:Execute sql:[%s]".printf(sql));
+
+        if(this.database.query(sql) == 0)
+        {
+            return;
+        }
+        
+        var errmsg = this.database.error();
+
+        warning("Mysql:Sql execute error:SQL:[%s],ERR:[%s]".printf(sql,errmsg));
+
+        throw new FXError.ERROR(errmsg);
      }
 }
