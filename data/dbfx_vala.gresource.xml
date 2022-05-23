@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/cn/navclub/dbfx">
+  <gresource prefix="/cn/navclub/ldbfx">
     <file>ui/main-window.xml</file>
     <file>ui/connect-dialog.xml</file>
     <file>ui/notebook-table.xml</file>

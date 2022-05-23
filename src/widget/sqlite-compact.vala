@@ -1,6 +1,6 @@
 using Gtk;
 
-[GtkTemplate(ui="/cn/navclub/dbfx/ui/sqlite-compact.xml")]
+[GtkTemplate(ui="/cn/navclub/ldbfx/ui/sqlite-compact.xml")]
 public class SqliteCompact : Box,DataSourceConpact
 {
     

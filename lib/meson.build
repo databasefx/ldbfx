@@ -24,7 +24,7 @@ libdbfx_deps = [
   glib,
   gio,
   libgee,
-  mysql,
+  mariadb,
   sqlite3
 ]
 

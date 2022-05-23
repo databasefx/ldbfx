@@ -1,6 +1,6 @@
 using Gtk;
 
-[GtkTemplate(ui="/cn/navclub/dbfx/ui/data-source-compact.xml")]
+[GtkTemplate(ui="/cn/navclub/ldbfx/ui/data-source-compact.xml")]
 public class CommonDataSourceCompact :Box,DataSourceConpact
 {
     [GtkChild]

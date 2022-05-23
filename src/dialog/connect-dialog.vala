@@ -30,7 +30,7 @@ private class FeatureListItem : Box
   }
 }
 
-[GtkTemplate ( ui = "/cn/navclub/dbfx/ui/connect-dialog.xml" )]
+[GtkTemplate ( ui = "/cn/navclub/ldbfx/ui/connect-dialog.xml" )]
 public class ConnectDialog : Gtk.Dialog {
 
 

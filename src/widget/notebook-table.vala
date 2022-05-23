@@ -8,7 +8,7 @@ using Gee;
  * 
  *
  **/
- [GtkTemplate (ui="/cn/navclub/dbfx/ui/notebook-table.xml")]
+ [GtkTemplate (ui="/cn/navclub/ldbfx/ui/notebook-table.xml")]
 public class NotebookTable : Box, TabService
 {
     private bool view;

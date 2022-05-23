@@ -3,8 +3,8 @@ resource_files = files('dbfx_vala.gresource.xml')
 resources = gnome.compile_resources('cn.navclub.dbfx',resource_files,c_name:'resources')
 
 desktop_file = i18n.merge_file(
-  input: 'cn.navclub.dbfx.desktop.in',
-  output: 'cn.navclub.dbfx.desktop',
+  input: 'cn.navclub.ldbfx.desktop.in',
+  output: 'cn.navclub.ldbfx.desktop',
   type: 'desktop',
   po_dir: '../po',
   install: true,
@@ -19,8 +19,8 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-  input: 'cn.navclub.dbfx.appdata.xml.in',
-  output: 'cn.navclub.dbfx.appdata.xml',
+  input: 'cn.navclub.ldbfx.appdata.xml.in',
+  output: 'cn.navclub.ldbfx.appdata.xml',
   po_dir: '../po',
   install: true,
   install_dir: join_paths(get_option('datadir'), 'appdata')
@@ -33,7 +33,7 @@ if appstream_util.found()
   )
 endif
 
-install_data('cn.navclub.dbfx.gschema.xml',
+install_data('cn.navclub.ldbfx.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 

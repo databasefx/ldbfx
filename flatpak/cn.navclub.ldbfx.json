@@ -1,0 +1,40 @@
+{
+    "app-id": "cn.navclub.dbfx",
+    "runtime": "org.gnome.Sdk",
+    "runtime-version": "42",
+    "sdk": "org.gnome.Sdk",
+    "command": "v-dbfx",
+    "finish-args": [
+        "--share=network",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--device=dri",
+        "--socket=wayland",
+        "--filesystem=home"
+    ],
+    "modules": [
+        {
+            "name": "mariadb",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/mariadb-corporation/mariadb-connector-c/archive/refs/tags/v3.2.6.zip",
+                    "sha256": "9fe6a161d1c1ff4f74bb87e4c587bbd2a14146a2bc3ba7b677633bfa0445b8b5"
+                }
+            ]
+        },
+        {
+            "name": "dbfx",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "branch": "master",
+                    "url": "https://github.com/databasefx/v-dbfx.git",
+                    "commit": "28816a7d807a69f2479ba1d424668c54ad2e574a"
+                }
+            ]
+        }
+    ]
+}

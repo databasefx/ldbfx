@@ -32,7 +32,7 @@ public enum AlertType
  * 一个包含信息、警告、错误对话框
  *
  */
-[GtkTemplate (ui="/cn/navclub/dbfx/ui/fx-alert.xml")]
+[GtkTemplate (ui="/cn/navclub/ldbfx/ui/fx-alert.xml")]
 public class FXAlert : Window
 {
     [GtkChild]

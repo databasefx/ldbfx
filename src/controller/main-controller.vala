@@ -1,6 +1,6 @@
 using Gtk;
 
-[GtkTemplate (ui = "/cn/navclub/dbfx/ui/main-window.xml")]
+[GtkTemplate (ui = "/cn/navclub/ldbfx/ui/main-window.xml")]
 public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
     private unowned Stack stack;
