@@ -24,8 +24,8 @@ libdbfx_deps = [
   glib,
   gio,
   libgee,
-  mariadb,
-  sqlite3
+  sqlite3,
+  libmariadb
 ]
 
 #静态链接

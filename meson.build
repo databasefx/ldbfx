@@ -27,7 +27,7 @@ min_glib_version = '2.50'
 libgee = dependency('gee-0.8')
 sqlite3 = dependency('sqlite3')
 libxml = dependency('libxml-2.0')
-mariadb =  dependency('libmariadb')
+libmariadb = dependency('libmariadb')
 libjson = dependency('json-glib-1.0')
 gtk = dependency('gtk4', version: '>= 4.6.3')
 gio = dependency('gio-2.0', version: '>=' + min_glib_version)
