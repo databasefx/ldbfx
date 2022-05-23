@@ -25,7 +25,7 @@ public class UIUtil : Object {
      **/
     public static Object? loadXmlUI(string ui,string id)
     {
-        return new Gtk.Builder.from_resource (@"/cn/navclub/dbfx/ui/$ui").get_object(id);   
+        return new Gtk.Builder.from_resource (@"/cn/navclub/ldbfx/ui/$ui").get_object(id);   
     }
 
     /**

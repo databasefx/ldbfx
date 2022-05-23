@@ -1,5 +1,5 @@
 project(
-  'v-dbfx', ['c', 'vala'],
+  'ldbfx', ['c', 'vala'],
   version: '0.1.0',
   license: 'Apache-2.0',
   meson_version: '>= 0.50.0',
@@ -41,7 +41,7 @@ conf = configuration_data()
 #
 conf.set_quoted('SYSTEM_TYPE','linux')
 
-conf.set_quoted('APPLICATION_ID','cn.navclub.dbfx')
+conf.set_quoted('APPLICATION_ID','cn.navclub.ldbfx')
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PROJECT_NAME',meson.project_name())
 conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())

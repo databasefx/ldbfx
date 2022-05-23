@@ -3,16 +3,23 @@
     "runtime": "org.gnome.Sdk",
     "runtime-version": "42",
     "sdk": "org.gnome.Sdk",
-    "command": "v-dbfx",
+    "command": "ldbfx",
     "finish-args": [
         "--share=network",
+        "--share=ipc",
+        "--socket=fallback-x11",
         "--device=dri",
-        "--filesystem=home"
+        "--socket=wayland",
+        "--filesystem=home",
+        "--socket=session-bus"
     ],
     "modules": [
         {
             "name": "mariadb",
             "buildsystem": "cmake-ninja",
+            "post-install": [
+                "ln -s /app/lib/mariadb/libmariadb.so /app/lib/libmariadb.so.3"
+            ],
             "sources": [
                 {
                     "type": "archive",

@@ -7,9 +7,7 @@ public const string FULL_SCREEN_ACTION_NAME = "fullscreen";
 
 
 public class Application : Gtk.Application
-{
-    //  private Menu menu;
-    
+{    
     private Object mutex;
 
     public static Application ctx;
@@ -143,7 +141,7 @@ public class Application : Gtk.Application
     public void appInit()
     {
         //设置窗口默认图标
-        Gtk.Window.set_default_icon_name("cn.navclub.dbfx");
+        Gtk.Window.set_default_icon_name("cn.navclub.ldbfx");
 
         //注册快捷方式
         set_accels_for_action("app."+ EXIT_ACTION_NAME,         {  "<Control>e"  });
@@ -161,7 +159,7 @@ public class Application : Gtk.Application
 
         //加载全局应用样式
         var styleProvider = new Gtk.CssProvider();
-        styleProvider.load_from_resource("/cn/navclub/dbfx/style/style.css");
+        styleProvider.load_from_resource("/cn/navclub/ldbfx/style/style.css");
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(),
             styleProvider,

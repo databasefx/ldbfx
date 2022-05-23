@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=v-dbfx
-Exec=v-dbfx
+Name=ldbfx
+Exec=ldbfx
 Icon=cn.navclub.ldbfx
 Terminal=false
 Type=Application
