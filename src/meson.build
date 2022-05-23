@@ -5,6 +5,7 @@ dbfx_vala_sources = [
   'main.vala',
   'tab-service.vala',
   'util/ui-util.vala',
+  'util/os-util.vala',
   'util/json-util.vala',
   'config/nav-tree.vala',
   'config/app-config.vala',

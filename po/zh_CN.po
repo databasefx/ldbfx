@@ -142,3 +142,6 @@ msgstr "复制"
 msgid "_Loading"
 msgstr "加载中..."
 
+msgid "_Copy success"
+msgstr "复制成功"
+

@@ -138,3 +138,6 @@ msgstr "Copy"
 
 msgid "_Loading"
 msgstr "Loading..."
+
+msgid "_Copy success"
+msgstr "Copy success"
