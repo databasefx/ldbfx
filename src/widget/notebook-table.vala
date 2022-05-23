@@ -62,11 +62,11 @@ public class NotebookTable : Box, TabService
             label.label = item.getStrValue();
             if(item.isNull || item.index-1 == 0)
             {
-                label.add_css_class("high-light");
+                label.add_css_class("table-cell-high-light");
             }
             else
             {
-                label.remove_css_class("high-light");
+                label.remove_css_class("table-cell-high-light");
             }
         });
 
@@ -135,7 +135,6 @@ public class NotebookTable : Box, TabService
             FXAlert.error(_("_DDL query error"),error.message);
             return;
         }
-        stdout.printf("%s\n",ddl);   
     }
 
     private async void loadTableData(int offset,bool flush=false)

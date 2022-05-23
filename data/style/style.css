@@ -86,3 +86,7 @@ menubar,
   border-width: 0;
   border-radius: 0;
 }
+
+.notebook-table .table-cell-high-light {
+  color: #7d6b51;
+}
