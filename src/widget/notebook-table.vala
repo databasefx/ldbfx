@@ -100,42 +100,24 @@ public class NotebookTable : Box, TabService
     [GtkCallback]
     private async void showDDL()
     {
-        string ddl  = null;
-        FXError error = null;
-        
-        var worker = AsyncWork.create(()=>{
-            SqlConnection con = null;
-            try
-            {
-                var table = this.pageQuery.table;
-                var schema = this.pageQuery.schema;
-                con  = Application.ctx.getConnection(this.uuid);
-                ddl = con.ddl(schema,table,this.view);
-            }
-            catch(FXError error)
-            {
-                error = error;
-            }
-            finally
-            {
-                if(con != null)
-                {
-                    con.close();
-                }
-                Idle.add(showDDL.callback);
-            }
-        });
-        
-        worker.execute();
-        
-        yield;
-        
-        if(error != null)
-        {
-            FXAlert.error(_("_DDL query error"),error.message);
-            return;
-        }
+        new DDDialog(this.uuid,this.pageQuery.schema,this.pageQuery.table,this.view);
     }
+
+    //  private async void loadTableData(int offset,bool flush=false)
+    //  {
+    //      var tab = this.tab();
+        
+    //      if(tab.loading)
+    //      {
+    //          return;
+    //      }
+        
+    //      var page = this.pageQuery.page;
+
+      
+
+    //      new DDDialog();
+    //  }
 
     private async void loadTableData(int offset,bool flush=false)
     {

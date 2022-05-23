@@ -161,6 +161,7 @@
         </action-widgets>
         <style>
             <class name="connect-dialog"/>
+            <class name="dialog"/>
         </style>
     </template>
 </interface>

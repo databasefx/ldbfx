@@ -7,6 +7,7 @@
     <file>ui/menubar.xml</file>
     <file>ui/fx-alert.xml</file>
     <file>ui/sqlite-compact.xml</file>
+    <file>ui/dd-dialog.xml</file>
     <file>ui/data-source-compact.xml</file>
     <file>style/style.css</file>
   </gresource>
