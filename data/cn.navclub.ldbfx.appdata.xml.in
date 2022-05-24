@@ -5,14 +5,11 @@
   <project_license>Apache-2.0</project_license>
   <name>ldbfx</name>
   <summary>Visual database management</summary>
-    <description>
-    <p>A visual database management tool for Linux.</p>
-    <p>ldbfx what attracts you:</p>
-    <ul>
-        <li>A free software</li>
-        <li>Native based construction is fast enough</li>
-    </ul>
-   </description>
+  <description>
+    <p>
+        "ldbfx" is a set of database management tools that can create multiple connections to facilitate the management of different types of databases such as mysql, Oracle, PostgreSQL, SQLite, SQL server, MariaDB and mongodb.
+    </p>
+  </description>
   <url type="homepage">https://github.com/databasefx/ldbfx</url>
   <url type="bugtracker">https://github.com/databasefx/ldbfx/issues</url>
   <screenshots>
