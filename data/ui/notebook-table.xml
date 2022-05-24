@@ -104,6 +104,7 @@
                     <object class="GtkColumnView" id="tableView">
                         <property name="vexpand">1</property>
                         <property name="can-focus">1</property>
+                        <property name="enable_rubberband">1</property>
                         <property name="show_row_separators">1</property>
                         <property name="show_column_separators">1</property>
                     </object>

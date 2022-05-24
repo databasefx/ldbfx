@@ -58,9 +58,10 @@ public class NotebookTable : Box, TabService
         
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
-            var label = listItem.child as Label;
-            label.label = item.getStrValue();
-            if(item.isNull || item.index-1 == 0)
+            var label = listItem.child as EditableLabel;
+            label.text = item.getStrValue();
+            var index = item.index - 1 == 0;
+            if(item.isNull || index)
             {
                 label.add_css_class("table-cell-high-light");
             }
@@ -68,10 +69,12 @@ public class NotebookTable : Box, TabService
             {
                 label.remove_css_class("table-cell-high-light");
             }
+
+            label.editable = !index;
         });
 
         this.factory.setup.connect((listItem)=>{
-            listItem.child = new Label("");
+            listItem.child = new  EditableLabel("");
         });
 
         this.tableView.model = this.selection;
@@ -102,22 +105,6 @@ public class NotebookTable : Box, TabService
     {
         new DDDialog(this.uuid,this.pageQuery.schema,this.pageQuery.table,this.view);
     }
-
-    //  private async void loadTableData(int offset,bool flush=false)
-    //  {
-    //      var tab = this.tab();
-        
-    //      if(tab.loading)
-    //      {
-    //          return;
-    //      }
-        
-    //      var page = this.pageQuery.page;
-
-      
-
-    //      new DDDialog();
-    //  }
 
     private async void loadTableData(int offset,bool flush=false)
     {
