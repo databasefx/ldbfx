@@ -5,9 +5,14 @@
   <project_license>Apache-2.0</project_license>
   <name>ldbfx</name>
   <summary>Visual database management</summary>
-  <description>
+    <description>
     <p>A visual database management tool for Linux.</p>
-  </description>
+    <p>ldbfx what attracts you:</p>
+    <ul>
+        <li>A free software</li>
+        <li>Native based construction is fast enough</li>
+    </ul>
+   </description>
   <url type="homepage">https://github.com/databasefx/ldbfx</url>
   <url type="bugtracker">https://github.com/databasefx/ldbfx/issues</url>
   <screenshots>
