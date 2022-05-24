@@ -37,8 +37,6 @@ public class DDDialog : Dialog
     {
         string ddl  = null;
         FXError error = null;
-        //Ref current object
-        DDDialog dialog = this;
         var worker = AsyncWork.create(()=>{
             SqlConnection con = null;
             try
@@ -74,7 +72,7 @@ public class DDDialog : Dialog
             this.copy.visible = true;
             this.stack.set_visible_child_name("p1");
         }
-        dialog.spinner.stop();
+        this.spinner.stop();
     }
 
     [GtkCallback]
