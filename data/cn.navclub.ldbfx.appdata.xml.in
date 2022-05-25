@@ -14,6 +14,8 @@
     <control>touch</control>
   </supports>
 
+  <url>https://github.com/databasefx/</url>
+
   <description>
     <p>
       Ldbfx is a set of database management tools that can create multiple connections to facilitate the management of different types of databases such as mysql, Oracle, PostgreSQL, SQLite, SQL server, MariaDB and mongodb.
@@ -21,12 +23,17 @@
   </description>
 
   <launchable type="desktop-id">cn.navclub.ldbfx.desktop</launchable>
+  <content_rating/>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/databasefx/ldbfx/blob/68670c6b34a063532770db9d04204969125662d9/SNAPSHOT/home.png</image>
+      <image>https://github.com/databasefx/ldbfx/blob/cb72078f08d2d6f06ed340acee8ef6b2b773d924/SNAPSHOT/home.png?raw=true</image>
     </screenshot>
     <screenshot>
-      <image>https://github.com/databasefx/ldbfx/blob/68670c6b34a063532770db9d04204969125662d9/SNAPSHOT/main.png</image>
+      <image>https://github.com/databasefx/ldbfx/blob/cb72078f08d2d6f06ed340acee8ef6b2b773d924/SNAPSHOT/main.png?raw=true</image>
     </screenshot>
   </screenshots>
+
+  <releases>
+    <release version="1.0.0" date="2022-05-25"/>
+  </releases>
 </component>
