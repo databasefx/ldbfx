@@ -33,8 +33,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/databasefx/ldbfx.git",
-                    "commit": "83136acedeae629aac5b8edc9dc909234b4cf089"
+                    "url": "https://github.com/databasefx/ldbfx.git"
                 }
             ]
         }
