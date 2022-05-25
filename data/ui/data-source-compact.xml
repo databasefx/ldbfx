@@ -10,7 +10,7 @@
                         <property name="vexpand">1</property>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Host</property>
+                                <property name="label" translatable="yes">_Host</property>
                                 <layout>
                                     <property name="row">0</property>
                                     <property name="column">0</property>
@@ -29,7 +29,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Port</property>
+                                <property name="label" translatable="yes">_Port</property>
                                 <layout>
                                     <property name="row">0</property>
                                     <property name="column">7</property>
@@ -48,7 +48,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Authorization</property>
+                                <property name="label" translatable="yes">_Authorization</property>
                                 <layout>
                                     <property name="row">1</property>
                                     <property name="column">0</property>
@@ -72,7 +72,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">User</property>
+                                <property name="label" translatable="yes">_User</property>
                                 <layout>
                                     <property name="row">2</property>
                                     <property name="column">0</property>
@@ -90,7 +90,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Password</property>
+                                <property name="label" translatable="yes">_Password</property>
                                 <layout>
                                     <property name="row">3</property>
                                     <property name="column">0</property>
@@ -108,7 +108,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Save</property>
+                                <property name="label" translatable="yes">_Save</property>
                                 <layout>
                                     <property name="row">3</property>
                                     <property name="column">7</property>
@@ -131,7 +131,7 @@
                         </child>
                         <child>
                             <object class="GtkLabel">
-                                <property name="label" translatable="yes">Database</property>
+                                <property name="label" translatable="yes">_Database</property>
                                 <layout>
                                     <property name="row">4</property>
                                     <property name="column">0</property>

@@ -145,3 +145,29 @@ msgstr "加载中..."
 msgid "_Copy success"
 msgstr "复制成功"
 
+msgid "_Host"
+msgstr "主机"
+
+msgid "_Port"
+msgstr "端口"
+
+msgid "_User"
+msgstr "用户"
+
+msgid "_Password"
+msgstr "密码"
+
+msgid "_Authorization"
+msgstr "认证"
+
+msgid "_Save"
+msgstr "保存"
+
+msgid "_Database"
+msgstr "数据库"
+
+msgid "_Name"
+msgstr "名称"
+
+msgid "_Comment"
+msgstr "备注"

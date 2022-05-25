@@ -141,3 +141,30 @@ msgstr "Loading..."
 
 msgid "_Copy success"
 msgstr "Copy success"
+
+msgid "_Host"
+msgstr "Host"
+
+msgid "_Port"
+msgstr "Port"
+
+msgid "_User"
+msgstr "User"
+
+msgid "_Password"
+msgstr "Password"
+
+msgid "_Authorization"
+msgstr "Authorization"
+
+msgid "_Save"
+msgstr "Save"
+
+msgid "_Database"
+msgstr "Database"
+
+msgid "_Name"
+msgstr "Name"
+
+msgid "_Comment"
+msgstr "Comment"
