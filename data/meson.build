@@ -1,6 +1,6 @@
  gnome = import('gnome')
-resource_files = files('dbfx_vala.gresource.xml')
-resources = gnome.compile_resources('cn.navclub.dbfx',resource_files,c_name:'resources')
+resource_files = files('ldbfx_vala.gresource.xml')
+resources = gnome.compile_resources('cn.navclub.ldbfx',resource_files,c_name:'resources')
 
 desktop_file = i18n.merge_file(
   input: 'cn.navclub.ldbfx.desktop.in',
