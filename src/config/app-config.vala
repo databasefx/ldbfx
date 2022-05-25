@@ -14,7 +14,7 @@ public class AppConfig
     private static string appDataFolder;
     
     //缓存数据源
-    private static Gee.List<DataSource> dataSources;
+    private static Gee.Map<string,DataSource> map;
 
     /**
      *
@@ -24,7 +24,7 @@ public class AppConfig
      */
     public static void initAppDataFolder()
     {
-        dataSources = new Gee.ArrayList<DataSource>();
+        map = new Gee.HashMap<string,DataSource>();
         switch(SYSTEM_TYPE){
             case "linux":
             case "macos":
@@ -42,7 +42,7 @@ public class AppConfig
      * 加载配置文件中的数据源
      *
      **/
-    public static unowned Gee.List<DataSource> fetchDataSource()
+    public static Gee.Collection<DataSource> fetchDataSource()
     {
         var filename = "%s%s".printf(appDataFolder,dbPreference);
 
@@ -63,10 +63,12 @@ public class AppConfig
 
         foreach(var item in array.get_elements())
         {
-            dataSources.add(create(item.get_object()));
+            var dataSource = create(item.get_object()); 
+            map.set(dataSource.uuid,dataSource);
         }
-        warning(filename);
-        return dataSources;
+
+       return map.values;
+
     }
 
     /**
@@ -102,7 +104,7 @@ public class AppConfig
         {
             deleteById(dataSource.uuid,false);
         }
-        dataSources.add(dataSource);
+       map.set(dataSource.uuid,dataSource);
     }
 
     /**
@@ -130,21 +132,20 @@ public class AppConfig
         {
             array.remove_element(i);
         }
+
+        //From cached remove dataSource
         if(all)
         {
-            i = j = 0;
-            foreach(var item in dataSources)
-            {
-                if(item.uuid == uuid)
-                {
-                    i = j;
-                    break;
-                }
-                j++;
-            }
-            dataSources.remove_at(i);
+            map.remove(uuid);
+            debug("Success remove data-source:[%s] from cached!".printf(uuid));
         }
+
         flush2Disk();
+
+        if(i != -1)
+        {
+            debug("Success remove data-source:[%s] from disk!".printf(uuid));
+        }
     }
 
     /**
@@ -180,15 +181,14 @@ public class AppConfig
      **/
     public static  DataSource? getDataSource(string uuid)
     {
-        foreach(var dataSource in dataSources)
+        var dataSource = map.get(uuid);
+
+        if(dataSource == null)
         {
-            if(dataSource.uuid == uuid)
-            {
-                return dataSource;
-            }
+            warning("Cant' find any dataSource for [%s]".printf(uuid));
         }
-        warning("Cant' find any dataSource for [%s]".printf(uuid));
-        return null;
+
+        return dataSource;
     }
 
 

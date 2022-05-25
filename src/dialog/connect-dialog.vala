@@ -249,11 +249,9 @@ public class ConnectDialog : Gtk.Dialog {
     {
       dataSource.uuid = this.uuid;
     }
-    else
-    {
-        dataSource.maxWait = 3;
-        dataSource.maxSize = 10;
-    }
+
+    dataSource.maxWait = 3;
+    dataSource.maxSize = 10;
 
     FXError error = null;
     SourceFunc callback = save.callback;
