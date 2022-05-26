@@ -229,6 +229,7 @@ public class AppConfig
         dataSource.host = obj.get_string_member(Constant.HOST);
         dataSource.uuid = obj.get_string_member(Constant.UUID);
         dataSource.port = (int)obj.get_int_member(Constant.PORT);
+        dataSource.database = obj.get_string_member(Constant.DATABASE);
         dataSource.maxWait = (int)obj.get_int_member(Constant.MAX_WAIT);
         dataSource.maxSize = (int)obj.get_int_member(Constant.MAX_SIZE);
         dataSource.comment = obj.get_string_member(Constant.COMMENT);

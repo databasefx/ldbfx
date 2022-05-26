@@ -8,7 +8,7 @@ public class SqliteConnection : SqlConnection
 
     public SqliteConnection(DataSource dataSource,SqlConnectionPool? pool)
     {
-        base(pool);
+        base(dataSource,pool);
         this.database = null;
         this.dataSource = dataSource;
     }

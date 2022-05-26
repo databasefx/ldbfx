@@ -8,7 +8,7 @@ public class MysqlConnection : SqlConnection
 
     public MysqlConnection(DataSource dataSource,SqlConnectionPool? pool)
     {
-        base(pool);
+        base(dataSource,pool);
         this.dataSource = dataSource;
         this.database = new Database();
     }

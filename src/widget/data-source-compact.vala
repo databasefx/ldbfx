@@ -116,6 +116,7 @@ public class CommonDataSourceCompact :Box,DataSourceConpact
     {
         this.user.text = dataSource.user;
         this.host.text = dataSource.host;
+        this.database.text = dataSource.database;
         this.password.text = dataSource.password;
         this.authBox.active = dataSource.authModel;
         this.port.text = dataSource.port.to_string();

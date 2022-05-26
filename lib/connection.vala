@@ -26,8 +26,20 @@ public abstract class SqlConnection
         get;
     }
 
-    protected SqlConnection(SqlConnectionPool? pool){
+    /**
+     *
+     * 当前数据源属性
+     *
+     **/
+    public DataSource dataSource{
+        private set;
+        get;
+    }
+
+    protected SqlConnection(DataSource dataSource,SqlConnectionPool? pool)
+    {
         this.pool = pool;
+        this.dataSource = dataSource;
     }
 
     /**

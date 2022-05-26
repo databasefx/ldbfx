@@ -433,8 +433,34 @@ public class NavTreeEvent
             SqlConnection con = null;
             try
             {
-                var context = Application.ctx;
-                list = context.getConnection(uuid).schemas();
+                 var connection = Application.ctx.getConnection(uuid);
+                 var dataSource = connection.dataSource;
+                 var database = dataSource.database;
+                 
+                 list = connection.schemas();
+
+                 var i = -1;
+                 
+                 if(StrUtil.isNotBlack(database))
+                 {
+                    var j = 0;
+                    foreach(var schema in list)
+                    {
+                        if(schema.name == database)
+                        {
+                            i = j;
+                            break;
+                        }
+                        ++j;
+                    }
+                 }
+                 stdout.printf("%d\n",i);
+                 if(i != -1)
+                 {
+                     var target =  list.remove_at(i);
+                     list.clear();
+                     list.add(target);
+                 }
             }
             catch(FXError e)
             {
