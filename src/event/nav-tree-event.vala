@@ -298,13 +298,18 @@ public class NavTreeEvent
         {
             return;
         }
+
         this.clear(iter);
-        var val = new Value(typeof(string));
+        this.treeStore().set_value(
+            iter,
+            NavTreeCol.STATUS,
+            NavTRowStatus.INACTIVE
+        );
+        this.navTree.columns_autosize();
+
+        Value val;
         this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
-        var uuid = val.get_string();
-        //移除连接池
-        Application.ctx.removePool(uuid);
-        this.treeStore().set_value( iter , NavTreeCol.STATUS , NavTRowStatus.INACTIVE );
+        Application.ctx.removePool(val.get_string());
     }
 
     /**
@@ -454,7 +459,6 @@ public class NavTreeEvent
                         ++j;
                     }
                  }
-                 stdout.printf("%d\n",i);
                  if(i != -1)
                  {
                      var target =  list.remove_at(i);
