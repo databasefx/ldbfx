@@ -166,7 +166,8 @@ public class NavTreeEvent
      */
     private void leftPreEvent(int num,double x,double y)
     {
-        if( num > 1){
+        if( num > 1)
+        {
             this.open();
         }
         this.lGesture.set_state(EventSequenceState.CLAIMED);
@@ -185,8 +186,8 @@ public class NavTreeEvent
         if(iter != null && (menu =  this.getRowMenuItem(iter)) != null)
         {
             this.popoverMenu.menu_model = menu;
-            this.popoverMenu. set_pointing_to({(int)x,(int)y,1,1});
-            this.popoverMenu.popup();
+            this.popoverMenu.set_pointing_to({(int)x,(int)y,1,1});
+            this.popoverMenu.visible = true;
         }
         this.rGesture.set_state(EventSequenceState.CLAIMED);
     }
