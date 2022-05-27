@@ -1,10 +1,10 @@
 {
-    "app-id": "cn.navclub.ldbfx",
-    "runtime": "org.gnome.Sdk",
-    "runtime-version": "42",
-    "sdk": "org.gnome.Sdk",
-    "command": "ldbfx",
-    "finish-args": [
+    "app-id" : "cn.navclub.ldbfx",
+    "runtime" : "org.gnome.Sdk",
+    "runtime-version" : "42",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "ldbfx",
+    "finish-args" : [
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
@@ -12,30 +12,33 @@
         "--socket=wayland",
         "--filesystem=home"
     ],
-    "modules": [
+    "modules" : [
         {
-            "name": "mariadb",
-            "buildsystem": "cmake-ninja",
-            "post-install": [
+            "name" : "mariadb",
+            "buildsystem" : "cmake-ninja",
+            "post-install" : [
                 "ln -s /app/lib/mariadb/libmariadb.so /app/lib/libmariadb.so.3"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/mariadb-corporation/mariadb-connector-c/archive/refs/tags/v3.2.6.zip",
-                    "sha256": "9fe6a161d1c1ff4f74bb87e4c587bbd2a14146a2bc3ba7b677633bfa0445b8b5"
+                    "type" : "archive",
+                    "url" : "https://github.com/mariadb-corporation/mariadb-connector-c/archive/refs/tags/v3.2.6.zip",
+                    "sha256" : "9fe6a161d1c1ff4f74bb87e4c587bbd2a14146a2bc3ba7b677633bfa0445b8b5"
                 }
             ]
         },
         {
-            "name": "ldbfx",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "ldbfx",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://github.com/databasefx/ldbfx.git"
+                    "type" : "git",
+                    "url" : "https://github.com/databasefx/ldbfx.git"
                 }
             ]
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {        }
+    }
 }

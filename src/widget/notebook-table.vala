@@ -55,12 +55,15 @@ public class NotebookTable : Box, TabService
         this.pageQuery = new PageQuery(this.getPosVal(this.pathVal,-3),this.getPosVal(this.pathVal,-1));
         
         this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
-        
+
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
             var label = listItem.child as EditableLabel;
+
             label.text = item.getStrValue();
+
             var index = item.index - 1 == 0;
+            
             if(item.isNull || index)
             {
                 label.add_css_class("table-cell-high-light");
@@ -69,12 +72,15 @@ public class NotebookTable : Box, TabService
             {
                 label.remove_css_class("table-cell-high-light");
             }
-
             label.editable = !index;
         });
 
         this.factory.setup.connect((listItem)=>{
             listItem.child = new  EditableLabel("");
+        });
+
+        this.factory.teardown.connect((listItem)=>{
+            listItem.child = null;
         });
 
         this.tableView.model = this.selection;
@@ -125,9 +131,12 @@ public class NotebookTable : Box, TabService
         {
             return;
         }
+        var s = get_real_time();
 
         //清除先前数据
         this.listStore.remove_all();
+
+        stdout.printf("%.5fs\n",(get_real_time()-s)/1000000.0);
 
         tab.loadStatus(true);
 
@@ -187,8 +196,8 @@ public class NotebookTable : Box, TabService
 
                 this.listStore.append(new TableRowMeta(array));
                 
-                //一次性加载10条数据
-                if(j % 10 == 0)
+                //一次性加载20条数据
+                if(dSize > 100 && j % 20 == 0)
                 {
                     Idle.add(callback);
                     yield;
@@ -238,7 +247,11 @@ public class NotebookTable : Box, TabService
             
             if(index < size-1)
             {
-                this.columns.get(index+1).title = name;
+                var ccolumn = this.columns.get(index+1);
+                if(ccolumn.title != name)
+                {
+                    ccolumn.title = name;
+                }
             }
             else
             {
@@ -247,7 +260,8 @@ public class NotebookTable : Box, TabService
                     name,
                     factory
                 );
-            
+                //fixed-width improve perference
+                ccolumn.fixed_width = 150;
                 ccolumn.set_resizable(true);
                 this.columns.add(ccolumn);
                 this.tableView.append_column(ccolumn);
