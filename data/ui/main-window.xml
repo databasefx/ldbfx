@@ -6,7 +6,7 @@
         <property name="default_height">900</property>
         <property name="icon_name">cn.navclub.dbfx</property>
         <child>
-            <object class="GtkPaned">
+            <object class="GtkPaned" id="paned">
                 <child>
                     <object class="GtkBox">
                         <property name="orientation">vertical</property>

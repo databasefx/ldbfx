@@ -3,6 +3,8 @@ using Gtk;
 [GtkTemplate (ui = "/cn/navclub/ldbfx/ui/main-window.xml")]
 public class MainController : Gtk.ApplicationWindow {
     [GtkChild]
+    private unowned Paned paned;
+    [GtkChild]
     private unowned Stack stack;
     [GtkChild]
     public unowned Notebook notebook;
@@ -21,12 +23,17 @@ public class MainController : Gtk.ApplicationWindow {
 
 	public MainController (Gtk.Application app) {
 		Object (application: app);
-        this.show_menubar = true;
-		this.initNavTree();
+        
+ 
+
+		this.initMainUI();
 	 }
 
-    public void initNavTree()
+    public void initMainUI()
     {
+        this.show_menubar = true;
+        this.paned.shrink_start_child = false;
+        
         this.treeModel = new Gtk.TreeStore
         (
             NavTreeCol.COL_NUM,
