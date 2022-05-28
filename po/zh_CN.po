@@ -171,3 +171,8 @@ msgstr "名称"
 
 msgid "_Comment"
 msgstr "备注"
+
+
+
+msgid "_Exit confirm"
+msgstr "你确定要退出当前程序?"

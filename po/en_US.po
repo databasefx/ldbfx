@@ -168,3 +168,7 @@ msgstr "Name"
 
 msgid "_Comment"
 msgstr "Comment"
+
+
+msgid "_Exit confirm"
+msgstr "Are you sure exit current program?"

@@ -208,7 +208,14 @@ public class Application : Gtk.Application
     **/
     public void exit()
     {
-        Process.exit(0);
+        var alert = FXAlert.confirm("",_("_Exit confirm"));
+        alert.response.connect(apply=>{
+            if(!apply)
+            {
+                return;
+            }
+            Process.exit(0);
+        });
     }
 
 
