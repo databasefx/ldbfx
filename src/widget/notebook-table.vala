@@ -78,6 +78,7 @@ public class NotebookTable : Box, TabService
         this.factory.setup.connect((listItem)=>{
             var label = new Label("");
 
+            label.xalign = 0f;
             //Set single show model
             label.single_line_mode = true;
             
