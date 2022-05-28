@@ -87,6 +87,10 @@ menubar,
   border-radius: 0;
 }
 
+.notebook-table cell:first-child {
+  background-color: #2d2d2d;
+}
+
 .notebook-table .table-cell-high-light {
   color: #7d6b51;
 }

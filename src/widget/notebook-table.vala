@@ -63,13 +63,19 @@ public class NotebookTable : Box, TabService
 
             var text = item.getStrValue();
 
-            if(item.isNull || (item.index - 1 == 0))
+            if(item.isNull)
             {
                 label.add_css_class("table-cell-high-light");
             }
             else
             {
                 label.remove_css_class("table-cell-high-light");
+            }
+
+            //Set index cell center show
+            if((item.index - 1 == 0) && label.xalign != 0.5f)
+            {
+                label.xalign = 0.5f;
             }
 
             label.label = text;
@@ -81,6 +87,8 @@ public class NotebookTable : Box, TabService
             label.xalign = 0f;
             //Set single show model
             label.single_line_mode = true;
+            //Add custom class name
+            label.add_css_class("table-cell");
             
             listItem.child = label;
         });
