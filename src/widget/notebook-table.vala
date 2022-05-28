@@ -61,11 +61,9 @@ public class NotebookTable : Box, TabService
             var item = listItem.item as TableRowMeta;
             var label = listItem.child as Label;
 
-            label.label = item.getStrValue();
+            var text = item.getStrValue();
 
-            var index = item.index - 1 == 0;
-            
-            if(item.isNull || index)
+            if(item.isNull || (item.index - 1 == 0))
             {
                 label.add_css_class("table-cell-high-light");
             }
@@ -74,14 +72,16 @@ public class NotebookTable : Box, TabService
                 label.remove_css_class("table-cell-high-light");
             }
 
-            listItem.selectable = true;
-            listItem.activatable = true;
-
-            stdout.printf("%d\n",count++);
+            label.label = text;
         });
 
         this.factory.setup.connect((listItem)=>{
-            listItem.child = new Label("");
+            var label = new Label("");
+
+            //Set single show model
+            label.single_line_mode = true;
+            
+            listItem.child = label;
         });
 
         this.factory.teardown.connect((listItem)=>{
