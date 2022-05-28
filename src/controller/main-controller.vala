@@ -23,8 +23,6 @@ public class MainController : Gtk.ApplicationWindow {
 
 	public MainController (Gtk.Application app) {
 		Object (application: app);
-        
- 
 
 		this.initMainUI();
 	 }
@@ -33,7 +31,7 @@ public class MainController : Gtk.ApplicationWindow {
     {
         this.show_menubar = true;
         this.paned.shrink_start_child = false;
-        
+
         this.treeModel = new Gtk.TreeStore
         (
             NavTreeCol.COL_NUM,
