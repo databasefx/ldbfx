@@ -172,7 +172,14 @@ msgstr "名称"
 msgid "_Comment"
 msgstr "备注"
 
+msgid "_Confirm info"
+msgstr "确认信息"
 
+msgid "_Error info"
+msgstr "错误信息"
+
+msgid "_Warn info"
+msgstr "警告信息"
 
 msgid "_Exit confirm"
 msgstr "你确定要退出当前程序?"

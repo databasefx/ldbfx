@@ -169,6 +169,14 @@ msgstr "Name"
 msgid "_Comment"
 msgstr "Comment"
 
+msgid "_Confirm info"
+msgstr "Confirm information"
+
+msgid "_Error info"
+msgstr "Error information"
+
+msgid "Warn info"
+msgstr "Warn information"
 
 msgid "_Exit confirm"
 msgstr "Are you sure exit current program?"

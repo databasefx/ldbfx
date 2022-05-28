@@ -95,23 +95,23 @@ public class FXAlert : Window
         this.close();
     }
 
-    public static FXAlert info(string subTitle,string content)
+    public static FXAlert info(string? subTitle,string content)
     {
-        return new FXAlert(AlertType.INFOMATION,subTitle,content);
+        return new FXAlert(AlertType.INFOMATION,subTitle??_("_Information"),content);
     }
 
-    public static FXAlert warn(string subTitle,string content)
+    public static FXAlert warn(string? subTitle,string content)
     {
-        return new FXAlert(AlertType.WARNING,subTitle,content);
+        return new FXAlert(AlertType.WARNING,subTitle??_("_Warn info"),content);
     }
 
-    public static FXAlert confirm(string subTitle,string content)
+    public static FXAlert confirm(string? subTitle,string content)
     {
-        return new FXAlert(AlertType.CONFIRMATION,subTitle,content);
+        return new FXAlert(AlertType.CONFIRMATION,subTitle??_("_Confirm info"),content);
     }
 
-    public static FXAlert error(string subTitle,string content)
+    public static FXAlert error(string? subTitle,string content)
     {
-        return new FXAlert(AlertType.ERROR,subTitle,content);
+        return new FXAlert(AlertType.ERROR,subTitle??_("Error infor"),content);
     }
 }

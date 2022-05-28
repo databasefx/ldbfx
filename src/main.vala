@@ -208,7 +208,7 @@ public class Application : Gtk.Application
     **/
     public void exit()
     {
-        var alert = FXAlert.confirm("",_("_Exit confirm"));
+        var alert = FXAlert.confirm(null,_("_Exit confirm"));
         alert.response.connect(apply=>{
             if(!apply)
             {
