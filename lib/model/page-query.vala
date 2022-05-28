@@ -50,7 +50,7 @@ public class PageQuery : Object
     public PageQuery(string schema,string table)
     {
         this.page = 0;
-        this.size = 200;
+        this.size = 500;
         this.sort = "";
         this.where = "";
 

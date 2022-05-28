@@ -56,11 +56,12 @@ public class NotebookTable : Box, TabService
         
         this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
 
+        var count = 0;
         this.factory.bind.connect(listItem=>{
             var item = listItem.item as TableRowMeta;
-            var label = listItem.child as EditableLabel;
+            var label = listItem.child as Label;
 
-            label.text = item.getStrValue();
+            label.label = item.getStrValue();
 
             var index = item.index - 1 == 0;
             
@@ -72,11 +73,15 @@ public class NotebookTable : Box, TabService
             {
                 label.remove_css_class("table-cell-high-light");
             }
-            label.editable = !index;
+
+            listItem.selectable = true;
+            listItem.activatable = true;
+
+            stdout.printf("%d\n",count++);
         });
 
         this.factory.setup.connect((listItem)=>{
-            listItem.child = new  EditableLabel("");
+            listItem.child = new Label("");
         });
 
         this.factory.teardown.connect((listItem)=>{
@@ -196,8 +201,8 @@ public class NotebookTable : Box, TabService
 
                 this.listStore.append(new TableRowMeta(array));
                 
-                //一次性加载20条数据
-                if(dSize > 100 && j % 20 == 0)
+                //一次性加载80条数据
+                if(dSize > 80 && j % 80 == 0)
                 {
                     Idle.add(callback);
                     yield;
@@ -227,14 +232,7 @@ public class NotebookTable : Box, TabService
         //创建索引列
         if(this.columns.size == 0)
         {
-            var ccolumn = new ColumnViewColumn
-            (
-                "",
-                factory
-            );
-            ccolumn.set_resizable(false);
-            this.columns.add(ccolumn);
-            this.tableView.append_column(ccolumn);
+            this.createColumn("",false,40);
         }
 
         var index = 0;
@@ -255,16 +253,7 @@ public class NotebookTable : Box, TabService
             }
             else
             {
-                var ccolumn = new ColumnViewColumn
-                (
-                    name,
-                    factory
-                );
-                //fixed-width improve perference
-                ccolumn.fixed_width = 150;
-                ccolumn.set_resizable(true);
-                this.columns.add(ccolumn);
-                this.tableView.append_column(ccolumn);
+                this.createColumn(name,true,150);
             }
             index++;
         }
@@ -275,6 +264,26 @@ public class NotebookTable : Box, TabService
             var column = this.columns.remove_at(i);
             this.tableView.remove_column(column);
         }
+    }
+
+    /**
+     *
+     * 创建列
+     *
+     */
+    private void createColumn(string title,bool resizable,int fixWidth)
+    {
+        var ccolumn = new ColumnViewColumn
+        (
+            title,
+            factory
+        );
+
+        ccolumn.resizable = resizable;
+        ccolumn.fixed_width = fixWidth;
+
+        this.columns.add(ccolumn);
+        this.tableView.append_column(ccolumn);
     }
 
     /**
