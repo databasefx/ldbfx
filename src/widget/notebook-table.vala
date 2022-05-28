@@ -145,14 +145,10 @@ public class NotebookTable : Box, TabService
         {
             return;
         }
-        var s = get_real_time();
-
-        //清除先前数据
-        this.listStore.remove_all();
-
-        stdout.printf("%.5fs\n",(get_real_time()-s)/1000000.0);
 
         tab.loadStatus(true);
+
+        this.listStore.remove_all();
 
         FXError error = null;
         Gee.List<TableColumnMeta> columns = null;

@@ -310,6 +310,9 @@ public class NavTreeEvent
 
         Value val;
         this.treeModel.get_value(iter,NavTreeCol.UUID,out val);
+        //Remove all relative tab
+        Application.ctx.removeTab(val.get_string());
+        //Remove cached pool
         Application.ctx.removePool(val.get_string());
     }
 

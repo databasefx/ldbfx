@@ -34,12 +34,12 @@ public class Application : Gtk.Application
         this.pools = new HashMap<string,SqlConnectionPool>();
     }
 
-    public int addTab(TabService service,bool selected)
+    public void addTab(TabService service,bool selected)
     {
         var index = -1;
         if( (index = this.tabExist(service.getPath(),selected)) != -1 )
         {
-            return index;
+            return;
         }
         var label = service.tab();
         var content = service as Gtk.Widget;
@@ -49,7 +49,32 @@ public class Application : Gtk.Application
         {
             notebook.page = index;
         }
-        return index;
+    }
+
+    /*
+     *
+     *
+     *  Remove fix prefix tab from Notebook
+     *
+     *
+     **/
+    public void removeTab(string prefix)
+    {
+        var tabs = new Widget[0];
+        var notebook = this.controller.notebook;
+        var num = notebook.get_n_pages();
+        for(var i = 0;i < num ; i++)
+        {
+            var service = notebook.get_nth_page(i) as TabService;
+            if(service.getPath().has_prefix(prefix))
+            {
+                tabs+=service.getContent();
+            }
+        }
+        foreach(var tab in tabs)
+        {
+            notebook.detach_tab(tab);
+        }
     }
 
     public int tabExist(string path,bool selected)
