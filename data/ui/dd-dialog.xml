@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF8" ?>
+
 <interface>
+    
+    <requires lib="gtk" version="4.6.3"/>
+    <requires lib="GtkSource" version="5.0"/>
+    
     <template class="DDDialog" parent="GtkDialog">
         <property name="modal">1</property>
         <property name="visible">1</property>
@@ -40,11 +45,19 @@
                                 <property name="child">
                                     <object class="GtkScrolledWindow">
                                         <child>
-                                            <object class="GtkTextView" id="textView">
-                                                <property name="editable">0</property>
-                                                <property name="vexpand">1</property>
-                                                <property name="hexpand">1</property>
-                                                <property name="wrap_mode">3</property>
+                                            <object class="GtkSourceView" id="sourceView">
+                                                <property name="buffer">
+                                                    <object class="GtkSourceBuffer"></object>
+                                                </property>
+                                                <property name="hexpand">True</property>
+                                                <property name="vexpand">True</property>
+                                                <property name="monospace">True</property>
+                                                <property name="left-margin">12</property>
+                                                <property name="top-margin">12</property>
+                                                <property name="bottom-margin">12</property>
+                                                <property name="right-margin">12</property>
+                                                <property name="show_line_numbers">1</property>
+                                                <property name="highlight_current_line">1</property>
                                             </object>
                                         </child>
                                     </object>

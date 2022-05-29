@@ -35,6 +35,17 @@
             ]
         },
         {
+            "name": "gtksourceview",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.gnome.org/GNOME/gtksourceview/-/archive/5.4.1/gtksourceview-5.4.1.zip",
+                    "sha256": "2af967def84fffa56761f11a583c1d080a8c54ec9f17a268ad78d4b91069cbe7"
+                }
+            ]
+        },
+        {
             "name": "ldbfx",
             "buildsystem": "meson",
             "sources": [

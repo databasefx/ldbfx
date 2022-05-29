@@ -30,6 +30,7 @@ libxml = dependency('libxml-2.0')
 libmariadb = dependency('libmariadb')
 libjson = dependency('json-glib-1.0')
 gtk = dependency('gtk4', version: '>= 4.6.4')
+libsourceview = dependency('gtksourceview-5')
 gio = dependency('gio-2.0', version: '>=' + min_glib_version)
 glib = dependency('glib-2.0', version: '>=' + min_glib_version)
 

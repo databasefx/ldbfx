@@ -1,4 +1,5 @@
 using Gtk;
+using GtkSource;
 
 [GtkTemplate (ui = "/cn/navclub/ldbfx/ui/dd-dialog.xml")]
 public class DDDialog : Dialog
@@ -18,7 +19,7 @@ public class DDDialog : Dialog
     [GtkChild]
     private unowned Spinner spinner;
     [GtkChild]
-    private unowned TextView textView;
+    private unowned View sourceView;
 
     public DDDialog(string uuid,string schema,string table,bool view)
     {
@@ -28,7 +29,7 @@ public class DDDialog : Dialog
         this.uuid = uuid;
         this.table = table;
         this.schema = schema;
-        this.buffer = this.textView.get_buffer();
+        this.buffer = this.sourceView.get_buffer();
         this.loadDDLScript();
     }
 

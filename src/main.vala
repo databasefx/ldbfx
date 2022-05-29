@@ -262,6 +262,11 @@ public class Application : Gtk.Application
             Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "utf-8");
             Intl.textdomain (GETTEXT_PACKAGE);
 
+            ///
+            /// Register non gtk-core class
+            ///
+            typeof(GtkSource.View).ensure();
+
             //初始化线程池
             AsyncWork.createThreadPool(20);
         }

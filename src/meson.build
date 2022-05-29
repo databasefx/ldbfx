@@ -28,7 +28,8 @@ dbfx_vala_deps = [
   libgee,
   libxml,
   libjson,
-  libdbfx_dep
+  libdbfx_dep,
+  libsourceview
 ]
 
 dbfx_c_args = [
