@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.6.3"/>
+    <template class="DDNotebook" parent="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+            <object class="GtkBox">
+                <property name="spacing">5</property>
+                <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">dbfx-refresh</property>
+                        <signal name="clicked" handler="loadDDLScript"/>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">dbfx-copy</property>
+                        <signal name="clicked" handler="copyText"/>
+                    </object>
+                </child>
+                <style>
+                    <class name="tool-bar"/>
+                </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkScrolledWindow">
+                <child>
+                    <object class="SQLSourceView" id="sourceView"></object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>
