@@ -30,9 +30,7 @@ public class DDDialog : Dialog
         this.uuid = uuid;
         this.table = table;
         this.schema = schema;        
-
-        stdout.printf("======================================\n");
-
+        
         this.buffer = this.sourceView.buffer as Buffer;
 
         this.loadDDLScript();
