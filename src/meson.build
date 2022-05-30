@@ -10,6 +10,7 @@ dbfx_vala_sources = [
   'config/nav-tree.vala',
   'config/app-config.vala',
   'widget/fx-alert.vala',
+  'widget/notebook-ddl.vala',
   'widget/sqlite-compact.vala',
   'widget/sql-source-view.vala',
   'widget/data-source-compact.vala',
@@ -17,7 +18,6 @@ dbfx_vala_sources = [
   'widget/notebook-table.vala',
   'model/table-row-meta.vala',
   'event/nav-tree-event.vala',
-  'dialog/dd-dialog.vala',
   'dialog/connect-dialog.vala',
   'controller/main-controller.vala'
 ]

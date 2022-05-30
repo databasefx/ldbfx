@@ -73,7 +73,7 @@
                     </object>
                 </child>
                 <style>
-                    <class name="table-toolbar"/>
+                    <class name="tool-bar"/>
                 </style>
             </object>
         </child>

@@ -1,3 +1,27 @@
+public enum TabScheme
+{
+    TABLE,
+    DDL;
+
+    public static string toFullPath(TabScheme schema,string path)
+    {
+        string prefix;
+        if(schema == TABLE)
+        {
+            prefix = "table";
+        }
+        else if (schema == DDL)
+        {
+            prefix = "ddl";
+        }
+        else
+        {
+            prefix = "app";
+        }
+        return @"$prefix:$path";
+    }
+}
+
 public interface TabService : GLib.Object
 {
     /**
@@ -14,7 +38,7 @@ public interface TabService : GLib.Object
      * 获取Notebook实例
      *
      **/
-    public unowned Gtk.Notebook getNotebook(){
+    public unowned Gtk.Notebook notebook(){
         return Application.ctx.controller.notebook;
     }
 
@@ -25,7 +49,7 @@ public interface TabService : GLib.Object
      * 获取Tab路径字符串
      *
      **/
-    public abstract string getPath();
+    public abstract string path();
 
 
     /**
@@ -35,7 +59,27 @@ public interface TabService : GLib.Object
      *
      *
      **/
-    public abstract void destory() throws FXError;
+    public virtual void destory() throws FXError
+    {
+
+    }
+
+
+    /**
+     *
+     *
+     *  获取指定位置值
+     * 
+     *
+     **/
+    protected virtual string getPosVal(string str,int pos)
+    {
+        var array = str.split(":");
+        var len = array.length;
+        pos = pos < 0 ? len+pos : pos;
+        return array[pos];
+    }
+
 
     /**
      *
@@ -44,5 +88,16 @@ public interface TabService : GLib.Object
      *
      *
      */
-    public abstract unowned Gtk.Widget getContent();
+    public abstract unowned Gtk.Widget content();
+
+
+
+    /**
+     *
+     *
+     * Tab scheme
+     *
+     *
+     */
+    public abstract TabScheme scheme();
 }

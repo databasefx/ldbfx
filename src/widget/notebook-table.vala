@@ -12,10 +12,9 @@ using Gee;
 public class NotebookTable : Box, TabService
 {
     private bool view;
-    public string path;
     private string uuid;
     private int64 total;
-    private string pathVal;
+    private string pathStr;
     private PageQuery pageQuery;
     private NotebookTab notebookTab;
     private MultiSelection selection;
@@ -37,13 +36,13 @@ public class NotebookTable : Box, TabService
     private unowned ColumnView tableView;
 
 
-    public NotebookTable(string path,string pathVal,bool view)
+    public NotebookTable(string path,bool view)
     {
         this.total = 0;
         this.view = view;
-        this.path = path;
-        this.pathVal = pathVal;
-        this.uuid = this.getPosVal(this.path,0);
+        this.pathStr = path;
+
+        this.uuid = this.getPosVal(path,0);
 
         this.list = new ArrayList<string>();
         this.factory = new SignalListItemFactory();
@@ -52,9 +51,9 @@ public class NotebookTable : Box, TabService
         this.listStore = new GLib.ListStore(typeof(TableRowMeta));
         this.selection = new MultiSelection(this.listStore);
         
-        this.pageQuery = new PageQuery(this.getPosVal(this.pathVal,-3),this.getPosVal(this.pathVal,-1));
+        this.pageQuery = new PageQuery(this.getPosVal(this.pathStr,-3),this.getPosVal(this.pathStr,-1));
         
-        this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathVal,-1) , this, true );
+        this.notebookTab = new NotebookTab( view ? "dbfx-view" : "dbfx-table" , getPosVal(pathStr,-1) , this, true );
 
         var count = 0;
         this.factory.bind.connect(listItem=>{
@@ -123,7 +122,12 @@ public class NotebookTable : Box, TabService
     [GtkCallback]
     private async void showDDL()
     {
-        new DDDialog(this.uuid,this.pageQuery.schema,this.pageQuery.table,this.view);
+        if(Application.ctx.tabExist(TabScheme.DDL,this.pathStr) != -1)
+        {
+            return;
+        }
+
+        Application.ctx.addTab(new DDNotebook(this.pathStr,this.view));
     }
 
     private async void loadTableData(int offset,bool flush=false)
@@ -291,38 +295,23 @@ public class NotebookTable : Box, TabService
         this.tableView.append_column(ccolumn);
     }
 
-    /**
-     *
-     *
-     *  获取指定位置值
-     * 
-     *
-     **/
-    private string getPosVal(string str,int pos)
-    {
-        var array = str.split(":");
-        var len = array.length;
-        pos = pos < 0 ? len+pos : pos;
-        return array[pos];
-    }
-
     public  NotebookTab tab()
     {
         return this.notebookTab;
     }
 
-    public string getPath()
+    public string path()
     {
-        return this.path;
+        return TabScheme.toFullPath(TabScheme.TABLE,this.pathStr);
     }
 
-    public unowned Gtk.Widget getContent()
+    public unowned Gtk.Widget content()
     {
         return this;
     }
-    
-    public  void destory() throws FXError
-    {
 
+    public TabScheme scheme()
+    {
+        return TabScheme.TABLE;
     }
 }

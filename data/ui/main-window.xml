@@ -12,6 +12,7 @@
                         <property name="orientation">vertical</property>
                         <child>
                             <object class="GtkBox">
+                                <property name="spacing">3</property>
                                 <child>
                                     <object class="GtkButton">
                                         <property name="icon_name">dbfx-copy</property>
@@ -48,7 +49,7 @@
                                     </object>
                                 </child>
                                 <style>
-                                    <class name="main-tool-bar"/>
+                                    <class name="tool-bar"/>
                                 </style>
                             </object>
                         </child>

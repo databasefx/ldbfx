@@ -34,10 +34,10 @@ public class Application : Gtk.Application
         this.pools = new HashMap<string,SqlConnectionPool>();
     }
 
-    public void addTab(TabService service,bool selected)
+    public void addTab(TabService service,bool selected=true)
     {
         var index = -1;
-        if( (index = this.tabExist(service.getPath(),selected)) != -1 )
+        if( (index = this.tabExist(service.scheme(),service.path(),selected)) != -1 )
         {
             return;
         }
@@ -66,9 +66,9 @@ public class Application : Gtk.Application
         for(var i = 0;i < num ; i++)
         {
             var service = notebook.get_nth_page(i) as TabService;
-            if(service.getPath().has_prefix(prefix))
+            if(service.path().has_prefix(prefix))
             {
-                tabs+=service.getContent();
+                tabs+=service.content();
             }
         }
         foreach(var tab in tabs)
@@ -77,24 +77,29 @@ public class Application : Gtk.Application
         }
     }
 
-    public int tabExist(string path,bool selected)
+    public int tabExist(TabScheme scheme,string path,bool selected=true)
     {
+        var index = -1;
         var notebook = this.controller.notebook;
         var num = notebook.get_n_pages();
-        var index = -1;
+        var temp = TabScheme.toFullPath(scheme,path);
+        
         for (int i = 0; i < num; i++)
         {
             var service = notebook.get_nth_page(i) as TabService;
-            var str = service.getPath();
-            if( str == path )
+
+            if( service.path() == temp)
             {
                 index = i;
                 break;
             }
         }
-        if( index != -1 && selected ){
+
+        if( index != -1 && selected )
+        {
             notebook.page = index;
         }
+
         return index;
     }
 

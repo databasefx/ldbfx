@@ -41,11 +41,11 @@ public class NotebookTab : Box
 
         spinner.visible = false;
 
-        var notebook = this.tabService.getNotebook();
+        var notebook = this.tabService.notebook();
 
         //添加关闭事件
         btn.clicked.connect(()=>{
-            notebook.detach_tab(this.tabService.getContent());
+            notebook.detach_tab(this.tabService.content());
         });
 
         this.append(spinner);

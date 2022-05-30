@@ -1,15 +1,5 @@
-.slogan {
-  font-size: 25px;
-}
-
-.main-tool-bar button {
-  border-width: 0;
-  background-image: none;
-}
-
 menubar,
-.main-tool-bar button:hover,
-.table-toolbar button:hover,
+.tool-bar button:hover,
 .fx-alert .fx-alert-content {
   background-color: #2d2d2d;
 }
@@ -63,12 +53,12 @@ menubar,
   padding: 7px;
 }
 
-.table-toolbar {
+.tool-bar {
   background-color: #353535;
   padding: 2px;
 }
 
-.table-toolbar button {
+.tool-bar button {
   padding: 0;
   border-width: 0;
   background-image: none;

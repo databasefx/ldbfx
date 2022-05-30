@@ -324,14 +324,12 @@ public class NavTreeEvent
      */
     public async void loadTable(bool view,TreeIter iter,string uuid)
     {
-        var str = this.treeModel.get_string_from_iter(iter);
-        var path = @"$uuid:$str";
-        if( Application.ctx.tabExist(path,true) != -1)
+        var path = "%s:%s".printf(uuid,this.getPathValue(iter));
+        if( Application.ctx.tabExist(TabScheme.TABLE,path,true) != -1)
         {
             return;
         }
-        var pathVal = this.getPathValue(iter);
-        Application.ctx.addTab(new NotebookTable(path,pathVal,view),true);
+        Application.ctx.addTab(new NotebookTable(path,view),true);
     }
 
     /**
