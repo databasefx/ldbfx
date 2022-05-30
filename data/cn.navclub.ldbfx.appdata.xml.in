@@ -3,6 +3,7 @@
   <id>cn.navclub.ldbfx</id>
 
   <name>ldbfx</name>
+  <developer_name>GZYangKui</developer_name>
   <summary>Visual database management tool</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
