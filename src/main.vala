@@ -26,7 +26,7 @@ public class Application : Gtk.Application
         { FULL_SCREEN_ACTION_NAME,      fullscreen  }
     };
 
-    public Application(){
+    public Application(){        
         Object(application_id:APPLICATION_ID,flags:ApplicationFlags.FLAGS_NONE);
 
         this.mutex = new Object();
@@ -265,6 +265,7 @@ public class Application : Gtk.Application
             ///
             /// Register non gtk-core class
             ///
+            typeof(SQLSourceView).ensure();
             typeof(GtkSource.View).ensure();
 
             //初始化线程池

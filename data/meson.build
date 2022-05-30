@@ -11,6 +11,7 @@ desktop_file = i18n.merge_file(
   install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
+
 desktop_utils = find_program('desktop-file-validate', required: false)
 if desktop_utils.found()
   test('Validate desktop file', desktop_utils,
@@ -35,6 +36,10 @@ endif
 
 install_data('cn.navclub.ldbfx.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
+)
+
+install_data('mono_kai_extended.xml',
+  install_dir:join_paths(get_option('datadir'),'gtksourceview-5/styles')
 )
 
 compile_schemas = find_program('glib-compile-schemas', required: false)

@@ -8,8 +8,9 @@ public class DDDialog : Dialog
     private string uuid;
     private string schema;
     private string table;
-    private unowned TextBuffer buffer;
-    
+
+    private unowned Buffer buffer;
+
     [GtkChild]
     private unowned Stack stack;
     [GtkChild]
@@ -19,7 +20,7 @@ public class DDDialog : Dialog
     [GtkChild]
     private unowned Spinner spinner;
     [GtkChild]
-    private unowned View sourceView;
+    private unowned SQLSourceView sourceView;
 
     public DDDialog(string uuid,string schema,string table,bool view)
     {
@@ -28,8 +29,12 @@ public class DDDialog : Dialog
         this.view = view;
         this.uuid = uuid;
         this.table = table;
-        this.schema = schema;
-        this.buffer = this.sourceView.get_buffer();
+        this.schema = schema;        
+
+        stdout.printf("======================================\n");
+
+        this.buffer = this.sourceView.buffer as Buffer;
+
         this.loadDDLScript();
     }
 

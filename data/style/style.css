@@ -94,19 +94,3 @@ menubar,
 .notebook-table .table-cell-high-light {
   color: #7d6b51;
 }
-
-.sourceview {
-  color: #ffffff;
-}
-
-.sourceview border gutter {
-  background-color: #313335;
-}
-
-.sourceview text {
-  background-color: #2b2b2b;
-}
-
-.sourceview text:active {
-  background-color: red;
-}

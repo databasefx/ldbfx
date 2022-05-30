@@ -11,6 +11,7 @@ dbfx_vala_sources = [
   'config/app-config.vala',
   'widget/fx-alert.vala',
   'widget/sqlite-compact.vala',
+  'widget/sql-source-view.vala',
   'widget/data-source-compact.vala',
   'widget/notebook-tab.vala',
   'widget/notebook-table.vala',
