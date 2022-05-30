@@ -18,3 +18,6 @@
 + Program data view
 
 ![Load fail](SNAPSHOT/main.png)
+
++ DDL
+![Load fail](SNAPSHOT/ddl.png)
