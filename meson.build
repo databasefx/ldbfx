@@ -9,6 +9,9 @@ project(
 datadir = get_option('datadir')
 
 i18n = import('i18n')
+cmake = import('cmake')
+
+sql_parser = cmake.subproject('sql-parser')
 
 
 conf_include_dir = include_directories('.')
@@ -60,5 +63,4 @@ subdir('data')
 subdir('lib')
 subdir('src')
 subdir('po')
-
 

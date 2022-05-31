@@ -1,6 +1,4 @@
 _build
 .idea
 .vscode
-builddir
-clion-log.txt
-*.*~
+cmake-build
