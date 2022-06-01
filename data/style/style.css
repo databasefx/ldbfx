@@ -31,6 +31,14 @@ menubar,
 
 .connect-dialog grid,
 .connect-dialog .test-box {
+  margin: 5px 0;
+}
+
+.data-source-compact grid {
+  padding: 5px;
+}
+
+.dialog {
   padding: 5px;
 }
 

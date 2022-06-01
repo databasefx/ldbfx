@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<interface>
+    <template class="DDTable" parent="GtkDialog">
+        <property name="default-width">800</property>
+        <property name="default-height">600</property>
+        <child  internal-child="content_area">
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                    <object class="GtkGrid">
+                        <property name="row_spacing">5</property>
+                        <property name="column_spacing">5</property>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label" translatable="yes">_Name</property>
+                                <layout>
+                                    <property name="row">0</property>
+                                    <property name="column">0</property>
+                                </layout>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkEntry">
+                                <property name="hexpand">1</property>
+                                <layout>
+                                    <property name="row">0</property>
+                                    <property name="column">1</property>
+                                </layout>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label" translatable="yes">_Comment</property>
+                                <layout>
+                                    <property name="row">1</property>
+                                    <property name="column">0</property>
+                                </layout>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkEntry">
+                                <property name="hexpand">1</property>
+                                <layout>
+                                    <property name="row">1</property>
+                                    <property name="column">1</property>
+                                </layout>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <style>
+            <class name="d-dialog"/>
+        </style>
+    </template>
+</interface>

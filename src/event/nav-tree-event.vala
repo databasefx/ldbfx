@@ -40,16 +40,22 @@ public const string NAV_OPEN = "nav.open";
 public const string NAV_EDIT = "nav.edit";
 public const string NAV_DEL = "nav.delete";
 public const string NAV_BREAK_OFF = "nav.breakoff";
+public const string NAV_NEW_TABLE = "nav.new_table";
 
 
 public class NavTreeEvent
 {
     private static NTRowMMeta[] rootMetas = 
     {
-        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Open"),NAV_OPEN),
-        NTRowMMeta.create(NavTRowStatus.ACTIVED , _("Break off"),NAV_BREAK_OFF),
-        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Edit"),NAV_EDIT),
-        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("Delete"),NAV_DEL)
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("_Open"),NAV_OPEN),
+        NTRowMMeta.create(NavTRowStatus.ACTIVED , _("_Break off"),NAV_BREAK_OFF),
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("_Edit"),NAV_EDIT),
+        NTRowMMeta.create(NavTRowStatus.INACTIVE , _("_Delete"),NAV_DEL)
+    };
+
+    private static NTRowMMeta[] schemaMetas = 
+    {
+        NTRowMMeta.create(NavTRowStatus.ANY,_("_New table"),NAV_NEW_TABLE)
     };
 
     private const GLib.ActionEntry[] actionEntries =
@@ -57,7 +63,8 @@ public class NavTreeEvent
         { NAV_OPEN,         open        },
         { NAV_BREAK_OFF,    breakOff    },
         { NAV_EDIT,         navEdit     },
-        { NAV_DEL,          navDel      }
+        { NAV_DEL,          navDel      },
+        { NAV_NEW_TABLE,    createTable }
     };
 
     private GestureClick rGesture;
@@ -204,6 +211,10 @@ public class NavTreeEvent
         if(row == NTRow.ROOT)
         {
             arr = rootMetas;
+        }
+        else if(row == NTRow.SCHEMA)
+        {
+            arr = schemaMetas;
         }
         
         Menu menu = null;
@@ -634,5 +645,10 @@ public class NavTreeEvent
         }
         
         return pathVal;
+    }
+
+    private void createTable()
+    {
+        new DDTable();
     }
 }

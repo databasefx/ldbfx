@@ -154,6 +154,9 @@
                         <property name="label" translatable="yes">_General</property>
                     </object>
                 </child>
+                <style>
+                    <class name="data-source-compact"/>
+                </style>
             </object>
         </child>
     </template>

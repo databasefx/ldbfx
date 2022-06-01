@@ -8,6 +8,7 @@
     <file>ui/fx-alert.xml</file>
     <file>ui/sqlite-compact.xml</file>
     <file>ui/notebook-ddl.xml</file>
+    <file>ui/design-table.xml</file>
     <file>ui/data-source-compact.xml</file>
     <file>style/style.css</file>
   </gresource>
