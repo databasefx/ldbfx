@@ -51,7 +51,7 @@
             </object>
         </child>
         <style>
-            <class name="d-dialog"/>
+            <class name="dialog"/>
         </style>
     </template>
 </interface>
