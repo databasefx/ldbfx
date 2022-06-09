@@ -1,0 +1,12 @@
+#ifndef TOKEN
+#error "You must define Token micro before include this file"
+#endif
+
+TOKEN(NA,"")
+TOKEN(AND,"and")
+TOKEN(COMMA,",")
+TOKEN(FROM,"from")
+TOKEN(SELECT,"select")
+TOKEN(UPDATE,"update")
+TOKEN(DELETE,"delete")
+TOKEN(INSERT,"insert")
