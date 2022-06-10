@@ -1,12 +1,17 @@
-//
-// Created by yangkui on 22-6-9.
-//
-
 #ifndef SQL_PARSER_LEX_H
 #define SQL_PARSER_LEX_H
 
 #include "sql-parser.h"
 
-extern Token *SQLParser_token(Context *context);
+#define    EOF_CH        ((char)0xFF)
+
+/**
+ *
+ *
+ * From give string construct lexical unit
+ *
+ */
+extern Token SQLParser_token(SQLParser *parser);
+
 
 #endif //SQL_PARSER_LEX_H

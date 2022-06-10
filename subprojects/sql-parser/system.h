@@ -1,18 +1,7 @@
-//
-// Created by yangkui on 22-6-9.
-//
-
 #ifndef SQL_PARSER_SYSTEM_H
 #define SQL_PARSER_SYSTEM_H
 
-
-typedef char* String;
-typedef void* Pointer;
-
-typedef long int64;
-typedef unsigned long uint64;
-
-typedef unsigned int uint;
+#include "type.h"
 
 /**
  *
@@ -35,5 +24,14 @@ extern void SQLParser_free(Pointer *pointer);
  *
  */
 extern String SQLParser_string_new(uint64 size);
+
+
+/**
+ *
+ *
+ * New AstNode object
+ *
+ */
+extern ASTNode SQLParser_ast_new(TokenKind kind,String value);
 
 #endif //SQL_PARSER_SYSTEM_H

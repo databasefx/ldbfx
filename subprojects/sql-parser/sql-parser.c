@@ -11,6 +11,11 @@ extern void SQLParser_close(SQLParser **parser) {
     SQLParser_free((Pointer *) &(ptr->ctx));
     //free sql
     SQLParser_free((Pointer *) &(ptr->sql));
+    //free ast root node
+    if (ptr->root != NULL) {
+        SQLParser_free((Pointer *) &(ptr->root->value));
+        SQLParser_free((Pointer *) &(ptr->root));
+    }
     //free parser
     SQLParser_free((Pointer *) parser);
 }
@@ -19,7 +24,9 @@ extern SQLParser *SQLParser_new(String sql) {
 
     Context *ctx = SQLParser_malloc(sizeof(Context));
 
+    ctx->c = ' ';
     ctx->row = 0;
+    ctx->pos = 0;
     ctx->column = 0;
 
     String str = SQLParser_str_dump(sql);

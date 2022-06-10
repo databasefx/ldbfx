@@ -3,8 +3,11 @@
 #endif
 
 TOKEN(NA,"")
+TOKEN(ID,"id")
+TOKEN(_EOF,"eof")
 TOKEN(AND,"and")
 TOKEN(COMMA,",")
+TOKEN(ASSIGN,"=")
 TOKEN(FROM,"from")
 TOKEN(SELECT,"select")
 TOKEN(UPDATE,"update")
