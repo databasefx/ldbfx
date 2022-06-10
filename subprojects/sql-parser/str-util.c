@@ -25,8 +25,8 @@ extern String SQLParser_str_dump(String str) {
 }
 
 
-extern String SQLParser_str_lower(String str) {
-    String temp = SQLParser_str_dump(str);
+extern String SQLParser_str_lower(String str, bool dump) {
+    String temp = dump ? SQLParser_str_dump(str) : str;
     uint64 len = strlen(temp);
     for (int i = 0; i < len; ++i) {
         char c = *(temp + i);
@@ -37,8 +37,8 @@ extern String SQLParser_str_lower(String str) {
     return temp;
 }
 
-extern String SQLParser_str_upper(String str) {
-    String temp = SQLParser_str_dump(str);
+extern String SQLParser_str_upper(String str, bool dump) {
+    String temp = dump ? SQLParser_str_dump(str) : str;
     uint64 len = strlen(temp);
     for (int i = 0; i < len; ++i) {
         char c = *(temp + i);

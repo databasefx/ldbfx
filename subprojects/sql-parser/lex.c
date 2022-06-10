@@ -1,29 +1,31 @@
-//
-// Created by yangkui on 22-6-9.
-//
-
-#include <ctype.h>
-#include <stdio.h>
+#include <string.h>
 #include "lex.h"
 #include "str-util.h"
 
 typedef struct {
     TokenKind kind;
     String name;
+    String alias;
 } KeywordInfo;
 
 static KeywordInfo keywords[] = {
-        {AND,    "and"},
-        {SELECT, "select"},
-        {UPDATE, "update"},
-        {INSERT, "insert"},
-        {DELETE, "delete"}
+        {UNEQUAL,            "!=", "<>"},
+        {AND,                "and",    NULL},
+        {SELECT,             "select", NULL},
+        {UPDATE,             "update", NULL},
+        {INSERT,             "insert", NULL},
+        {DELETE,             "delete", NULL},
+        {GREATER_THAN,       ">",      NULL},
+        {LESS_THAN,          "<",      NULL},
+        {GRANTER_THAN_EQUAL, ">=",     NULL},
+        {LESS_THAN_EQUAL,    "<=",     NULL},
 };
 
 static TokenKind SQLParser_keyword_kind(String id) {
     for (int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); ++i) {
         KeywordInfo keyword = keywords[i];
-        if (SQLParser_str_equal(id, keyword.name, TRUE)) {
+        if (SQLParser_str_equal(id, keyword.name, TRUE) ||
+            (keyword.alias != NULL && SQLParser_str_equal(id, keyword.alias, TRUE))) {
             return keyword.kind;
         }
     }

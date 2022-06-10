@@ -16,14 +16,14 @@ extern String SQLParser_str_dump(String str);
  * String lower
  *
  */
-extern String SQLParser_str_lower(String str);
+extern String SQLParser_str_lower(String str,bool dump);
 
 /**
  *
  * String upper
  *
  */
-extern String SQLParser_str_upper(String str);
+extern String SQLParser_str_upper(String str,bool dump);
 
 /**
  *
