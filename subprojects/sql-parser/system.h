@@ -21,6 +21,14 @@ typedef unsigned int uint;
  */
 extern Pointer SQLParser_malloc(uint64 size);
 
+
+/**
+ *
+ * Free signal pointer object
+ *
+ */
+extern void SQLParser_free(Pointer *pointer);
+
 /**
  *
  * Malloc size byte string and reset

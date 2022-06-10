@@ -40,6 +40,14 @@ typedef struct {
  */
 extern SQLParser *SQLParser_new(char *sql);
 
+
+/**
+ *
+ * Free SQLParser object
+ *
+ */
+extern void SQLParser_close(SQLParser **parser);
+
 /**
  *
  * Instance SQLParser by fix file path

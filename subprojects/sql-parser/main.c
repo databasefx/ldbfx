@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "sql-parser.h"
 /**
  *
  *
@@ -8,6 +8,7 @@
  */
 int main(int argc, char *argv[])
 {
-    printf("Sql statement abstract syntax tree module!\n");
+    SQLParser *parser = SQLParser_new("SELECT * FROM test");
+    SQLParser_close(&parser);
     return 0;
 }
