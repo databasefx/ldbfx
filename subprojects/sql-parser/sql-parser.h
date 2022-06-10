@@ -4,6 +4,7 @@
 
 #ifndef SQL_PARSER_SQL_PARSER_H
 #define SQL_PARSER_SQL_PARSER_H
+#include "system.h"
 
 typedef enum {
 #define TOKEN(kind, name) kind,
@@ -38,7 +39,7 @@ typedef struct {
  * Instance SQLParser by memory sql statement
  *
  */
-extern SQLParser *SQLParser_new(char *sql);
+extern SQLParser *SQLParser_new(String sql);
 
 
 /**
@@ -53,6 +54,6 @@ extern void SQLParser_close(SQLParser **parser);
  * Instance SQLParser by fix file path
  *
  */
-extern SQLParser *SQLParser_new_whit_file(char *file);
+extern SQLParser *SQLParser_new_whit_file(String path);
 
 #endif //SQL_PARSER_SQL_PARSER_H

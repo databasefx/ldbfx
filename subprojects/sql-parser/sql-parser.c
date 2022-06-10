@@ -15,7 +15,7 @@ extern void SQLParser_close(SQLParser **parser) {
     SQLParser_free((Pointer *) parser);
 }
 
-extern SQLParser *SQLParser_new(char *sql) {
+extern SQLParser *SQLParser_new(String sql) {
 
     Context *ctx = SQLParser_malloc(sizeof(Context));
 
