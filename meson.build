@@ -24,11 +24,13 @@ add_project_arguments(
 
 min_glib_version = '2.50'
 
+
 libgee = dependency('gee-0.8')
 sqlite3 = dependency('sqlite3')
 libxml = dependency('libxml-2.0')
 libmariadb = dependency('libmariadb')
 libjson = dependency('json-glib-1.0')
+#libpg_query = dependency('libpg_query')
 gtk = dependency('gtk4', version: '>= 4.6.4')
 libsourceview = dependency('gtksourceview-5')
 gio = dependency('gio-2.0', version: '>=' + min_glib_version)

@@ -46,6 +46,21 @@
             ]
         },
         {
+            "name": "libpg_query",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make",
+                "make install DESTDIR=/app"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "branch": "13-latest",
+                    "url": "https://github.com/GZYangKui/libpg_query.git"
+                }
+            ]
+        },
+        {
             "name": "ldbfx",
             "buildsystem": "meson",
             "sources": [
